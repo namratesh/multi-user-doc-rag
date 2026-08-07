@@ -1,0 +1,36 @@
+services:
+  mongodb:
+    image: mongodb/mongodb-atlas-local:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - .env
+    environment:
+      # Overrides whatever MONGO_DB_STRING/MONGODB_URI is in .env so compose
+      # always talks to the local mongodb service above. Point this back at a
+      # real Atlas cluster (and drop this override) if you'd rather run
+      # against cloud Atlas instead of the local container.
+      MONGO_DB_STRING: mongodb://mongodb:27017/?directConnection=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+volumes:
+  mongodb_data:

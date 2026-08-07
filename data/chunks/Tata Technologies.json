@@ -1,0 +1,1161 @@
+[
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": null,
+    "speaker_role": null,
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_001",
+    "text": "Ref. No.: TTL/COSEC/SE/2025-26/82 January 19, 2026 ## BSE Limited Phiroze Jeejeebhoy Towers, Dalal Street, Mumbai- 400001, India Scrip Code: 544028 Dear Sir / Madam, Subject: Transcript of the conference call on unaudited financial results for the quarter and nine months ended December 31, 2025 Pursuant to Regulation 30 of the SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015, please find enclosed the transcript of the conference call on unaudited financial results for the quarter and nine months ended December 31, 2025, conducted after the meeting of the Board of Directors held on January 16, 2026. The above information will be made available on the website of the Company: www.tatatechnologies.com. This is for your information and records. For Tata Technologies Limited \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_ Warren Harris CEO and Managing Director DIN: 02098548 Encl: As above <!-- image --> ## National Stock Exchange of India Limited Exchange Plaza, C-1, Block G, Bandra Kurla Complex, Bandra (E), Mumbai - 400 051, India Trading symbol: TATATECH"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_002",
+    "text": "<!-- image --> ## 'Tata Technologies Limited Q3 FY'26 Earnings Conference Call' January 16, 2026 MANAGEMENT: MR. WARREN HARRIS - CHIEF EXECUTIVE OFFICER AND MANAGING DIRECTOR - TATA TECHNOLOGIES MS. SUKANYA SADASIVAN - CHIEF OPERATING OFFICER - TATA TECHNOLOGIES MR. UTTAM GUJRATI - CHIEF FINANCIAL OFFICER - TATA TECHNOLOGIES MS. GEENA BINOY - CHIEF HUMAN RESOURCES OFFICER - TATA TECHNOLOGIES MR. VIJAY LOHIA - HEAD INVESTOR RELATIONS - TATA TECHNOLOGIES Ladies and gentlemen, good day, and welcome to the Tata Technologies 3Q FY '26 Earnings Conference Call. As a reminder, all participant lines will be in the listen-only mode and there will be an opportunity for you to ask questions after the presentation concludes. Should you need assistance during the conference call, please signal an operator by pressing star and then zero on your touchtone phone. I now hand the conference over to Mr. Vijay Lohia, Head of Investor Relations at Tata Technologies. Thank you, and over to you, sir."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_003",
+    "text": "<!-- image --> Thank you. Hello, everyone, and welcome to Tata Technologies Third Quarter of Fiscal Year 2026 Results Call. I'm Vijay Lohia, Head Investor Relations. Joining me today are Mr. Warren Harris, CEO and Managing Director; Ms. Sukanya Sadasivan, Chief Operating Officer; Mr. Uttam Gujrati, Chief Financial Officer; and Ms. Geena Binoy, Chief Human Resources Officer. We'll begin today's session with an overview of the company's performance from our leadership team, followed by a Q&amp;A. Any forward-looking statements made during this call should be considered in the context of the risks outlined in the second slide of our quarterly fact sheet, which is available on our website. Our press release and earnings presentation have been submitted to the stock exchanges and are also available on our website, www.tatatechnologies.com. We hope you've had a chance to review them. With that, let me hand over the call to Warren. Thank you, Vijay. Good evening, everyone, and thank you for joining us. Let me begin by wishing you and your families a healthy and prosperous new year. I will start with an overview of our third quarter performance before inviting Uttam to walk you through the financials in detail. In Q3, we delivered sequential revenue growth of 4.7% in our Services business , contributing to an overall sequential revenue increase of 3.2% in Indian rupees . In constant currency, Services revenue grew 1% quarter-on-quarter organically. <!-- image --> This is a solid"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_004",
+    "text": "outcome in what is traditionally our softest quarter of the year. Q3 is impacted by fewer billing days due to festivals and holidays across multiple geographies. This year, we also experienced a temporary disruption at one of our largest customers following a cybersecurity incident, which resulted in our being unable to bill for a sizable part of our engagement for nearly a full month -an impact we had already anticipated and clearly communicated in our Q2 earnings call. The disruption was isolated, time-bound, and is now behind us. What is encouraging is that even with these headwinds, we delivered growth. This speaks to the underlying momentum in the business, the breadth of our client portfolio, and the resilience of our execution engine. Several parts of the business performed strongly: - Our Aerospace and IHM verticals delivered 10% QoQ revenue growth in USD terms , driven by sustained demand across predictive maintenance, digital transformation, sustenance engineering, MRO, PLM, and manufacturing engineering programs. - Within our Technology Solutions business, the Products business grew 30% sequentially , reflecting the typical yearend discharge of customer PLM software budgets. - The Education business, on the other hand, saw a 22% decline, driven by temporary softness in demand and slower decision cycles at a few accounts. With a healthy pipeline and multiple <!-- image --> opportunities in advanced stages, we remain confident of a recovery in the coming quarters."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_005",
+    "text": "We closed six large deals during the quarter, spanning automotive, industrial, software-led engineering and Education. These wins reflect both the breadth of our capabilities and the growing strategic relevance of Tata Technologies to global OEMs. - We secured a strategic full vehicle program with a global automotive OEM, reinforcing our position as a trusted partner for end-to-end product development. - We entered a whitespace area in embedded and software engineering with a leading European automotive OEM , successfully displacing incumbent suppliers. - We will lead the chassis &amp; climate program for a European automotive OEM across three platforms covering mechanical, electrical and embedded, and software development, with a focus on cost optimization and quality improvements. - We secured a strategic win with a premium European passenger vehicle OEM , strengthening our role across vehicle engineering and next-generation mobility programs. - We will help a European luxury automaker develop circularity solutions, enabling cradle-to-cradle emissions analysis and sustainable material selection. The contract also covers cost optimization across key vehicle components. <!-- image --> VTV From a profitability perspective, EBITDA margin for the quarter was 14.1%, reflecting the impact of annual wage revisions and the temporary revenue impact at one large account as communicated earlier. . Importantly, we have made a conscious choice to retain delivery capacity through this"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_006",
+    "text": "period. Rather than optimize short-term margins, we stayed invested in our teams in anticipation of a strong rebound in Q4. Looking ahead, we expect momentum to strengthen meaningfully in Q4. For Q4, we expect sequential revenue growth in excess of 10%, and despite the impacts of new labour codes, deliver EBITDA Margins that exceed our Q2 run-rate. This combination of accelerating growth and expanding margins marks an important inflection point for the business. Let me now share a few operational and innovation milestones from the quarter that illustrate how we are translating strategy into execution. We successfully completed a large-scale enterprise modernization program for an Asian automotive customer, transforming a 23-year-old SAP landscape into a nextgeneration SAP S/4HANA cloud environment. This migration reduced the customer's data footprint f rom 47 terabytes to just 1.5 terabytes through the optimization of 194 business objects and 243 core records. <!-- image --> In Aerospace, we completed the deployment of our AIenabled Smart Helmet solution at a major maintenance facility. Developed under our Aerospace MRO R&amp;D program, this solution uses agentic AI for automated defect detection, classification, and reporting. It enables real-time surface inspection, significantly improving accuracy, speed, and safety. Our joint venture with BMW continues to scale and has now grown to over 1,500 engineers . This platform has become a critical enabler of BMW's global"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_007",
+    "text": "engineering strategy and has helped Tata Technologies secure multiple direct framework agreements with BMW in Europe. Our share of profit from this joint venture increased 37% sequentially. Again, in Aerospace, we also reached an important milestone with Airbus , where eight of our engineers were certified as Design Organisation Approval Technical Approvers. This is a powerful endorsement of the depth and maturity of our engineering capability and significantly expands the scope of safety-critical work we can undertake. Taken together, these highlights demonstrate how Tata Technologies is building differentiated platforms in digital engineering, AI-led industrial solutions, and high-integrity aerospace programs -capabilities that deepen customer trust and expand our role across the engineering value chain. <!-- image --> Let me now step back and talk about what has been changing in Tata Technologies over the past year -and why we are increasingly confident about the growth trajectory ahead. Over the last 12 -18 months, parts of our business were impacted by delays in certain full-vehicle programs and a moderation in outsourcing spends at some large OEM accounts. Rather than treat this as a cyclical pause, we used this period to deliberately strengthen the quality and resilience of our revenue base. Our focus has been clear: - Reduce concentration risk - Improve portfolio mix - Build a growth engine that is structurally more resilient to program cycles A significant milestone"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_008",
+    "text": "in this journey was our acquisition of ES-Tec . This strengthens our position in Embedded and Software-Defined Vehicle engineering -particularly within the European automotive ecosystem -and, importantly, reshapes the structure of one of our largest client relationships. Post integration, that account is now our third largest relationship , anchored in Embedded, Electronics, and SDV-led engineering, rather than being concentrated in a single turnkey program. This reflects a broader shift across our portfolio. A growing share of our revenues is now linked to Embedded, SDV, and VTV <!-- image --> validation-led engineering -areas that are inherently more recurring and less cyclical than traditional mechanical turnkey programs. Over time, this transition enhances both earnings stability and margin defensibility. At the same time, we continue to strengthen what has always been our core differentiator -full-vehicle programs. We have recently won several high-profile FVP engagements, reaffirming the confidence that leading OEMs place in our ability to deliver large, complex, end-to-end programs. What is evolving is how we structure these programs: - Greater modularity - Stronger phase-gating - Clearer linkage into downstream Embedded, SDV, and digital engineering work This allows us to preserve our competitive advantage while managing execution risk more effectively -and extend the lifecycle value of every major win. Putting this together, the steps we have taken over the past few"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_009",
+    "text": "quarters are designed to re-ignite growth while making our revenue base more diversified, less program-dependent, and structurally stronger. This is already visible in our outlook: - We expect sequential growth in excess of 10% in Q4 - We are targeting double-digit growth in FY27 <!-- image --> These are not aspirational numbers. They are grounded in our secured pipeline, improving customer decision cycles, and the structural changes we have made to our portfolio. Alongside this, our Aerospace business is emerging as a powerful new pillar of growth -and a clear demonstration of Tata Technologies' ability to scale high -integrity, regulated engineering beyond automotive. From a relatively low base, we have doubled Aerospace revenues for four consecutive years . We expect this business to reach close to $40 million in FY26 . Importantly, we see strong visibility in the pipeline and anticipate this momentum to continue. Our differentiation in Aerospace is not built on low-cost delivery. It is built on trust, industrial reliability, and execution discipline. We have leveraged: - Tata Group credibility - India's fast -growing aviation ecosystem - And our entry into the Airbus EMES3 supply chain program to establish ourselves as a trusted workshare partner -with integrated teams operating across Toulouse, Hamburg, Bangalore and North America. Over the past year, this platform has strengthened meaningfully: <!-- image --> - As previously stated, eight of our engineers are now"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_010",
+    "text": "DOAcertified by Airbus, enabling participation in larger, higherintegrity industrialization work packages - We have expanded beyond a single-OEM footprint, with new engagements at leading U.S. aerospace engine manufacturers, particularly in propulsion and engine engineering - Our Airbus programs already integrate digital industrialization and factory digitization , reinforcing our differentiation at the intersection of industrial engineering and the digital thread - We have demonstrated selective turnkey capability in aerospace through a major program with a large new MRO facility in India Taken together, these developments position Tata Technologies in Aerospace not as a generic ER&amp;D vendor, but as a reliable, scalable, and increasingly mission-critical industrial engineering partner. This is how we view Q3 -as a pivotal turning point that positions us for a phase of faster, stronger, and more durable growth. With a stronger portfolio, a more resilient revenue engine, and clear momentum building into Q4, we believe Tata Technologies is entering its next growth chapter -one that is faster, more durable, and structurally stronger than before. Thank you. I'll now hand it over to Uttam to take you through the financial details."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Uttam Gujrati",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_011",
+    "text": "<!-- image --> Thank you, Warren. Good day, everyone, and thank you for taking the time to join us on today's call. In continuation to the business update shared by Warren, let me share with you the financial performance in the third quarter of Fiscal'26. Overall, I'm pleased to report that our top -line performance remained resilient, with revenues from operations growing 3.2% sequentially to Rs.1,366 crores . This includes one month of contribution from ES-TEC, following the successful completion of the acquisition in November. Integration is progressing well, and we have already started jointly bidding for projects with ESTEC's team, leveraging combined expertise to deliver differentiated solutions. We expect some of these opportunities to convert in the near term, which will further enhance our position in high-growth areas and deepen relationships with key OEMs. Revenue from our services segment , which accounted for 78% of the total revenue for the quarter, came in at Rs. 1,060 crores, up 4.7% quarter-on-quarter. In constant currency, services revenue grew 1% organically. This growth was driven by deals closed in recent quarters, along with continued strong performance in the Aerospace and Industrial Heavy Machinery (IHM) verticals. These verticals delivered 10% sequential growth in USD terms, highlighting sustained demand and the strength of our differentiated capabilities. The Aerospace vertical alone was up 19% Quarter-on-Quarter. <!-- image --> VTV As Warren"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Uttam Gujrati",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_012",
+    "text": "highlighted in his remarks, we are beginning to see early signs of demand recovery. Combined with our recent deal wins and the gradual normalization of customer operations, this positions us well to exit Q4 with strong growth momentum. Our pipeline remains healthy, and we expect this positive trend to continue as these factors translate into sustained execution and incremental revenue contributions in the coming quarters. The Technology Solutions segment delivered revenues of Rs.306 crores in quarter. This was primarily driven by a 30% growth in our products business, supported by renewal deals -a trend that is typical for the final quarter of the calendar year in this segment. Our EBITDA margin for the quarter was 14.1%, compared to the normalized margin of 16.4% in Q2. As we had indicated on the previous earnings call, margins were impacted by wage hikes implemented in Q3 and a temporary headwind at one of our large customers. Both these factors are now behind us, and with the underlying business fundamentals remaining strong, we expect to not only return to the Q2 margin run-rate but exceed it in Q4. Our joint venture with BMW has continued to ramp up at a healthy pace with our share of profit growing 37% sequentially to Rs.7.3 crores in the quarter. The net benefit from the JV stood at Rs.15.6 crores, contributing 8.3% to our adjusted pretax profits. <!-- image --> Other income saw a decline of 34% QoQ to Rs.32 crores largely driven by lower unrealized foreign currency"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Uttam Gujrati",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_013",
+    "text": "gains of Rs 6.4 crores compared with Rs 18.5 crores in the previous quarter. We recorded exceptional one-time expenses of Rs.164 crores during the quarter. Of this, Rs.140 crores pertain to a one-time increase in provisions for employee benefits, following changes introduced under India's new labor legislation, commonly referred to as the 'New Labour Codes.' The remaining Rs 24 crores relates to a one-time acquisitionrelated costs for ES-TEC, which was successfully completed in Q3. Adjusted for these one-time exceptional items, profit before tax was down 17% QoQ to Rs.187 crores and net income for the quarter came in at Rs.135 crores. In terms of collection efficiency, DSO increased modestly during the quarter to 111 days, compared to 109 days at the end of Q2. This uptick was primarily driven by higher DSO in our Products and Education segments, partially offset by improved collection efficiency in our Services business. We expect DSO to gradually return to its historical range over the next one to two quarters as these temporary factors normalize. Our net cash position stood at $58 million, compared with $123 million as the end of Q2. Turning to our operational metrics, the highlights are as follows: <!-- image --> At the end of the quarter, our total headcount stood at 12,580 associates, an increase of 178 compared to the previous quarter. On a like-for-like basis, excluding ES-TEC, headcount was 12,258 associates, reflecting a net reduction of approximately 144, or about"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Uttam Gujrati",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_014",
+    "text": "1.2% sequentially. This adjustment aligns with our calibrated and disciplined approach to workforce planning. Rather than backfilling roles indiscriminately, we are prioritizing strategic hiring in highimpact areas such as digital engineering, embedded systems, and AI-led transformation. These investments are designed to strengthen our delivery capabilities, support differentiated solutions, and align with our long-term growth objectives. Our trailing 12-month attrition rate increased slightly this quarter to 15.8%, compared to 15.1% in the prior period. This movement remains broadly consistent with industry trends and reflects the competitive talent environment. We continue to actively manage retention through targeted engagement initiatives and career development programs. In parallel, we have stepped up investments in skill enhancement and upskilling, particularly in strategic domains such as SDV, AI, and cybersecurity. These initiatives are designed to deepen technical expertise, strengthen our delivery capabilities, and future-proof our talent pool. By combining focused hiring with robust internal development programs, we aim to create a highly skilled, agile workforce that can deliver superior outcomes for our customers and drive long-term shareholder value. <!-- image --> To summarize, Q3 showed resilience in our core business and steady progress on strategic priorities. ES-TEC integration is on track and already creating joint opportunities. Aerospace and IHM"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Uttam Gujrati",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_015",
+    "text": "delivered strong growth, reinforcing the strength of our capabilities. With early signs of demand recovery, recent deal wins, and customer operations normalizing, we're confident about exiting Q4 with solid momentum. Margin headwinds from Q3 are behind us, and we expect to return to -and exceed -the Q2 margin run-rate. Our disciplined workforce strategy and investments in future-ready skills position us well for sustainable growth. We remain focused on delivering long-term value for our customers and shareholders. With that, we can open it up for Q&amp;A."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "prepared_remarks",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_prepared_remarks_016",
+    "text": "Thank you very much. We will now begin the"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": null,
+    "speaker_role": null,
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_001",
+    "text": "question and answer session. Our first question comes from the line of Puneet Lineswala from Winvestments. Puneet Lineswala: This is Puneet here. And I just want to ask from the management perspective, like we started off as a company in the automotive sector and diverse to the aerospace. Like what percentage -- do you feel that are we reaching to a certain percentage where we can transit to an aerospace tech company? Or we still have time or how much time do we require?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_002",
+    "text": "Puneet, thanks for the question. I think we've been working very hard over the last 2 to 3 years to build an aerospace business that's relevant and is material in size. You might remember that"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Karan Uppal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_001",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_003",
+    "text": "<!-- image --> 12 months ago, almost 90% of our business was automotive. And in Q3, about 80% of our business is automotive. So, the business outside of automotive, aerospace, but also industrial heavy machinery, has been growing at a much faster rate than automotive. Now we fully expect -- given the green shoots of improvement that we've seen in automotive in the recent past, we expect the automotive sector to get back to a growth cycle. So, the type of change in mix, the accelerated change in mix that we've seen over the last 12 months is unlikely to continue. Aerospace has grown, as I said, has doubled every year for the last 4 years from a relatively small base, and we expect that type of momentum to continue. So, we are very bullish about our prospects in engineering. We think that a customer base that we've got in Europe and North America represents a great deal of potential. We also think that the investment that Tata Group is making is affording a great deal of influence, and we're fully expecting to invest in it. Your next question comes from the line of Karan Uppal from Phillip Capital India. So, 2 questions from my side. Firstly, Warren, can you explain how are you seeing the automotive business from near to medium-term perspective, the headwinds which we had seen in the last 1 year with respect to tariffs or maybe due to Chinese competition impacting the overall spending? Are those headwinds behind us?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_001",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_004",
+    "text": "<!-- image --> And secondly, from the anchor client perspective, especially JLR, so how are things there? Is the spending improving within that? These are the 2 questions. Yes, great questions. I've commented in the past that the automotive industry is essentially a product-led business. But over the course of the last 18 months, we've seen a slowdown in investment in products, primarily because of the uncertainty in the markets, geopolitical uncertainty and also regulatory uncertainty. We expected a relatively strong demand environment this fiscal year, but it's been turned upside down by tariffs and by some of the geopolitical influences that impacted the market. But what we're seeing in the second half of calendar year 2025 is the market conditions start to be more predictable. And that's precipitating in catch-up investment that many of our customers are making. Those customers that have sat on their hands, whilst things have been uncertain, are now looking to get back to their cycle plans and invest in what will define their competitive position in 2 to 3 years from now. One of the things that gives us confidence in the momentum behind what I've just cited is that in the third quarter, we won the first full vehicle program that we, as an organization, have won in the last 18 months. And so, we believe that that's proof positive that the green shoots are now starting to translate into program awards that are material and will extend over multiple years. And our"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_001",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_005",
+    "text": "confidence in terms of growth in Q4 and the double-digit Karan Uppal: <!-- image --> expectations that we've got for next year, those are all driven by the expectations that we are building in and around the strategic relationships that we've got in automotive. Now in terms of your second question, JLR and Tata Motors. We're very, very excited by the market position that both customers find themselves in. Tata Motors has had an incredible run over the last 5 years. I think in terms of market position, but also in terms of the ambition of both PV and CV, we fully expect the investment in new products to not only increase but to accelerate that pace. And given the strategic partnership that we have with Tata Motors, we expect that to represent growth for us. JLR has 2 challenges. One, I think, to continue to invest in products that will mitigate the drop in demand that they've seen in China. They also have publicly stated the need for them to digitize their enterprise and to replace an awful lot of legacy systems that they've relied on to run the enterprise in the past. Both of those vectors will represent growth opportunities for Tata Technologies. And so whilst we expect the overall industry to grow, we're very, very bullish about the prospects for JLR and Tata Motors. Okay. Just a follow-up on basically JLR as well as the overall auto spending. So, in the near term, the 10% kind of a Q-o-Q growth which you're guiding to, is that a broad-based kind of growth or is it"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_001",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_006",
+    "text": "specific to any deal which is ramping up within auto or aero? That is first. And secondly, for FY '27, do you expect, let's say, your top 5 to top 10 clients within auto to Warren Harris:"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_001",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_007",
+    "text": "<!-- image --> recover the spending? Or is it mainly linked to the anchor clients? In terms of our growth expectations for Q4, it's relatively broad. And one of the things that I positioned in my opening narrative was over the last 12 months, we've spent a lot of time looking to diversify our portfolio, particularly as it pertains to embedded and software. We've looked to diversify our dependence in terms of automotive by investing in aerospace and industrial heavy machinery. And we've also looked to protect customer relationships, but to ensure that our customer pyramid is much broader. And we are expecting the changes and the investments that we've made in those areas to inform growth that is not only material in terms of quantum but is also much healthier and much more diverse than perhaps we've had in the past. So that's a long-winded way of positioning that the growth that we are anticipating Q4 and next year is not specific to any single program. It is very diverse, and therefore, the mix is very healthy. Sure. Just the last question in terms of the geography mix within U.S. auto as well as European auto, are you seeing recovery in both or is there any divergence? We are seeing, again, broad improvement in demand -- in the demand environment across different geographies. So, in automotive, I think almost everybody outside of China has been sitting on their hands and waiting for clarity in terms of regulation."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_008",
+    "text": "<!-- image --> And I think now that we've got it, everybody and specifically Europe and North America are recommitting themselves to investments in new products, again, that will define their competitive position in 3 and 4 years' time. And that's what we are intersecting with. That's what's informing the improvement in our order book. That's what's informing the improvement that we're seeing in our pipeline. Our next question comes from the line of Venkata Siva Ram, an Investor. - Venkata Siva Ram: seeing demerger of Tata Motors? And secondly, that the defense spending of our country is increasing. So, is there any So -- it's already answered actually. So how Tata Tech is scope of getting clients or projects in defense?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_009",
+    "text": "So as far as the CV and PV split is concerned, you'll not be surprised to hear that we were very instrumental in enabling the 2 organizations to separate. We've been responsible at Tata Motors for a lot of their enterprise applications. And we did much of the work to enable both companies to stand alone and manage their operations independently. The prospects for both CV and PV, as I've cited before, are strong. I think on the CV side of things, that will be reinforced by the impending acquisition of Iveco. And so, we are very excited about being able to partner with both Tata Motors CV and PV. So, the impact for us, we expect to be accretive and positive. As far as defense is concerned, we expect to benefit from this in 2 ways. There will be opportunities, regional opportunities to Moderator:"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Sid",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_002",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_010",
+    "text": "<!-- image --> support the defense spending in India, in Europe and in the United States. And one of the things that differentiates Tata Technologies is that we are not an India-out company. And so, we have a critical mass of capability locally in the countries that we serve, and that allows us to be compliant as far as defense programs are concerned. And so, as defense spending ramps, we expect to participate in that. But indirectly, the investment in defense is likely to take away capability, particularly from the commercial aerospace industry. And the backfill opportunity that, that represents is another growth vector that we're excited about as far as the aerospace business is concerned. So we expect both a direct and an indirect impact to growth from the renewed commitment to defense spending around the world. We have the next question coming from the line of Sid from Wealth Aggregator. I have 2 questions. One is, could you elaborate how is Tata Technologies position in industrial and factory robotics design? And what are your plans? And second one, what are the target revenues level over the medium term? And what is the current share of revenues from the aerospace?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_002",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_011",
+    "text": "Could you repeat the first question?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Sid",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_003",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_012",
+    "text": "Am I audible?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_003",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_013",
+    "text": "You're audible, yes. Could you repeat the first question?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_003",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_014",
+    "text": "<!-- image --> Yes, yes. What is the scope and expansion plan for industrial automation and factory robotics design at Tata Tech? Actually, automation moves towards advanced humanoid robots in factory. Do you see any opportunities in humanoid robots? Okay. Got it. Thank you for clarifying that. As far as industrial heavy machinery is concerned, there are 2 components to that business for us. One is commercial vehicles, and the other is off-highway products or off-road products. And as far as commercial vehicles are concerned, there are 2 things that we are very excited about. I've just referenced the acquisition by Tata Motors CV of Iveco and the support that we anticipate that we'll be able to provide for the integration of those 2 organizations and the investment that they will be making in pursuing synergies and new products. We also have been selected and confirmed as a strategic supplier to one large commercial vehicle group. And that is an accreditation and an endorsement that will provide significant demand in the coming years. And so commercial truck -- the commercial truck sector provides significant tailwinds. And again, the relationships with those 2 customers will go very well for our prospects. As far as aerospace is concerned, I've touched on some of the tailwinds that we're expecting to continue to support us. One is the strategic relationship with Airbus. Not only are we enjoying accelerated growth at Airbus, but we're also now looking to expand into their"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_003",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_015",
+    "text": "supply chain. One of the Ankur Pant: <!-- image --> constraints to their ability to build aircraft is the manufacturing throughput capability of their supply chain. And the work that we've been doing with Airbus in digital and in industrialization, we're starting to position for some of the large suppliers for Airbus. But we also, as I've referenced before, penetrated the propulsion sector in North America and the investment in relationships and capabilities there is really now starting to scale. So again, we've been able to double our business in aerospace off a relatively small base over the last 4 years. We expect that to continue to grow. This year, aerospace will finish close to about $40 million, and we expect the momentum that has informed the rapid growth in that sector to continue."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_016",
+    "text": "We have our next question coming from the line of Ankur Pant from IIFL. I have a question for Warren. Warren, I'm just trying to understand the 10% plus kind of a growth for the next quarter, trying to break it down across segments because I assume that this product has grown at such a strong pace this quarter. It could see a seasonal decline next quarter. And despite that, we are guiding for 10% plus. And we are also talking about gradual recovery. So, all of that, I mean, I'm finding it difficult to wrap my head around it. So just wanted to understand how are you seeing growth across different segments for 4Q? <!-- image -->"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_017",
+    "text": "Yes. And that's a great question. So, thank you for asking that. We will likely see from a seasonal perspective, a plateauing to a decline of products -- of product revenue in the fourth quarter. But given the pause that we saw in education in Q3 and our expectations that -- that will bounce back, our Tech Solutions revenue will grow in the fourth quarter at an aggregate level. So, we do not see any decline or any tapering of that particular"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Ankur Pant",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_004",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_018",
+    "text": "Okay. Just a clarification there. So, the 10% for FY '27 is including ES-Tec, right?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_004",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_019",
+    "text": "Well, the 10% that I referred to is Q4. And so, this is sequential growth. What we are committing to at this stage is double- digit growth for FY '27, but there's still work that we need to do to be able to confirm a business plan that will define targets for Q1, Q2, Q3 and Q4."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Ankur Pant",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_005",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_020",
+    "text": "Okay. And again, I'm sorry for again coming back to the 10% sequential growth. Just trying to understand -- so how much was the impact of the cybersecurity incident from JLR this <!-- image --> quarter? And would there be, I mean, push-through of that revenue that is helping growth in the next quarter? And is there kind of a lumpiness of ramp-up that is helping you next quarter? Because Technology Solutions from what I gathered from your commentary is not something which is going to drive growth in 4Q. It might see some growth. So the auto segment has to do the real heavy lifting."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_005",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_021",
+    "text": "Yes. It's a fair question. And so, we don't disclose revenues of individual customers. And so, I'm not going to confirm the specific impact of the cybersecurity hit that JLR took in Q3. But we saw the revenues that we were not able to build in October come back in November and December. And we expect those revenues to sustain in Q4. So clearly, there will be a contribution for the catch-up that,"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Ankur Pant",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_006",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_022",
+    "text": "Sure. Would it be fair to say that we are still in the early stages of this recovery?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_006",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_023",
+    "text": "I think clearly, we're in the early stages of the industry recovery. But I think one of the things, again, that informs our confidence and our willingness to share the guidance that we have today is the order book. We're very confident in the numbers that we've shared and the expectations that we've got for both top <!-- image --> VTV Ankur Pant: And my final question is regarding the FY '27 double digit. Is that organic? Or is that inclusive of ES-Tec?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_006",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_024",
+    "text": "That is organic."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_025",
+    "text": "Your next question comes from the line of Karan Uppal from Phillip Capital India."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Karan Uppal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_007",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_026",
+    "text": "Just a broad question around the spending areas within the automotive ER&amp;D. So, we are seeing huge write-offs by Ford and General Motors on their EV investments. So overall, how is the outlook on the electrification theme? And if electrification is not a key spending area of OEMs, what are the other key areas where they are spending big? And I'd also love to hear your thoughts on the SDV program?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_007",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_027",
+    "text": "Yes. Great question. And I think that the answer to that question is geography specific. We have seen in North America, given the changes in government and by association regulation. We've seen the pendulum swing move from EVs back to internal combustion engines. And the investments that are being made by the Big 3 now are largely in conventional powertrain. And the good news from a Tata Technologies perspective is that we're relatively agnostic in terms of propulsion choices. So, whether a customer is investing in EV, whether they're investing in plug-in hybrids, whether they're investing in ICE, we are in a position to provide support. I think Europe is somewhat mixed. <!-- image --> I think a couple of years ago, Europe was very much all in on EVs. And so specifically, the German OEMs were leading that particular change. I think we've seen some rebalancing of their product plans. But I think they very firmly believe in an allelectric future, and that's continuing to inform where they're putting their investment dollars. And I think in China, specifically, I think the horse has bolted. I think that, that market has already pivoted towards EVs, and I think you'll continue to see that momentum grow. I think here in India, EV penetration rates have been encouraged by the investments that -- or the incentives that the government has provided. And I think that, that is likely to continue. I think the product plan of both Tata Motors and Mahindra continues to prioritize the"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_007",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_028",
+    "text": "importance of electric vehicles. So, I think that that's the perspective in terms of the propulsion options that have been prioritized in different geographies. But I think one thing that is a constant is the commitment to SDVs regardless of the propulsion system, the investment in the intelligence that will inform the driver and the customer experience in the future. That is something that continues to be a priority for every single OEM. And the growth that we've seen in embedded and in software is a testament to that. And so, we expect that to continue going forward. And that investment is not program specific. And so there is less volatility in terms of that business. And our confidence in terms of not only growth, but stability in revenue is informed by the fact that our business in that area is growing, and we're complementing that growth with acquisitions like ES-Tec. <!-- image -->"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Karan Uppal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_008",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_029",
+    "text": "Okay. Just the last question on FY '27 double-digit growth outlook. So that's completely organic is what you are saying?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_008",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_030",
+    "text": "That is completely organic, yes."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Karan Uppal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_009",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_031",
+    "text": "that? Okay. And is there any contribution of ES-Tec will be above"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_009",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_032",
+    "text": "It will."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_033",
+    "text": "Your next question comes from the line of Pankaj Agrawal, an Investor."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Pankaj Agrawal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_010",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_034",
+    "text": "My question is with respect to a few of the non-captive contracts such as Volvo or Airbus. Are these contracts for the fixed state of jobs for certain years or there is possibility of revenue ramp-up? And my second question is that do we have more such partnership in plan for Q4 FY '26 or '27?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_010",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_035",
+    "text": "If I understand the question correctly, the relationships with Volvo and Airbus are underpinned by strategic commitments that the customers -- both customers have made to us. Our participation in the EMES3 program in Airbus is a very exclusive endorsement that Airbus have given to 17 engineering services organizations that compete for $1 billion of outsourced spend every year. We are relatively new to that program, but I think we've demonstrated our capabilities and credentials in the last 3 to 4 years. And because of that and also because of Airbus'"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Pankaj Agrawal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_011",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_036",
+    "text": "<!-- image --> commitment to India, we expect the momentum and the growth rates that we have supported in the recent past to continue. Volvo has gone through a vendor consolidation exercise. They've now endorsed a number of strategic suppliers. We were very fortunate and very gratified to be part of the strategic supplier list, and we've started to see improvement in growth rates as a result of that in the second half of the last calendar year. One of the things that I've mentioned in the narrative, and I've referenced and touched on in answering some of the questions is the importance now of the relationship we've got with Volkswagen. ES-Tec brings in a very sizable and strategic relationship with VW. VW is the largest ER&amp;D spender in the automotive sector. And right now, ES-Tec is very focused on a single domain, which is SDV and embedded electronics. We have the opportunity to take our entire portfolio to Volkswagen. And many of the synergies that we're planning for the acquisition is being driven by the plans that we put together to harvest that. So we certainly expect these relationships to be an important part of the growth that we are planning for the company in the future. Okay. May I further ask in that, that by when we can -- or can we really expect, let's say, these kinds of projects to contribute more than 7%, 8% or 10% of entire revenue of Tata Technologies. I'm trying to understand that by what means and technology, we are able to derisk our dependency on"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Pankaj Agrawal",
+    "speaker_role": "analyst",
+    "qa_pair_id": "TataTechnologies_Q3_2025_qa_011",
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_037",
+    "text": "Tata Motors and JLR. For example, if you talk anything about the Warren Harris:"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_038",
+    "text": "<!-- image --> BMW relationship or any such more relationship which is there in plan in, let's say, Q4 or '27? Well, the one thing that I'm not in a position to do right now is provide you with any data about customers and our aspiration or targets for those customers. But what I can say is that the relationships with customers like VW, like Volvo, like Airbus and as you referenced, BMW, those relationships are -- they represent a strategic commitment on both sides. The relationship with BMW that has supported the investment that both sides have made in the joint venture that we have here in India is a commitment that was made at the top end of that company. And because now of the important connection that we've got at the top of both organizations and by association, both groups, we are starting to win a number of direct deals. So, we are expecting to complement the JV business that we do here in India with business in Munich and also business that we win in Munich and in other parts of the BMW Enterprise, North America and China specifically, we're expecting to deliver that not just from local teams, but also from teams here in India. So the reason for citing that is just to give you some sort of complexion as to the strategic nature of these partnerships and the confidence that we have that they will continue to scale. Our next question comes from the line of Manik Taneja from Axis Capital. <!-- image --> Manik Taneja My apologies that I joined the call late. This was a"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_039",
+    "text": "question with regards to your expectations for a very strong performance in Q4. If you could help us understand how much of the strong rebound that you're expecting is driven by anchor customers? How much of it may be outside of that? That's question number one. The second question was for Uttam. While we've done very well to defend our margins in the narrow range, we've seen some deterioration in our debtor days. How much of that essentially could be linked to the situation at Group Company? And how should we be thinking about this evolving over a period of time?"
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_040",
+    "text": "So, I'll ask Uttam to answer that question, and then I'll -- pick up on the Q4 growth number."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Uttam Gujrati",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_041",
+    "text": "So, on the debtor days' part, as we mentioned, some of the effects were temporary due to one-off issues which was there with the customers that we had. So, over a period of next 2 quarters, we anticipate that our debtor days would be closer to what we had in the first half of the year. So, it's a matter of a few quarters and most of the things should fall back in place."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Warren Harris",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_042",
+    "text": "In terms of the mix of improvement that we are expecting in Q4, I'm not in a position to provide any specific information about any one customer. All that I can say is that it is broad- based. We certainly expect the impact that we saw at JLR to come back, and that will certainly contribute towards the <!-- image --> VTV We are not expecting it to be concentrated in any one customer or in any one group."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_043",
+    "text": "As there are no further questions, I'd now like to hand the conference over to Mr. Vijay Lohia for closing comments."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Vijay Lohia",
+    "speaker_role": "management",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_044",
+    "text": "Thank you all for joining us on today's call. We hope we've addressed most of your questions. If you have any additional queries, please feel free to get in touch with the IR team, and we'll be glad to assist you. Wishing you all the best, and goodbye here from all of us. Thank you."
+  },
+  {
+    "company_id": "TataTechnologies",
+    "doc_id": "TataTechnologies_Q3_2025",
+    "section_type": "qa",
+    "speaker_name": "Moderator",
+    "speaker_role": "moderator",
+    "qa_pair_id": null,
+    "management_names": [
+      "Warren Harris",
+      "Sukanya Sadasivan",
+      "Uttam Gujrati",
+      "Geena Binoy",
+      "Vijay Lohia"
+    ],
+    "fiscal_quarter": "Q3",
+    "fiscal_year": "2025",
+    "chunk_id": "TataTechnologies_Q3_2025_qa_045",
+    "text": "Thank you, members of the management. On behalf of Tata Technologies, that concludes this conference call. Thank you for joining us, and you may now disconnect your lines."
+  }
+]

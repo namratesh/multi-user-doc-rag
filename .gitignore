@@ -2,10 +2,10 @@
 __pycache__/
 *.py[codz]
 *$py.class
-
+.claude/
 # C extensions
 *.so
-
+.DS_Store
 # Distribution / packaging
 .Python
 build/
@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# multi-user-doc-rag: legacy local Chroma vector store, superseded by MongoDB Atlas
+# (kept ignored since old runs may still have data on disk; safe to delete)
+vector_db/*
+!vector_db/.gitkeep

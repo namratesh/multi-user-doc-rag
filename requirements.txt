@@ -1,0 +1,12 @@
+docling>=2.15.0
+tqdm>=4.66.0
+
+requests>=2.32.0
+pymongo>=4.9.0
+
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.9.0
+email-validator>=2.2.0
+pydantic-settings>=2.5.0
+pyjwt>=2.10.0
