@@ -33,17 +33,18 @@ at the vector-search layer itself.
   concurrent users' histories can never collide or leak into each other.
 
   <p align="center">
-    <img src="arch/langgraph_workflow.png" alt="LangGraph conversational Q&A workflow" width="420">
+    <img src="arch/langgraph_workflow.png" alt="LangGraph conversational Q&A workflow" width="480">
   </p>
 
   `classify` routes to either the `continue` branch (`rephrase -> decompose ->
   fetch_one -> answer_one -> combine_answer -> guardrail`) or straight to
   `canned_response` for a greeting/out-of-scope message (`greet`/`deny`).
   `decompose` splits a question naming several companies into one
-  sub-question per company; `fetch_one` and `answer_one` then fan out one run
-  per sub-question via LangGraph's `Send` API (dotted edges above) so they
-  execute concurrently, and `combine_answer` stitches the per-company answers
-  back into a single reply once every branch has finished. See
+  sub-question per company; `fetch_one` and then `answer_one` fan out **one
+  concurrent run per company** via LangGraph's `Send` API (the boxed lanes
+  above -- each company's fetch and answer runs in parallel, not
+  sequentially), and `combine_answer` fans back in once every branch has
+  finished, stitching the per-company answers into a single reply. See
   `backend/src/graph/graph.py` for the full routing logic.
 - **Prompts** (`backend/src/prompts/`): each pipeline prompt is versioned as
   `prompts/<name>/vN.txt`, with the active version per prompt pinned in
