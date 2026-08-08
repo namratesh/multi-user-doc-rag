@@ -39,6 +39,10 @@ NO_CONTEXT_MESSAGE = (
     "I couldn't find anything in the documents you have access to that "
     "answers this question."
 )
+PARTIAL_COVERAGE_NOTE = (
+    "_Note: part of your question isn't covered by the documents you "
+    "have access to._"
+)
 GUARDRAIL_FALLBACK_MESSAGE = (
     "I don't have enough grounded information in the documents to "
     "confidently answer that."
@@ -383,7 +387,15 @@ def combine_sub_answers(answered: list[dict]) -> tuple[str, list[dict]]:
     """Merges per-sub-query answer records into one final answer + citation
     list. A single successful sub-answer is returned as-is (no heading, so a
     plain single-company question reads exactly as it did before
-    decomposition existed); multiple are stitched into headed sections."""
+    decomposition existed); multiple are stitched into headed sections.
+
+    If only some sub-queries resolved (others came back "no_context" --
+    which covers both "not authorized" and "authorized but nothing
+    relevant found", indistinguishably by design, see `_answer_for_sub_result`),
+    a generic `PARTIAL_COVERAGE_NOTE` is appended so the user knows their
+    question wasn't fully ignored, without naming which part was skipped or
+    why -- that would confirm/deny which companies exist/are restricted.
+    """
     ok = [a for a in answered if a["status"] == "ok"]
     if not ok:
         if any(a["status"] == "error" for a in answered):
@@ -391,21 +403,25 @@ def combine_sub_answers(answered: list[dict]) -> tuple[str, list[dict]]:
         return NO_CONTEXT_MESSAGE, []
 
     if len(ok) == 1:
-        return ok[0]["answer"], ok[0]["citations"]
-
-    name_by_id = dict(
-        zip(
-            (a["company_id"] for a in ok if a["company_id"]),
-            get_company_display_names([a["company_id"] for a in ok if a["company_id"]]),
+        answer, citations = ok[0]["answer"], ok[0]["citations"]
+    else:
+        name_by_id = dict(
+            zip(
+                (a["company_id"] for a in ok if a["company_id"]),
+                get_company_display_names([a["company_id"] for a in ok if a["company_id"]]),
+            )
         )
-    )
-    sections: list[str] = []
-    citations: list[dict] = []
-    for a in ok:
-        heading = name_by_id.get(a["company_id"])
-        sections.append(f"**{heading}**\n{a['answer']}" if heading else a["answer"])
-        citations.extend(a["citations"])
-    return "\n\n".join(sections), citations
+        sections: list[str] = []
+        citations = []
+        for a in ok:
+            heading = name_by_id.get(a["company_id"])
+            sections.append(f"**{heading}**\n{a['answer']}" if heading else a["answer"])
+            citations.extend(a["citations"])
+        answer = "\n\n".join(sections)
+
+    if len(ok) < len(answered):
+        answer = f"{answer}\n\n{PARTIAL_COVERAGE_NOTE}"
+    return answer, citations
 
 
 @traceable(name="answer_one", run_type="chain", client=observability.langsmith_client)

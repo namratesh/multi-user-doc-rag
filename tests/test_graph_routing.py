@@ -115,8 +115,10 @@ def test_model_denial_suppresses_citations_despite_retrieved_chunks(monkeypatch)
 def test_multi_company_question_answers_only_authorized_companies(monkeypatch) -> None:
     """A question naming two companies where the caller is authorized for
     only one should be decomposed, answered for the authorized company, and
-    say nothing about the other -- not withhold the whole answer just
-    because part of it can't be answered."""
+    never name the other -- not withhold the whole answer just because part
+    of it can't be answered. It should still surface a generic
+    PARTIAL_COVERAGE_NOTE so the user knows the question wasn't silently
+    dropped, without confirming/denying which company was skipped or why."""
     decompose_json = json.dumps(
         {
             "sub_queries": [
@@ -160,4 +162,5 @@ def test_multi_company_question_answers_only_authorized_companies(monkeypatch) -
     assert result["route"] == "continue"
     assert "Revenue grew 10%" in result["final_answer"]
     assert "hdfc" not in result["final_answer"].lower()
+    assert nodes.PARTIAL_COVERAGE_NOTE in result["final_answer"]
     assert result["citations"] == [{**_SAMPLE_CHUNK, "cited": True}]
