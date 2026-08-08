@@ -18,6 +18,8 @@ export interface Citation {
   fiscal_year: string | null;
   speaker_name: string | null;
   score: number;
+  text: string;
+  cited: boolean;
 }
 
 export type MessageRoute = "greet" | "deny" | "continue";
@@ -52,7 +54,7 @@ export interface CreateConversationResponse {
 export interface ThreadMessage {
   role: "user" | "assistant";
   content: string;
-  citations: string[];
+  citations: (Citation | string)[];
 }
 
 export interface ConversationThreadResponse {

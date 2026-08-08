@@ -101,7 +101,7 @@ def append_turn(
     conv_id: str,
     role: str,
     content: str,
-    citations: list[str] | None = None,
+    citations: list[dict] | None = None,
 ) -> None:
     collection = get_history_collection()
     now = datetime.now(timezone.utc)

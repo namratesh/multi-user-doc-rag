@@ -20,7 +20,7 @@ export function Wordmark({ onDark = false, size = "md" }: WordmarkProps) {
         <path d="M14 3l4 4h-4V3z" fill={color} />
       </svg>
       <span className={styles.word} style={{ color }}>
-        Folio
+        Multi User Rag
       </span>
     </div>
   );

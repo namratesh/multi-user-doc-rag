@@ -17,8 +17,10 @@ _PROMPTS_DIR = Path(__file__).resolve().parent
 
 CURRENT_VERSIONS: dict[str, str] = {
     "classifier": "v1",
+    "greet": "v1",
     "rephraser": "v1",
-    "answer": "v1",
+    "answer": "v3",
+    "decompose": "v1",
     "guardrail": "v1",
 }
 

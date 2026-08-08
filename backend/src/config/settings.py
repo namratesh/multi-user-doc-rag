@@ -57,5 +57,11 @@ class Settings(BaseSettings):
     history_max_turns: int = 6
     mongodb_history_collection: str = "conversations"
 
+    # Observability (LangSmith tracing, backend/src/config/observability.py).
+    # Tracing is skipped (no-op) when the API key isn't set.
+    langsmith_api_key: str | None = None
+    langsmith_project: str = "multi-user-rag"
+    langsmith_endpoint: str = "https://api.smith.langchain.com"
+
 
 settings = Settings()

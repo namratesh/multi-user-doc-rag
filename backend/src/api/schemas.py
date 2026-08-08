@@ -58,6 +58,8 @@ class Citation(BaseModel):
     fiscal_year: str | None = None
     speaker_name: str | None = None
     score: float = 0.0
+    text: str = ""
+    cited: bool = False
 
 
 class MessageResponse(BaseModel):
@@ -80,7 +82,7 @@ class CreateConversationResponse(BaseModel):
 class ThreadMessage(BaseModel):
     role: Literal["user", "assistant"]
     content: str
-    citations: list[str] = []
+    citations: list[Citation | str] = []
 
 
 class ConversationThreadResponse(BaseModel):

@@ -9,6 +9,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from ..config import observability
 from ..config.logger import get_logger
 from ..config.settings import settings
 from .routes.auth import router as auth_router
@@ -37,6 +38,11 @@ app.include_router(chat_router)
 @app.on_event("startup")
 def on_startup() -> None:
     logger.info("%s starting up (env=%s)", settings.app_name, settings.env)
+
+
+@app.on_event("shutdown")
+def on_shutdown() -> None:
+    observability.langsmith_client.flush()
 
 
 @app.get("/health")
