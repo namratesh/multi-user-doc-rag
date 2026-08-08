@@ -7,6 +7,10 @@ import json
 import re
 from pathlib import Path
 
+from src.config.logger import get_logger
+
+logger = get_logger(__name__)
+
 QA_MARKER_PATTERN = re.compile(
     r"(?i)(?:"
     r"question[\s-]+and[\s-]+answer\s+session"
@@ -180,6 +184,12 @@ def _split_long_text(text: str, max_chars: int = MAX_CHUNK_CHARS) -> list[str]:
 def chunk_document(parsed: dict) -> list[dict]:
     metadata = parsed["metadata"]
     text = parsed["text"]
+    logger.info(
+        "[chunk_document] input company=%r period=%r chars=%d",
+        metadata.get("company"),
+        metadata.get("period"),
+        len(text),
+    )
 
     company_id = _slugify(metadata.get("company") or "Unknown")
     fiscal_quarter, fiscal_year = derive_fiscal(metadata, text)
@@ -240,21 +250,31 @@ def chunk_document(parsed: dict) -> list[dict]:
                         "text": piece,
                     }
                 )
+    logger.info("[chunk_document] output doc_id=%r chunks=%d", doc_id, len(chunks))
     return chunks
 
 
 def chunk_parsed_file(parsed_path: Path) -> list[dict]:
+    logger.info("[chunk_parsed_file] step: reading input %s", parsed_path)
     parsed = json.loads(parsed_path.read_text(encoding="utf-8"))
     return chunk_document(parsed)
 
 
 def chunk_directory(parsed_dir: Path, output_dir: Path) -> None:
+    logger.info("[chunk_directory] input parsed_dir=%s output_dir=%s", parsed_dir, output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    for parsed_path in sorted(parsed_dir.glob("*.json")):
+    parsed_paths = sorted(parsed_dir.glob("*.json"))
+    for parsed_path in parsed_paths:
         chunks = chunk_parsed_file(parsed_path)
         out_path = output_dir / parsed_path.name
         out_path.write_text(json.dumps(chunks, indent=2), encoding="utf-8")
-        print(f"{parsed_path.name}: {len(chunks)} chunks -> {out_path}")
+        logger.info(
+            "[chunk_directory] step: %s -> %d chunks -> %s",
+            parsed_path.name,
+            len(chunks),
+            out_path,
+        )
+    logger.info("[chunk_directory] output files=%d", len(parsed_paths))
 
 
 def main() -> None:

@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import re
 from functools import lru_cache
-from typing import Any
+from typing import Any, Iterator
 
 from openai import OpenAI
 
@@ -69,6 +69,30 @@ def chat_completion(
     content = response.choices[0].message.content or ""
     logger.info("[chat_completion] output content_len=%d", len(content))
     return content
+
+
+def stream_chat_completion(
+    messages: list[dict[str, str]],
+    *,
+    temperature: float = 0.0,
+    model: str | None = None,
+) -> Iterator[str]:
+    """Yields text deltas as they arrive from the provider, for the answer
+    generation step only -- classifier/rephraser/guardrail calls need a
+    complete response to parse, so they stay on `chat_completion`."""
+    client = get_openai_client()
+    model_name = model or settings.chat_model_name
+    logger.info("[stream_chat_completion] input model=%s messages=%d", model_name, len(messages))
+    stream = client.chat.completions.create(
+        model=model_name,
+        messages=messages,
+        temperature=temperature,
+        stream=True,
+    )
+    for chunk in stream:
+        delta = chunk.choices[0].delta.content
+        if delta:
+            yield delta
 
 
 def parse_json_response(text: str, default: dict[str, Any]) -> dict[str, Any]:

@@ -3,7 +3,7 @@ import {
   createConversation,
   getConversation,
   listConversations,
-  sendMessage,
+  sendMessageStream,
 } from "../../api/client";
 import { ApiError, type ConversationSummary } from "../../api/types";
 import type { Session } from "../../auth/useAuth";
@@ -128,21 +128,32 @@ export function Main({ session, onSwitchReader }: MainProps) {
         setMessages((prev) => [...prev, userMsg, pendingMsg]);
         setIsSending(true);
 
-        const res = await sendMessage(token, convId, text);
-
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === pendingMsg.id
-              ? {
-                  id: m.id,
-                  role: "assistant",
-                  content: res.answer,
-                  citations: res.citations,
-                  restricted: res.route === "continue" && res.citations.length === 0,
-                }
-              : m,
-          ),
-        );
+        await sendMessageStream(token, convId, text, {
+          onDelta: (delta) => {
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === pendingMsg.id
+                  ? { ...m, pending: false, streaming: true, content: m.content + delta }
+                  : m,
+              ),
+            );
+          },
+          onDone: (event) => {
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === pendingMsg.id
+                  ? {
+                      id: m.id,
+                      role: "assistant",
+                      content: event.answer,
+                      citations: event.citations,
+                      restricted: event.route === "continue" && event.citations.length === 0,
+                    }
+                  : m,
+              ),
+            );
+          },
+        });
 
         setConversations((prev) => {
           const existing = prev.find((c) => c.conv_id === convId);
@@ -161,7 +172,7 @@ export function Main({ session, onSwitchReader }: MainProps) {
         });
       } catch (err) {
         setError(describeError(err));
-        setMessages((prev) => prev.filter((m) => !m.pending));
+        setMessages((prev) => prev.filter((m) => !m.pending && !m.streaming));
       } finally {
         setIsSending(false);
       }

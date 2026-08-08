@@ -22,7 +22,12 @@ def query(
     current_user: UserInfo = Depends(get_current_user),
 ) -> QueryResponse:
     logger.info(
-        "Query from %s (companies=%s): %r", current_user.email, current_user.companies, payload.query
+        "[query] input user=%s companies=%s query=%r top_k=%d",
+        current_user.email,
+        current_user.companies,
+        payload.query,
+        payload.top_k,
     )
     results = retrieve(payload.query, current_user.companies, top_k=payload.top_k)
+    logger.info("[query] output results=%d", len(results))
     return QueryResponse(query=payload.query, results=results)

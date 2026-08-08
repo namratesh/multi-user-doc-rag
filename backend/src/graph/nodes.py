@@ -29,11 +29,11 @@ _DENY_MESSAGE = (
     "I can only answer questions about the earnings-call documents you're "
     "authorized to access. Could you rephrase your question?"
 )
-_NO_CONTEXT_MESSAGE = (
+NO_CONTEXT_MESSAGE = (
     "I couldn't find anything in the documents you have access to that "
     "answers this question."
 )
-_GUARDRAIL_FALLBACK_MESSAGE = (
+GUARDRAIL_FALLBACK_MESSAGE = (
     "I don't have enough grounded information in the documents to "
     "confidently answer that."
 )
@@ -126,14 +126,7 @@ def fetch_node(state: ChatState) -> dict:
     return {"chunks": chunks}
 
 
-def build_answer_node(state: ChatState) -> dict:
-    chunks = state.get("chunks") or []
-    question = state.get("standalone_question") or state["question"]
-    logger.info("[build_answer] input question=%r chunks=%d", question, len(chunks))
-    if not chunks:
-        logger.info("[build_answer] output no context available")
-        return {"answer": _NO_CONTEXT_MESSAGE, "citations": []}
-
+def build_answer_messages(question: str, chunks: list[dict]) -> list[dict[str, str]]:
     context = "\n\n".join(
         f"[{c['chunk_id']}] ({c.get('company_id')}, "
         f"{c.get('fiscal_quarter')} {c.get('fiscal_year')}, "
@@ -141,10 +134,26 @@ def build_answer_node(state: ChatState) -> dict:
         for c in chunks
     )
     prompt = load_prompt("answer")
-    messages = [
+    return [
         {"role": "system", "content": prompt},
         {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {question}"},
     ]
+
+
+def select_citations(answer: str, chunks: list[dict]) -> list[dict]:
+    cited = [c for c in chunks if c["chunk_id"] in answer]
+    return cited or chunks[:3]
+
+
+def build_answer_node(state: ChatState) -> dict:
+    chunks = state.get("chunks") or []
+    question = state.get("standalone_question") or state["question"]
+    logger.info("[build_answer] input question=%r chunks=%d", question, len(chunks))
+    if not chunks:
+        logger.info("[build_answer] output no context available")
+        return {"answer": NO_CONTEXT_MESSAGE, "citations": []}
+
+    messages = build_answer_messages(question, chunks)
     try:
         answer = chat_completion(messages, temperature=settings.chat_temperature).strip()
     except Exception:
@@ -154,12 +163,37 @@ def build_answer_node(state: ChatState) -> dict:
             "citations": [],
         }
 
-    cited = [c for c in chunks if c["chunk_id"] in answer]
-    citations = cited or chunks[:3]
+    citations = select_citations(answer, chunks)
     logger.info(
         "[build_answer] output answer_len=%d citations=%d", len(answer), len(citations)
     )
     return {"answer": answer, "citations": citations}
+
+
+def guardrail_verdict(answer: str, chunks: list[dict]) -> tuple[bool, str]:
+    """Returns (passed, reason). Fails open on LLM/network errors and when
+    the guardrail is disabled or there's no context to check groundedness
+    against -- it verifies answer *quality*, not access control (that's
+    already enforced deterministically in `fetch_node`)."""
+    if not settings.guardrail_enabled or not chunks:
+        return True, ""
+
+    context = "\n\n".join(f"[{c['chunk_id']}] {c['text']}" for c in chunks)
+    prompt = load_prompt("guardrail")
+    messages = [
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": f"Context:\n{context}\n\nAnswer to verify:\n{answer}"},
+    ]
+    try:
+        raw = chat_completion(messages, temperature=0.0)
+        verdict = parse_json_response(raw, default={"grounded": True, "safe": True, "reason": ""})
+    except Exception:
+        logger.exception("[guardrail] LLM call failed; failing open")
+        return True, ""
+
+    grounded = bool(verdict.get("grounded", True))
+    safe = bool(verdict.get("safe", True))
+    return (grounded and safe), verdict.get("reason", "")
 
 
 def guardrail_node(state: ChatState) -> dict:
@@ -172,37 +206,14 @@ def guardrail_node(state: ChatState) -> dict:
         settings.guardrail_enabled,
     )
 
-    if not settings.guardrail_enabled or not chunks:
-        logger.info("[guardrail] skipped; output passed=True")
+    passed, reason = guardrail_verdict(answer, chunks)
+    if passed:
+        logger.info("[guardrail] output passed=True")
         return {"final_answer": answer, "guardrail_passed": True}
 
-    context = "\n\n".join(f"[{c['chunk_id']}] {c['text']}" for c in chunks)
-    prompt = load_prompt("guardrail")
-    messages = [
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": f"Context:\n{context}\n\nAnswer to verify:\n{answer}"},
-    ]
-    try:
-        raw = chat_completion(messages, temperature=0.0)
-        verdict = parse_json_response(raw, default={"grounded": True, "safe": True, "reason": ""})
-    except Exception:
-        # Fail open: the guardrail checks answer *quality*, not access control
-        # (that's already enforced deterministically in fetch_node), so an
-        # LLM/network hiccup here shouldn't block a correctly-scoped answer.
-        logger.exception("[guardrail] LLM call failed; failing open")
-        return {"final_answer": answer, "guardrail_passed": True}
-
-    grounded = bool(verdict.get("grounded", True))
-    safe = bool(verdict.get("safe", True))
-    if grounded and safe:
-        logger.info("[guardrail] output passed=True grounded=%s safe=%s", grounded, safe)
-        return {"final_answer": answer, "guardrail_passed": True}
-
-    logger.warning(
-        "[guardrail] output passed=False reason=%s", verdict.get("reason")
-    )
+    logger.warning("[guardrail] output passed=False reason=%s", reason)
     return {
-        "final_answer": _GUARDRAIL_FALLBACK_MESSAGE,
+        "final_answer": GUARDRAIL_FALLBACK_MESSAGE,
         "guardrail_passed": False,
         "citations": [],
     }

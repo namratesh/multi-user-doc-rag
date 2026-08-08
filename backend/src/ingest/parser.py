@@ -4,14 +4,15 @@ from __future__ import annotations
 
 import argparse
 import json
-import logging
 import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from docling.document_converter import DocumentConverter
 
-logger = logging.getLogger(__name__)
+from src.config.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Matches quarter/fiscal-year tokens such as Q1FY24, Q1 FY2024, H1FY25, FY2024-25, FY24
 PERIOD_PATTERN = re.compile(
@@ -100,6 +101,7 @@ def _page_count(doc) -> int | None:
 
 def parse_pdf(path: Path, converter: DocumentConverter | None = None) -> ParsedDocument:
     """Convert a single earnings call PDF into full text plus metadata."""
+    logger.info("[parse_pdf] input path=%s", path)
     converter = converter or DocumentConverter()
 
     result = converter.convert(str(path))
@@ -107,16 +109,26 @@ def parse_pdf(path: Path, converter: DocumentConverter | None = None) -> ParsedD
 
     text = doc.export_to_markdown()
     metadata = extract_metadata(path, text, _page_count(doc))
+    logger.info(
+        "[parse_pdf] output company=%r period=%r pages=%s chars=%d",
+        metadata.company,
+        metadata.period,
+        metadata.page_count,
+        metadata.char_count,
+    )
 
     return ParsedDocument(metadata=metadata, text=text)
 
 
 def parse_directory(data_dir: Path, pattern: str = "*.pdf") -> list[ParsedDocument]:
+    logger.info("[parse_directory] input data_dir=%s pattern=%r", data_dir, pattern)
     converter = DocumentConverter()
     parsed = []
-    for pdf_path in sorted(data_dir.glob(pattern)):
-        logger.info("Parsing %s", pdf_path.name)
+    pdf_paths = sorted(data_dir.glob(pattern))
+    for pdf_path in pdf_paths:
+        logger.info("[parse_directory] step: parsing %s", pdf_path.name)
         parsed.append(parse_pdf(pdf_path, converter=converter))
+    logger.info("[parse_directory] output documents=%d", len(parsed))
     return parsed
 
 
@@ -133,13 +145,18 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=None, help="If set, write parsed JSON files here")
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-
     documents = parse_directory(args.data_dir)
 
     for doc in documents:
         m = doc.metadata
-        print(f"{m.filename}: company={m.company!r} period={m.period!r} pages={m.page_count} chars={m.char_count}")
+        logger.info(
+            "[main] %s: company=%r period=%r pages=%s chars=%d",
+            m.filename,
+            m.company,
+            m.period,
+            m.page_count,
+            m.char_count,
+        )
         if args.output_dir:
             _write_output(doc, args.output_dir)
 

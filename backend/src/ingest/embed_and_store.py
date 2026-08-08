@@ -81,15 +81,19 @@ def embed_chunk_file(
     collection: Collection,
     batch_size: int,
 ) -> int:
+    logger.info("[embed_chunk_file] step: reading input %s", chunk_path)
     chunks = json.loads(chunk_path.read_text(encoding="utf-8"))
     if not chunks:
+        logger.info("[embed_chunk_file] output %s: 0 chunks (empty file)", chunk_path.name)
         return 0
 
     embeddings = embedder.embed_documents([c["text"] for c in chunks], batch_size=batch_size)
     # Upsert first: Atlas Search index creation requires the collection to already
     # exist, and bulk_write(upsert=True) implicitly creates it on first write.
+    logger.info("[embed_chunk_file] step: upserting %d chunks into MongoDB", len(chunks))
     mongo_store.upsert_chunks(collection, chunks, embeddings)
     mongo_store.ensure_vector_index(collection, dimensions=len(embeddings[0]))
+    logger.info("[embed_chunk_file] output %s: %d chunks stored", chunk_path.name, len(chunks))
     return len(chunks)
 
 
@@ -98,6 +102,7 @@ def embed_directory(
     batch_size: int = 32,
     embedder: Embedder | None = None,
 ) -> int:
+    logger.info("[embed_directory] input chunks_dir=%s batch_size=%d", chunks_dir, batch_size)
     chunk_paths = sorted(chunks_dir.glob("*.json"))
     if not chunk_paths:
         logger.warning("No chunk files found in %s", chunks_dir)
@@ -110,8 +115,14 @@ def embed_directory(
     for chunk_path in chunk_paths:
         count = embed_chunk_file(chunk_path, embedder, collection, batch_size)
         total += count
-        print(f"{chunk_path.name}: embedded {count} chunks -> {settings.mongodb_collection}")
+        logger.info(
+            "[embed_directory] step: %s -> embedded %d chunks -> %s",
+            chunk_path.name,
+            count,
+            settings.mongodb_collection,
+        )
 
+    logger.info("[embed_directory] output total_chunks=%d files=%d", total, len(chunk_paths))
     return total
 
 
@@ -122,7 +133,12 @@ def main() -> None:
     args = parser.parse_args()
 
     total = embed_directory(args.chunks_dir, args.batch_size)
-    print(f"Done: embedded and stored {total} chunks -> MongoDB[{settings.mongodb_db_name}.{settings.mongodb_collection}]")
+    logger.info(
+        "[main] done: embedded and stored %d chunks -> MongoDB[%s.%s]",
+        total,
+        settings.mongodb_db_name,
+        settings.mongodb_collection,
+    )
 
 
 if __name__ == "__main__":

@@ -29,6 +29,16 @@ export interface MessageResponse {
   citations: Citation[];
 }
 
+export type StreamEvent =
+  | { type: "delta"; text: string }
+  | {
+      type: "done";
+      route: MessageRoute;
+      answer: string;
+      citations: Citation[];
+      guardrail_passed: boolean;
+    };
+
 export interface ConversationSummary {
   conv_id: string;
   title: string;

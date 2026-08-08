@@ -28,9 +28,8 @@ export function Message({ message }: { message: UIMessage }) {
           </div>
         )}
         <p className={message.restricted ? styles.restrictedText : styles.assistantText}>
-          {message.restricted
-            ? "Nothing in your cleared documents covers that."
-            : message.content}
+          {message.restricted ? "Nothing in your cleared documents covers that." : message.content}
+          {message.streaming && <span className={styles.cursor} aria-hidden="true" />}
         </p>
         {message.citations.length > 0 && (
           <div className={styles.citations}>

@@ -6,6 +6,7 @@ import {
   type CreateConversationResponse,
   type LoginResponse,
   type MessageResponse,
+  type StreamEvent,
 } from "./types";
 
 async function request<T>(
@@ -83,4 +84,65 @@ export function sendMessage(
     token,
     body: JSON.stringify({ message }),
   });
+}
+
+interface StreamHandlers {
+  onDelta: (text: string) => void;
+  onDone: (event: Extract<StreamEvent, { type: "done" }>) => void;
+}
+
+export async function sendMessageStream(
+  token: string,
+  convId: string,
+  message: string,
+  { onDelta, onDone }: StreamHandlers,
+  signal?: AbortSignal,
+): Promise<void> {
+  const res = await fetch(apiPath(`/api/conversations/${convId}/messages/stream`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ message }),
+    signal,
+  });
+
+  if (!res.ok || !res.body) {
+    let detail = res.statusText;
+    try {
+      const body = await res.json();
+      detail = body?.detail ?? detail;
+    } catch {
+      // no JSON body
+    }
+    throw new ApiError(res.status, detail);
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+
+    let boundary = buffer.indexOf("\n\n");
+    while (boundary !== -1) {
+      const frame = buffer.slice(0, boundary);
+      buffer = buffer.slice(boundary + 2);
+      boundary = buffer.indexOf("\n\n");
+
+      const dataLine = frame.split("\n").find((l) => l.startsWith("data: "));
+      if (!dataLine) continue;
+
+      const event = JSON.parse(dataLine.slice("data: ".length)) as StreamEvent;
+      if (event.type === "delta") {
+        onDelta(event.text);
+      } else {
+        onDone(event);
+      }
+    }
+  }
 }
