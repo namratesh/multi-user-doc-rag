@@ -43,8 +43,14 @@ class Settings(BaseSettings):
     mongodb_vector_index: str = "chunk_vector_index"
     vector_search_num_candidates: int = 100
 
-    # Conversational RAG (LangGraph pipeline)
-    chat_model_name: str = "openai/gpt-4o-mini"
+    # Conversational RAG (LangGraph pipeline). chat_provider picks which
+    # OpenAI-compatible backend serves chat completions ("groq" or
+    # "openrouter"); the matching <provider>_api_key / <provider>_base_url
+    # pair above/below is used.
+    chat_provider: str = "groq"
+    groq_api_key: str | None = None
+    groq_base_url: str = "https://api.groq.com/openai/v1"
+    chat_model_name: str = "llama-3.3-70b-versatile"
     chat_temperature: float = 0.1
     chat_top_k: int = 6
     guardrail_enabled: bool = True

@@ -167,19 +167,16 @@ itself, so no `PYTHONPATH` is needed here).
 
 ## Run with Docker
 
-`docker-compose.yml` runs the full stack -- MongoDB (via the
-`mongodb/mongodb-atlas-local` image, needed for `$vectorSearch`), the
-backend, and the frontend:
+`docker-compose.yml` runs the backend and frontend and connects to your
+MongoDB Atlas cluster using `MONGO_DB_STRING` from `.env` -- there's no local
+mongodb container:
 
 ```bash
-cp .env.example .env   # fill in OPENROUTER_API_KEY etc; MONGO_DB_STRING is overridden below
+cp .env.example .env   # fill in OPENROUTER_API_KEY, MONGO_DB_STRING (Atlas), etc
 docker compose up --build
 ```
 
-The `backend` service overrides `MONGO_DB_STRING` to point at the in-network
-`mongodb` service regardless of what's in `.env` -- edit/remove that override
-in `docker-compose.yml` to run against a real Atlas cluster instead. The
-containers don't run ingestion automatically; do that once, either on the
+The containers don't run ingestion automatically; do that once, either on the
 host (Setup step 3) or inside the container:
 
 ```bash

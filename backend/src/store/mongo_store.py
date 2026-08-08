@@ -97,6 +97,7 @@ def upsert_chunks(
     embeddings: list[list[float]],
 ) -> int:
     """Upsert chunks keyed by `chunk_id` (as `_id`), storing metadata + embedding."""
+    logger.info("[upsert_chunks] input chunks=%d", len(chunks))
     if not chunks:
         return 0
 
@@ -107,7 +108,14 @@ def upsert_chunks(
         operations.append(ReplaceOne({"_id": chunk["chunk_id"]}, doc, upsert=True))
 
     result = collection.bulk_write(operations, ordered=False)
-    return result.upserted_count + result.modified_count
+    written = result.upserted_count + result.modified_count
+    logger.info(
+        "[upsert_chunks] output written=%d (upserted=%d modified=%d)",
+        written,
+        result.upserted_count,
+        result.modified_count,
+    )
+    return written
 
 
 def vector_search(
@@ -120,7 +128,11 @@ def vector_search(
 ) -> list[dict]:
     """Company-scoped ANN search. Returns [] if `allowed_companies` is empty
     (deny-by-default) rather than searching unfiltered."""
+    logger.info(
+        "[vector_search] input allowed_companies=%s top_k=%d", allowed_companies, top_k
+    )
     if not allowed_companies:
+        logger.info("[vector_search] no allowed companies; output results=0")
         return []
 
     pipeline = [
@@ -144,4 +156,5 @@ def vector_search(
     results = list(collection.aggregate(pipeline))
     for doc in results:
         doc["chunk_id"] = doc.pop("_id")
+    logger.info("[vector_search] output results=%d", len(results))
     return results

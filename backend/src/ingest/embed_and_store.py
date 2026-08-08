@@ -43,6 +43,7 @@ class Embedder:
         logger.info("Using OpenRouter embedding model %s", self.model_name)
 
     def _request(self, texts: list[str]) -> list[list[float]]:
+        logger.info("[embed] input texts=%d model=%s", len(texts), self.model_name)
         response = self._session.post(
             self._url,
             json={"model": self.model_name, "input": texts, "encoding_format": "float"},
@@ -51,13 +52,23 @@ class Embedder:
         response.raise_for_status()
         data = response.json()["data"]
         data.sort(key=lambda item: item["index"])
-        return [item["embedding"] for item in data]
+        embeddings = [item["embedding"] for item in data]
+        logger.info(
+            "[embed] output embeddings=%d dim=%d",
+            len(embeddings),
+            len(embeddings[0]) if embeddings else 0,
+        )
+        return embeddings
 
     def embed_documents(self, texts: list[str], batch_size: int = 32) -> list[list[float]]:
+        logger.info(
+            "[embed_documents] input texts=%d batch_size=%d", len(texts), batch_size
+        )
         embeddings: list[list[float]] = []
         for start in range(0, len(texts), batch_size):
             batch = texts[start : start + batch_size]
             embeddings.extend(self._request(batch))
+        logger.info("[embed_documents] output embeddings=%d", len(embeddings))
         return embeddings
 
     def embed_query(self, text: str) -> list[float]:

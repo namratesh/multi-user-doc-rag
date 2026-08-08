@@ -45,6 +45,7 @@ def _get_embedder() -> Embedder:
 
 
 def classify_node(state: ChatState) -> dict:
+    logger.info("[classify] input question=%r", state["question"])
     prompt = load_prompt("classifier")
     messages = [
         {"role": "system", "content": prompt},
@@ -54,23 +55,30 @@ def classify_node(state: ChatState) -> dict:
         raw = chat_completion(messages, temperature=0.0)
         decision = parse_json_response(raw, default={"route": "continue"})
     except Exception:
-        logger.exception("Classifier call failed; defaulting to 'continue'")
+        logger.exception("[classify] LLM call failed; defaulting to 'continue'")
         decision = {"route": "continue"}
 
     route = decision.get("route")
     if route not in ("greet", "deny", "continue"):
         route = "continue"
+    logger.info("[classify] output route=%r", route)
     return {"route": route}
 
 
 def canned_response_node(state: ChatState) -> dict:
+    logger.info("[canned_response] input route=%r", state["route"])
     message = _GREET_MESSAGE if state["route"] == "greet" else _DENY_MESSAGE
+    logger.info("[canned_response] output message=%r", message)
     return {"final_answer": message, "citations": []}
 
 
 def rephrase_node(state: ChatState) -> dict:
     history = state.get("history") or []
+    logger.info(
+        "[rephrase] input question=%r history_turns=%d", state["question"], len(history)
+    )
     if not history:
+        logger.info("[rephrase] no history; output standalone_question=question")
         return {"standalone_question": state["question"]}
 
     prompt = load_prompt("rephraser")
@@ -89,25 +97,41 @@ def rephrase_node(state: ChatState) -> dict:
     try:
         standalone = chat_completion(messages, temperature=0.0).strip()
     except Exception:
-        logger.exception("Rephraser call failed; falling back to raw question")
+        logger.exception("[rephrase] LLM call failed; falling back to raw question")
         standalone = ""
+    logger.info("[rephrase] output standalone_question=%r", standalone or state["question"])
     return {"standalone_question": standalone or state["question"]}
 
 
 def fetch_node(state: ChatState) -> dict:
     query = state.get("standalone_question") or state["question"]
+    allowed_companies = state["allowed_companies"]
+    logger.info(
+        "[fetch] input query=%r allowed_companies=%s top_k=%d",
+        query,
+        allowed_companies,
+        settings.chat_top_k,
+    )
     chunks = retrieve(
         query,
-        state["allowed_companies"],
+        allowed_companies,
         top_k=settings.chat_top_k,
         embedder=_get_embedder(),
+    )
+    logger.info(
+        "[fetch] output chunks=%d chunk_ids=%s",
+        len(chunks),
+        [c["chunk_id"] for c in chunks],
     )
     return {"chunks": chunks}
 
 
 def build_answer_node(state: ChatState) -> dict:
     chunks = state.get("chunks") or []
+    question = state.get("standalone_question") or state["question"]
+    logger.info("[build_answer] input question=%r chunks=%d", question, len(chunks))
     if not chunks:
+        logger.info("[build_answer] output no context available")
         return {"answer": _NO_CONTEXT_MESSAGE, "citations": []}
 
     context = "\n\n".join(
@@ -116,7 +140,6 @@ def build_answer_node(state: ChatState) -> dict:
         f"{c.get('speaker_name')}): {c['text']}"
         for c in chunks
     )
-    question = state.get("standalone_question") or state["question"]
     prompt = load_prompt("answer")
     messages = [
         {"role": "system", "content": prompt},
@@ -125,7 +148,7 @@ def build_answer_node(state: ChatState) -> dict:
     try:
         answer = chat_completion(messages, temperature=settings.chat_temperature).strip()
     except Exception:
-        logger.exception("Answer generation failed")
+        logger.exception("[build_answer] LLM call failed")
         return {
             "answer": "I ran into an error generating an answer. Please try again.",
             "citations": [],
@@ -133,14 +156,24 @@ def build_answer_node(state: ChatState) -> dict:
 
     cited = [c for c in chunks if c["chunk_id"] in answer]
     citations = cited or chunks[:3]
+    logger.info(
+        "[build_answer] output answer_len=%d citations=%d", len(answer), len(citations)
+    )
     return {"answer": answer, "citations": citations}
 
 
 def guardrail_node(state: ChatState) -> dict:
     answer = state["answer"]
     chunks = state.get("chunks") or []
+    logger.info(
+        "[guardrail] input answer_len=%d chunks=%d enabled=%s",
+        len(answer),
+        len(chunks),
+        settings.guardrail_enabled,
+    )
 
     if not settings.guardrail_enabled or not chunks:
+        logger.info("[guardrail] skipped; output passed=True")
         return {"final_answer": answer, "guardrail_passed": True}
 
     context = "\n\n".join(f"[{c['chunk_id']}] {c['text']}" for c in chunks)
@@ -156,15 +189,18 @@ def guardrail_node(state: ChatState) -> dict:
         # Fail open: the guardrail checks answer *quality*, not access control
         # (that's already enforced deterministically in fetch_node), so an
         # LLM/network hiccup here shouldn't block a correctly-scoped answer.
-        logger.exception("Guardrail check failed; failing open")
+        logger.exception("[guardrail] LLM call failed; failing open")
         return {"final_answer": answer, "guardrail_passed": True}
 
     grounded = bool(verdict.get("grounded", True))
     safe = bool(verdict.get("safe", True))
     if grounded and safe:
+        logger.info("[guardrail] output passed=True grounded=%s safe=%s", grounded, safe)
         return {"final_answer": answer, "guardrail_passed": True}
 
-    logger.warning("Guardrail blocked answer: %s", verdict.get("reason"))
+    logger.warning(
+        "[guardrail] output passed=False reason=%s", verdict.get("reason")
+    )
     return {
         "final_answer": _GUARDRAIL_FALLBACK_MESSAGE,
         "guardrail_passed": False,

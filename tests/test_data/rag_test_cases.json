@@ -1,0 +1,101 @@
+{
+    "test_suite": "RAG Q&A Accuracy Tests - Earnings Call Corpus",
+    "corpus": [
+        "axis.pdf (Axis Bank Q1FY27)",
+        "TCS.pdf (TCS Q4 & FY26)",
+        "hdfc.pdf (HDFC Bank Q1FY27)"
+    ],
+    "notes": "Ground truth answers verified against source PDFs. Use for retrieval/answer-quality evaluation, not access-control isolation testing.",
+    "test_cases": [
+        {
+            "id": 1,
+            "difficulty": "easy",
+            "category": "single_fact_lookup",
+            "document": "axis.pdf",
+            "question": "Who is the CEO of Axis Bank?",
+            "expected_answer": "Mr. Amitabh Chaudhry, Managing Director and Chief Executive Officer.",
+            "answer_type": "exact_match"
+        },
+        {
+            "id": 2,
+            "difficulty": "easy",
+            "category": "single_fact_lookup",
+            "document": "TCS.pdf",
+            "question": "What was TCS's global headcount at the end of March 2026?",
+            "expected_answer": "584,519 employees.",
+            "answer_type": "exact_match"
+        },
+        {
+            "id": 3,
+            "difficulty": "easy",
+            "category": "single_fact_lookup",
+            "document": "hdfc.pdf",
+            "question": "Who chaired HDFC Bank's board as Interim Chairman before Rajiv Kumar's appointment?",
+            "expected_answer": "Keki Mistry.",
+            "answer_type": "exact_match"
+        },
+        {
+            "id": 4,
+            "difficulty": "medium",
+            "category": "numeric_retrieval",
+            "document": "axis.pdf",
+            "question": "What was Axis Bank's Net Interest Margin (NIM) for Q1FY27, and how much did it decline year-on-year?",
+            "expected_answer": "NIM was 3.46%, down 34 bps YoY.",
+            "answer_type": "exact_match"
+        },
+        {
+            "id": 5,
+            "difficulty": "medium",
+            "category": "numeric_retrieval",
+            "document": "TCS.pdf",
+            "question": "What was TCS's operating margin for full year FY26, and how does it compare to the prior year?",
+            "expected_answer": "25% operating margin, an expansion of 70 basis points over the prior year, a 4-year high.",
+            "answer_type": "exact_match"
+        },
+        {
+            "id": 6,
+            "difficulty": "medium",
+            "category": "numeric_retrieval",
+            "document": "hdfc.pdf",
+            "question": "What percentage of HDFC Bank's advances mix is retail, and what is management's target retail mix?",
+            "expected_answer": "Currently about 52% retail; management's target is around 60%, reflecting India's consumption share of GDP.",
+            "answer_type": "exact_match"
+        },
+        {
+            "id": 7,
+            "difficulty": "hard",
+            "category": "cross_document_comparison",
+            "document": "axis.pdf + hdfc.pdf",
+            "question": "Both Axis Bank and HDFC Bank discussed FCNR(B) deposits as a growth opportunity in Q1FY27. Compare how each bank described its plans to disclose FCNR mobilization figures.",
+            "expected_answer": "Axis Bank said it will comment on FCNR growth as part of Q2 results once the raised quantum is known, and declined to disclose numbers raised till June or expected by September. HDFC Bank similarly declined to commit to a specific number in Q1, saying it wants to 'let it start to flow' but expects to be a significant portion of system FCNR mobilization, as it was in 2014-15.",
+            "answer_type": "rubric_graded"
+        },
+        {
+            "id": 8,
+            "difficulty": "hard",
+            "category": "multi_hop_reasoning",
+            "document": "axis.pdf",
+            "question": "Using the NIM bridge discussion, calculate how much basis points impact came specifically from balance sheet mix change versus loan pricing change in the QoQ NIM decline, and explain the difference between these two categories per Puneet Sharma's clarification.",
+            "expected_answer": "4 bps from balance sheet mix change (which includes both asset mix like placements/investments/advances and liability mix) and 9 bps from pricing change (full impact of prior quarter's loan pricing plus current quarter's price compression from competitive intensity and lower-priced incremental segments). Together with 3 bps from agri slippage seasonality, these summed to the 16 bps QoQ NIM decline.",
+            "answer_type": "rubric_graded"
+        },
+        {
+            "id": 9,
+            "difficulty": "hard",
+            "category": "qualitative_synthesis",
+            "document": "TCS.pdf",
+            "question": "Explain TCS's 'Build-Partner-Acquire' framework as applied to its Q4FY26 margin bridge, including the basis point impact of each category.",
+            "expected_answer": "Build: higher external consultants' cost plus India wage code and talent investments totaled 40 bps impact. Partner: ecosystem partnerships (OpenAI, AMD, ServiceNow) plus increased go-to-market activity totaled 50 bps impact. Acquire: integration-related investments for embedding acquired capabilities totaled ~10 bps impact. These were funded by ~40 bps realization improvement and ~110 bps currency tailwind.",
+            "answer_type": "rubric_graded"
+        },
+        {
+            "id": 10,
+            "difficulty": "very_hard",
+            "category": "cross_company_synthesis",
+            "document": "axis.pdf + TCS.pdf + hdfc.pdf",
+            "question": "All three companies reported on a Saturday and faced analyst pushback about this. Summarize each company's stated reason for Saturday reporting and note which company(ies) explicitly declined to change the practice versus said they would 'consider' feedback.",
+            "expected_answer": "Axis Bank: Piran Engineer requested weekday reporting citing thin analyst coverage on Saturdays; Puneet Sharma acknowledged the suggestion but said to assume Saturday reporting continues, without giving a data-confidentiality rationale. HDFC Bank: Sashidhar Jagdishan explained Saturday reporting is deliberate because markets are closed, reducing exposure of price-sensitive information during trading hours and minimizing regulatory transgression risk; Srinivasan Vaidyanathan said they would 'give a thought to' Piran Engineer's request. TCS: Saturday reporting was not raised as a discussion topic in this transcript (the call occurred on a weekday, April 9, 2026, a Thursday). Note: this last point tests whether the model correctly identifies that TCS's call date differs and avoids fabricating a TCS-specific Saturday-reporting rationale not present in the source.",
+            "answer_type": "rubric_graded"
+        }
+    ]
+}

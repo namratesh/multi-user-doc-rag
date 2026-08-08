@@ -1,0 +1,6 @@
+-r requirements.txt
+
+# Ingestion-only (src/ingest/parser.py). Not installed in the API/serving image --
+# docling pulls in torch/torchvision (docling-ibm-models), which the FastAPI server
+# never needs since query-time embedding goes through the OpenRouter HTTP API.
+docling>=2.15.0
