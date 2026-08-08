@@ -1,0 +1,15 @@
+.venv
+.git
+.claude
+__pycache__
+**/__pycache__
+*.pyc
+logs
+vector_db
+.env
+.env.example
+tests
+frontend
+arch
+*.ipynb
+.DS_Store

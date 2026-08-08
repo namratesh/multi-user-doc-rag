@@ -1,0 +1,46 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+  # Ingestion (parser.py/chunker.py/embed_and_store.py) only -- pulls in docling +
+  # CPU torch/torchvision, so it's kept out of `backend`'s image and out of the
+  # default `docker compose up`. Run explicitly, e.g.:
+  #   docker compose --profile ingest run --rm ingest python -m src.ingest.parser
+  #   docker compose --profile ingest run --rm ingest python -m src.ingest.chunker
+  #   docker compose --profile ingest run --rm ingest python -m src.ingest.embed_and_store
+  ingest:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.ingest
+    profiles: ["ingest"]
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Baked into the static bundle at build time -- must be an address
+        # the *browser* can reach, i.e. the backend's published host port,
+        # not the in-network "backend" service name. Override at build time
+        # with `docker compose build --build-arg VITE_API_IP=...` if the
+        # backend is reachable at a different host/IP.
+        VITE_API_IP: localhost
+        VITE_API_PORT: "8000"
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend

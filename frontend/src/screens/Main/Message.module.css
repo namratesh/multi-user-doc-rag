@@ -1,0 +1,109 @@
+.row {
+  display: flex;
+  margin-bottom: 22px;
+  animation: arrive 100ms ease;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.row.user {
+  justify-content: flex-end;
+}
+
+.row.assistant {
+  justify-content: flex-start;
+}
+
+.userBubble {
+  max-width: 70%;
+  background: var(--paper-card);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 14.5px;
+}
+
+.assistantBlock {
+  max-width: 78%;
+}
+
+.assistantText {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-black);
+  white-space: pre-wrap;
+}
+
+.pendingLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #8b9083;
+}
+
+.cursor {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--ink-black);
+  animation: blink 900ms step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.citations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.citationTab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px 5px;
+  color: var(--ink-navy);
+  border-bottom: 1.5px solid var(--archive-amber);
+  background: color-mix(in srgb, var(--archive-amber) 8%, transparent);
+  cursor: pointer;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 2px 2px 0 0;
+}
+
+.citationTab:hover {
+  background: color-mix(in srgb, var(--archive-amber) 16%, transparent);
+}
+
+.restrictedRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.restrictedText {
+  font-size: 14px;
+  color: #4a5062;
+}

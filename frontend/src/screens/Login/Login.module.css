@@ -1,0 +1,160 @@
+.page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 32px;
+}
+
+.brand {
+  margin-bottom: auto;
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 36px 32px 32px;
+  box-shadow: 0 18px 40px -24px rgba(20, 27, 45, 0.35);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ledger-green-deep);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #4a5062;
+  font-size: 13.5px;
+  margin-bottom: 26px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 12.5px;
+  color: #4a5062;
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--line);
+  background: transparent;
+  padding: 8px 2px 10px;
+  font-size: 15px;
+  color: var(--ink-black);
+  outline: none;
+  border-radius: 0;
+  transition: border-color 120ms ease;
+}
+
+.input:focus {
+  border-bottom-color: var(--ledger-green);
+  border-bottom-width: 3px;
+}
+
+.input::placeholder {
+  color: #8b9083;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--restricted-red);
+  margin-bottom: 16px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 26px 0 16px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.dividerLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8b9083;
+  white-space: nowrap;
+}
+
+.demoList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demoBtn {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.demoEmail {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.demoCompanies {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #8b9083;
+}
+
+.stampOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 27, 45, 0.32);
+  z-index: 20;
+}
+
+.stampCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.stampCaption {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--paper);
+  letter-spacing: 0.04em;
+}

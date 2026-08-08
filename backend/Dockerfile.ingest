@@ -1,0 +1,32 @@
+# Build context is the repo root (multi-user-doc-rag/), matching backend/Dockerfile,
+# so the same PYTHONPATH/import-path setup applies (see SKILL.md's "Running the app"
+# note).
+#
+# Separate from backend/Dockerfile because docling (src/ingest/parser.py) is only
+# used by the offline ingestion pipeline, never by the FastAPI server -- keeping it
+# out of the serving image avoids installing docling's torch/torchvision dependency
+# (and the CUDA stack that drags in on Linux) into the container that's actually
+# running in production. Run one-off ingestion commands against this image instead,
+# e.g. `docker compose --profile ingest run --rm ingest python -m src.ingest.parser`.
+FROM python:3.13-slim
+
+WORKDIR /app
+
+COPY requirements.txt requirements-ingest.txt ./
+# CPU-only torch + torchvision first: docling pulls both in transitively (via
+# docling-ibm-models) for its OCR/layout models, and the default PyPI builds drag
+# in the full nvidia-cuda-* stack on Linux even though nothing here uses a GPU.
+# Both must be pre-installed together from the CPU index -- torchvision pins an
+# exact `torch==` version, so if only torch is pre-installed here, the next step
+# fetches torchvision from the default index and pulls the CUDA torch build back
+# in as its own dependency.
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir -r requirements-ingest.txt
+
+COPY backend/ backend/
+COPY data/ data/
+
+ENV PYTHONPATH=/app/backend
+
+# No CMD/EXPOSE -- this image is for one-off ingestion runs, not a long-running
+# service (see the docker-compose.yml `ingest` service).

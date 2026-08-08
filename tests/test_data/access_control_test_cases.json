@@ -1,0 +1,126 @@
+{
+    "test_suite": "Per-User Access Control / Isolation Tests",
+    "corpus": [
+        "axis.pdf (Axis Bank)",
+        "TCS.pdf (TCS)",
+        "hdfc.pdf (HDFC Bank)"
+    ],
+    "users": [
+        {
+            "email": "userA@email.com",
+            "allowed_companies": [
+                "Axis Bank"
+            ]
+        },
+        {
+            "email": "userB@email.com",
+            "allowed_companies": [
+                "TCS"
+            ]
+        },
+        {
+            "email": "userC@email.com",
+            "allowed_companies": [
+                "Axis Bank",
+                "TCS"
+            ]
+        },
+        {
+            "email": "userD@email.com",
+            "allowed_companies": []
+        }
+    ],
+    "notes": "These test the deterministic metadata pre-filter, not the LLM's judgment. A pass means the retriever/DB layer enforced the boundary before the LLM ever saw disallowed chunks. Assert on retrieved chunk metadata and on the final answer text.",
+    "test_cases": [
+        {
+            "id": 1,
+            "difficulty": "easy",
+            "category": "positive_access",
+            "user": "userA@email.com",
+            "question": "What was Axis Bank's NIM in Q1FY27?",
+            "expected_behavior": "Answer correctly using Axis Bank chunks (3.46%). Retrieved chunks' company metadata must all equal 'Axis Bank'.",
+            "assertion_type": "allowed_and_correct"
+        },
+        {
+            "id": 2,
+            "difficulty": "easy",
+            "category": "negative_access",
+            "user": "userA@email.com",
+            "question": "What was TCS's operating margin in FY26?",
+            "expected_behavior": "Refuse / state no access to TCS documents. Must NOT retrieve any TCS-labeled chunks and must NOT answer '25%' even though it is factually correct in the corpus.",
+            "assertion_type": "denied"
+        },
+        {
+            "id": 3,
+            "difficulty": "easy",
+            "category": "negative_access",
+            "user": "userB@email.com",
+            "question": "Who is the CEO of Axis Bank?",
+            "expected_behavior": "Refuse / state no access to Axis Bank documents.",
+            "assertion_type": "denied"
+        },
+        {
+            "id": 4,
+            "difficulty": "medium",
+            "category": "multi_company_positive",
+            "user": "userC@email.com",
+            "question": "Compare the operating/net margin trends of Axis Bank and TCS this quarter.",
+            "expected_behavior": "Answer using both Axis Bank and TCS chunks since userC is authorized for both. Retrieved chunk metadata should be a mix of only these two companies, never HDFC.",
+            "assertion_type": "allowed_and_correct"
+        },
+        {
+            "id": 5,
+            "difficulty": "medium",
+            "category": "negative_access",
+            "user": "userC@email.com",
+            "question": "What did HDFC Bank say about its CASA ratio?",
+            "expected_behavior": "Refuse / state no access to HDFC Bank documents, even though userC has multi-company access to two other companies. Authorization for A and B must not imply authorization for C.",
+            "assertion_type": "denied"
+        },
+        {
+            "id": 6,
+            "difficulty": "medium",
+            "category": "empty_acl_edge_case",
+            "user": "userD@email.com",
+            "question": "What was Axis Bank's NIM in Q1FY27?",
+            "expected_behavior": "Refuse for all companies. This tests the empty allowed_companies edge case: an empty $in filter must return zero documents, not match everything. This is the single most important regression test in the suite.",
+            "assertion_type": "denied"
+        },
+        {
+            "id": 7,
+            "difficulty": "hard",
+            "category": "conversation_isolation",
+            "user": "userA@email.com then userB@email.com",
+            "question": "userA asks and gets an answer about Axis Bank's NIM in a conversation. Later, userB opens a NEW conversation and asks 'what did we discuss about NIM earlier?'",
+            "expected_behavior": "userB's session must not retrieve or reference userA's conversation history. userB should get either a generic clarifying response or an answer restricted to userB's own (empty) history and TCS-only access, with zero leakage of Axis Bank content or userA's prior turns.",
+            "assertion_type": "history_isolated"
+        },
+        {
+            "id": 8,
+            "difficulty": "hard",
+            "category": "cross_user_thread_access",
+            "user": "userB@email.com",
+            "question": "userB obtains userA's conv_id (e.g., via guessed/sequential ID or shared link) and calls GET /api/conversations/{userA_conv_id}.",
+            "expected_behavior": "Request must be rejected (403/404) at the ownership-validation layer before any document retrieval or LLM call happens. This is the conv_id ownership check on thread fetch called out as the key isolation proof point.",
+            "assertion_type": "denied_ownership"
+        },
+        {
+            "id": 9,
+            "difficulty": "hard",
+            "category": "jwt_tampering",
+            "user": "userA@email.com (tampered request body)",
+            "question": "userA's JWT correctly encodes allowed_companies=['Axis Bank'], but the request body/payload is crafted to also pass allowed_companies=['Axis Bank','TCS','HDFC Bank'] as a client-supplied field.",
+            "expected_behavior": "Server must derive allowed_companies solely from the decoded JWT server-side and ignore/reject any client-supplied allowed_companies field. Answer must still be Axis-Bank-only.",
+            "assertion_type": "denied_client_override_ignored"
+        },
+        {
+            "id": 10,
+            "difficulty": "very_hard",
+            "category": "concurrent_access_thread_safety",
+            "user": "userA@email.com and userC@email.com simultaneously",
+            "question": "Fire concurrent requests from userA and userC (who share access to Axis Bank) asking overlapping questions about Axis Bank's Q1FY27 results, interleaved at the request level.",
+            "expected_behavior": "Each user's session state, conversation history, and returned answer must remain isolated despite concurrent execution. No response should contain content from the other user's conversation turns or expose userC's TCS access to userA. Useful for catching shared-mutable-state bugs (e.g., a global variable instead of per-request/session state).",
+            "assertion_type": "concurrent_isolated"
+        }
+    ]
+}
