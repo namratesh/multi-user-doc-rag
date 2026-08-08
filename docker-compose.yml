@@ -32,5 +32,22 @@ services:
       mongodb:
         condition: service_healthy
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Baked into the static bundle at build time -- must be an address
+        # the *browser* can reach, i.e. the backend's published host port,
+        # not the in-network "backend" service name. Override at build time
+        # with `docker compose build --build-arg VITE_API_IP=...` if the
+        # backend is reachable at a different host/IP.
+        VITE_API_IP: localhost
+        VITE_API_PORT: "8000"
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
 volumes:
   mongodb_data:

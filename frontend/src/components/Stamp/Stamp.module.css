@@ -1,0 +1,95 @@
+.stamp {
+  --tone: var(--ledger-green);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 12px 20px;
+  border: 2px solid var(--tone);
+  border-radius: 4px;
+  position: relative;
+  transform: rotate(-4deg);
+  background: color-mix(in srgb, var(--tone) 6%, transparent);
+  box-shadow:
+    0 2px 0 color-mix(in srgb, var(--tone) 35%, transparent),
+    0 10px 18px -8px color-mix(in srgb, var(--ink-navy) 45%, transparent);
+}
+
+.stamp.restricted {
+  --tone: var(--restricted-red);
+}
+
+.stamp::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid var(--tone);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.stamp.animate {
+  animation: stampDrop 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+@keyframes stampDrop {
+  0% {
+    opacity: 0;
+    transform: rotate(-16deg) scale(1.9) translateY(-14px);
+  }
+  55% {
+    opacity: 1;
+    transform: rotate(-3deg) scale(0.94) translateY(0);
+  }
+  75% {
+    transform: rotate(-6deg) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-4deg) scale(1);
+  }
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tone);
+  white-space: nowrap;
+}
+
+.stamp.lg .label:first-child {
+  font-size: 18px;
+}
+
+.stamp.lg .label:not(:first-child) {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.stamp.sm {
+  padding: 5px 10px;
+  border-width: 1.5px;
+  gap: 1px;
+  transform: rotate(-2deg);
+}
+
+.stamp.sm .label:first-child {
+  font-size: 10px;
+}
+
+.stamp.sm .label:not(:first-child) {
+  font-size: 9.5px;
+  opacity: 0.85;
+}
+
+.stamp.inline {
+  padding: 4px 9px;
+  border-width: 1.5px;
+  transform: rotate(-3deg);
+}
+
+.stamp.inline .label:first-child {
+  font-size: 11px;
+}

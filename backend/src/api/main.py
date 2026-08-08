@@ -12,6 +12,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from ..config.logger import get_logger
 from ..config.settings import settings
 from .routes.auth import router as auth_router
+from .routes.chat import router as chat_router
+from .routes.conversations import router as conversations_router
 from .routes.query import router as query_router
 
 logger = get_logger(__name__)
@@ -28,6 +30,8 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(query_router)
+app.include_router(conversations_router)
+app.include_router(chat_router)
 
 
 @app.on_event("startup")

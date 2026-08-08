@@ -1,0 +1,74 @@
+:root {
+  --ink-navy: #141b2d;
+  --ink-navy-soft: #1f2942;
+  --paper: #eaede7;
+  --paper-card: #f4f5f1;
+  --paper-dark: #dee1d8;
+  --ledger-green: #2f6f4f;
+  --ledger-green-deep: #234f39;
+  --archive-amber: #d89a3e;
+  --restricted-red: #b14545;
+  --ink-black: #1b1f23;
+  --line: #c9cdc2;
+  --line-soft: #d9dcd2;
+
+  --font-display: "Fraunces", "Iowan Old Style", serif;
+  --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  --radius: 3px;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-black);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink-navy);
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--archive-amber);
+  color: var(--ink-navy);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}

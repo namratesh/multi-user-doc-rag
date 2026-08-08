@@ -43,5 +43,13 @@ class Settings(BaseSettings):
     mongodb_vector_index: str = "chunk_vector_index"
     vector_search_num_candidates: int = 100
 
+    # Conversational RAG (LangGraph pipeline)
+    chat_model_name: str = "openai/gpt-4o-mini"
+    chat_temperature: float = 0.1
+    chat_top_k: int = 6
+    guardrail_enabled: bool = True
+    history_max_turns: int = 6
+    mongodb_history_collection: str = "conversations"
+
 
 settings = Settings()

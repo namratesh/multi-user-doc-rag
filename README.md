@@ -20,6 +20,41 @@ at the vector-search layer itself.
   authorized `company_id`s) issuing a JWT that carries that company list.
   Every retrieval request re-derives its allowed companies from the JWT, not
   from client input.
+- **Conversational Q&A** (`backend/src/graph/`): a LangGraph pipeline behind
+  `POST /api/conversations/{conv_id}/messages` --
+  `classify -> rephrase -> fetch -> build_answer -> guardrail`. The
+  classifier only routes UX (greeting / out-of-scope / real question); it is
+  **not** a security control. `fetch` is the one deterministic ACL
+  pre-filter, and it always uses companies re-looked-up fresh from
+  `config/users.py` for the caller's email -- never the `companies` claim
+  cached inside the JWT -- so a still-valid token issued before a permission
+  change can't leak access. Conversation turns are stored in MongoDB, keyed
+  by `user_email::conv_id` (see `backend/src/store/history_store.py`), so
+  concurrent users' histories can never collide or leak into each other.
+- **Prompts** (`backend/src/prompts/`): each pipeline prompt is versioned as
+  `prompts/<name>/vN.txt`, with the active version per prompt pinned in
+  `prompts/registry.py::CURRENT_VERSIONS`. Roll a prompt forward by adding a
+  new `vN.txt` and bumping the pointer; old versions stay on disk for
+  rollback/audit.
+- **Frontend** (`frontend/`): a small React + TypeScript (Vite) app -- an
+  email-picker login screen (`screens/Login/`, backed by a dummy
+  `DEMO_USERS` list mirroring `config/users.py`) and a chat screen
+  (`screens/Main/`) with a conversation sidebar, message list, and
+  follow-up input, talking to the API above.
+
+## Import paths
+
+The codebase mixes two import styles, so a single invocation needs to satisfy
+both: `api/main.py` and everything under `api/routes/` use **relative**
+imports (`from ..config...`), which only resolve when imported as part of the
+`backend.src.*` package (i.e. run from the **repo root**); `retrieval/`,
+`ingest/`, `store/`, `graph/`, and `llm/` use **absolute** imports (`from
+src.config...`), which only resolve if `backend/` itself is on `sys.path`.
+Run everything from the repo root with `PYTHONPATH=backend` set (as in the
+commands below) to satisfy both at once -- plain `uvicorn
+backend.src.api.main:app` with no `PYTHONPATH` fails with
+`ModuleNotFoundError: No module named 'src'`. The Docker image bakes in
+`PYTHONPATH=/app/backend` for the same reason.
 
 ## Setup
 
@@ -45,22 +80,26 @@ Fill in `.env`:
 
 | Variable | Purpose |
 |---|---|
-| `OPENROUTER_API_KEY` | embeddings + (future) chat completions |
+| `OPENROUTER_API_KEY` | embeddings + chat completions (conversational Q&A) |
 | `SECRET_KEY` | JWT signing secret |
 | `MONGO_DB_STRING` (or `MONGODB_URI`) | Atlas connection string, password filled in |
 | `MONGODB_DB_NAME` / `MONGODB_COLLECTION` / `MONGODB_VECTOR_INDEX` | optional, sensible defaults |
+| `CHAT_MODEL_NAME` | optional, chat-completion model for conversational Q&A (any OpenRouter chat-capable slug; reuses `OPENROUTER_API_KEY`) |
+| `MONGODB_HISTORY_COLLECTION` | optional, collection for per-user conversation history |
 
 ### 3. Install & ingest
+
+Run from the **repo root** (not `backend/` -- the ingest scripts default to
+`data/...` paths relative to the repo root):
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-cd backend
-python -m src.ingest.parser        # data/*.pdf -> data/parsed/*.json
-python -m src.ingest.chunker       # data/parsed/*.json -> data/chunks/*.json
-python -m src.ingest.embed_and_store   # embeds chunks, upserts into MongoDB Atlas,
-                                         # creates the vector index on first run
+PYTHONPATH=backend python -m src.ingest.parser        # data/*.pdf -> data/parsed/*.json
+PYTHONPATH=backend python -m src.ingest.chunker       # data/parsed/*.json -> data/chunks/*.json
+PYTHONPATH=backend python -m src.ingest.embed_and_store   # embeds chunks, upserts into MongoDB Atlas,
+                                                            # creates the vector index on first run
 ```
 
 The vector index takes ~30-60s to become queryable after first creation;
@@ -69,7 +108,7 @@ The vector index takes ~30-60s to become queryable after first creation;
 ### 4. Run the API
 
 ```bash
-uvicorn backend.src.api.main:app --reload
+PYTHONPATH=backend uvicorn backend.src.api.main:app --reload
 ```
 
 ```bash
@@ -82,7 +121,77 @@ TOKEN=$(python3 -c "import json;print(json.load(open('/tmp/login.json'))['access
 # Query -- results are restricted to alice's authorized companies (TCS, Infosys)
 curl -s -X POST localhost:8000/api/query -H "authorization: Bearer $TOKEN" \
   -H 'content-type: application/json' -d '{"query": "What was revenue growth?"}'
+
+# Create a conversation -- returns a conv_id up front (e.g. for a "New Chat" button)
+curl -s -X POST localhost:8000/api/conversations -H "authorization: Bearer $TOKEN" | tee /tmp/conv.json
+
+CONV_ID=$(python3 -c "import json;print(json.load(open('/tmp/conv.json'))['conv_id'])")
+
+# Conversational Q&A -- synthesized answer + citations, with follow-up support
+curl -s -X POST localhost:8000/api/conversations/$CONV_ID/messages -H "authorization: Bearer $TOKEN" \
+  -H 'content-type: application/json' -d '{"message": "What was revenue growth?"}'
+
+# Follow-up in the same conversation -- same conv_id, so history is applied
+curl -s -X POST localhost:8000/api/conversations/$CONV_ID/messages -H "authorization: Bearer $TOKEN" \
+  -H 'content-type: application/json' -d '{"message": "and what about margins?"}'
+
+# List this user's conversations
+curl -s localhost:8000/api/conversations -H "authorization: Bearer $TOKEN"
+
+# Fetch the full thread for one conversation
+curl -s localhost:8000/api/conversations/$CONV_ID -H "authorization: Bearer $TOKEN"
 ```
+
+### 5. Run the frontend
+
+```bash
+cd frontend
+cp .env.example .env   # VITE_API_IP / VITE_API_PORT -- must be reachable from the browser
+npm install
+npm run dev
+```
+
+Open the printed Vite URL (default `http://localhost:5173`), pick one of the
+demo emails on the login screen, and chat. `frontend/src/screens/Login/demoUsers.ts`
+mirrors `backend/src/config/users.py`'s email -> company mapping for display
+purposes only -- access control is still enforced entirely server-side.
+
+### Tests
+
+```bash
+pytest
+```
+
+Run from the repo root (`tests/conftest.py` puts `backend/` on `sys.path`
+itself, so no `PYTHONPATH` is needed here).
+
+## Run with Docker
+
+`docker-compose.yml` runs the full stack -- MongoDB (via the
+`mongodb/mongodb-atlas-local` image, needed for `$vectorSearch`), the
+backend, and the frontend:
+
+```bash
+cp .env.example .env   # fill in OPENROUTER_API_KEY etc; MONGO_DB_STRING is overridden below
+docker compose up --build
+```
+
+The `backend` service overrides `MONGO_DB_STRING` to point at the in-network
+`mongodb` service regardless of what's in `.env` -- edit/remove that override
+in `docker-compose.yml` to run against a real Atlas cluster instead. The
+containers don't run ingestion automatically; do that once, either on the
+host (Setup step 3) or inside the container:
+
+```bash
+docker compose exec backend python -m src.ingest.parser
+docker compose exec backend python -m src.ingest.chunker
+docker compose exec backend python -m src.ingest.embed_and_store
+```
+
+Then the API is at `localhost:8000` and the frontend at `localhost:5173`. If
+the backend is reachable at a different host/IP than `localhost`, rebuild the
+frontend with `docker compose build --build-arg VITE_API_IP=...` (see the
+comment in `docker-compose.yml`).
 
 ## Access control model
 
@@ -90,9 +199,11 @@ curl -s -X POST localhost:8000/api/query -H "authorization: Bearer $TOKEN" \
 `company_id`s it may access, e.g.:
 
 ```python
-DUMMY_USERS = {
+DUMMY_USERS: dict[str, list[str]] = {
     "alice@example.com": ["TCS", "Infosys"],
     "bob@example.com": ["Axis"],
+    "carol@example.com": ["Hdfc"],
+    "dave@example.com": ["TataTechnologies"],
     "eve@example.com": ["TCS", "Hdfc"],
 }
 ```
@@ -102,3 +213,10 @@ JWT (`get_current_user`) and passes `companies` straight into
 `$vectorSearch`'s `filter`, so unauthorized companies' chunks are excluded
 from the similarity search itself -- never fetched, never ranked, never
 returned.
+
+`POST /api/conversations/{conv_id}/messages` goes one step further: it only trusts the JWT for identity
+(the `email` claim) and re-looks-up that user's authorized companies fresh
+from `config/users.py` on every request, rather than trusting the
+`companies` claim baked into the token at login time. That way, revoking or
+changing a user's access takes effect immediately, even against a JWT that
+hasn't expired yet.

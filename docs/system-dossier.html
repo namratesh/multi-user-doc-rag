@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>multi-user-doc-rag — System Dossier</title>
+<style>
+  :root {
+    --ink-navy: #141b2d;
+    --ink-navy-soft: #1f2942;
+    --paper: #eaede7;
+    --paper-card: #f4f5f1;
+    --paper-dark: #dee1d8;
+    --ledger-green: #2f6f4f;
+    --ledger-green-deep: #234f39;
+    --archive-amber: #b9822f;
+    --restricted-red: #a83f3f;
+    --ink-black: #1b1f23;
+    --line: #c9cdc2;
+    --line-soft: #d9dcd2;
+    --ink-faint: #5b6472;
+
+    --font-display: Fraunces, "Iowan Old Style", Georgia, "Times New Roman", serif;
+    --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink-black);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--archive-amber); color: var(--paper-card); }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--ink-navy);
+    font-weight: 600;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  a { color: var(--ledger-green-deep); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--archive-amber);
+    outline-offset: 2px;
+  }
+
+  p { margin: 0; }
+  code, .mono { font-family: var(--font-mono); }
+
+  code:not(pre code) {
+    background: var(--paper-dark);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    font-size: 0.88em;
+  }
+
+  /* ---------- Masthead ---------- */
+
+  .masthead {
+    border-bottom: 1px solid var(--line);
+    background: var(--ink-navy);
+    color: var(--paper);
+    padding: 44px 32px 40px;
+  }
+
+  .masthead-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .wordmark svg { width: 22px; height: 22px; flex: none; }
+  .wordmark span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--paper) 70%, transparent);
+  }
+
+  .masthead h1 {
+    color: var(--paper);
+    font-size: clamp(30px, 4.4vw, 46px);
+    line-height: 1.08;
+    max-width: 16ch;
+  }
+
+  .masthead .dek {
+    margin-top: 14px;
+    max-width: 56ch;
+    color: color-mix(in srgb, var(--paper) 78%, transparent);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .stamp {
+    --tone: var(--ledger-green);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 16px;
+    border: 2px solid var(--tone);
+    border-radius: 4px;
+    transform: rotate(-4deg);
+    background: color-mix(in srgb, var(--tone) 10%, transparent);
+    flex: none;
+  }
+  .stamp .l1 {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tone);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .stamp .l2 {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tone);
+    font-size: 9.5px;
+    opacity: 0.85;
+    white-space: nowrap;
+  }
+
+  .meta-row {
+    max-width: 1180px;
+    margin: 22px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+    color: color-mix(in srgb, var(--paper) 85%, transparent);
+  }
+
+  /* ---------- Page frame ---------- */
+
+  .frame {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  nav.index {
+    position: sticky;
+    top: 28px;
+    padding: 28px 0 40px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  nav.index .index-label {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+    display: block;
+  }
+  nav.index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--line);
+  }
+  nav.index li a {
+    display: block;
+    padding: 6px 0 6px 14px;
+    color: var(--ink-navy-soft);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+    line-height: 1.4;
+  }
+  nav.index li a:hover { color: var(--ledger-green-deep); }
+  nav.index li a .n { color: var(--ink-faint); margin-right: 6px; }
+
+  main { min-width: 0; padding: 40px 0 100px; }
+
+  section.card {
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px clamp(20px, 4vw, 44px);
+    margin-bottom: 28px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ledger-green-deep);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  section.card h2 {
+    font-size: 27px;
+    margin-bottom: 6px;
+  }
+
+  .section-dek {
+    color: var(--ink-faint);
+    font-size: 15px;
+    max-width: 68ch;
+    margin-top: 10px;
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+  section.card > h3:first-of-type,
+  .section-dek + h3 { border-top: none; padding-top: 0; }
+
+  h4 {
+    font-size: 14.5px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-navy-soft);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  p.body, ul.body, ol.body { max-width: 72ch; }
+  p.body { margin-bottom: 12px; font-size: 15.5px; }
+  p.body:last-child { margin-bottom: 0; }
+
+  ul.body, ol.body {
+    margin: 0 0 12px;
+    padding-left: 22px;
+    font-size: 15.5px;
+  }
+  ul.body li, ol.body li { margin-bottom: 6px; }
+
+  strong { color: var(--ink-navy); font-weight: 600; }
+
+  /* ---------- Diagram panel ---------- */
+
+  .diagram {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px;
+    margin: 16px 0 22px;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; margin: 10px 0 22px; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    min-width: 460px;
+  }
+  thead th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 14px 8px 0;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 10px 14px 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, th code { white-space: nowrap; }
+  td.num, th.num { font-variant-numeric: tabular-nums; }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  .tag.get { background: color-mix(in srgb, var(--ledger-green) 16%, transparent); color: var(--ledger-green-deep); }
+  .tag.post { background: color-mix(in srgb, var(--archive-amber) 20%, transparent); color: #7a5620; }
+
+  /* ---------- Code blocks ---------- */
+
+  pre {
+    background: var(--ink-navy);
+    color: #dfe6ef;
+    border-radius: 4px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 10px 0 20px;
+  }
+  pre .cm { color: #8b97ad; }
+  pre .kw { color: #e8b876; }
+  pre .st { color: #a8d4b0; }
+
+  /* ---------- Callouts ---------- */
+
+  .callout {
+    border-left: 3px solid var(--tone, var(--ledger-green));
+    background: color-mix(in srgb, var(--tone, var(--ledger-green)) 7%, var(--paper));
+    padding: 12px 16px;
+    border-radius: 0 3px 3px 0;
+    margin: 6px 0 20px;
+    font-size: 14.5px;
+  }
+  .callout.security { --tone: var(--restricted-red); }
+  .callout.note { --tone: var(--archive-amber); }
+  .callout .callout-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tone, var(--ledger-green));
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .inline-stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 9px;
+    border: 1.5px solid var(--tone, var(--ledger-green));
+    color: var(--tone, var(--ledger-green));
+    border-radius: 3px;
+    transform: rotate(-2deg);
+    margin: 0 2px;
+  }
+  .inline-stamp.security { --tone: var(--restricted-red); }
+
+  /* ---------- Flow list (pipeline steps) ---------- */
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 12px 0 24px;
+  }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .flow-step:first-child { border-top: none; }
+  .flow-step .num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ledger-green-deep);
+    font-weight: 600;
+    padding-top: 2px;
+  }
+  .flow-step h4 { margin: 0 0 6px; }
+  .flow-step p.body { font-size: 14.5px; }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 32px 60px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 860px) {
+    .frame { grid-template-columns: 1fr; }
+    nav.index {
+      position: relative;
+      top: 0;
+      padding: 20px 0;
+    }
+    nav.index ol { display: flex; flex-wrap: wrap; gap: 2px 4px; border-left: none; }
+    nav.index li a { border-left: none; padding: 5px 9px; background: var(--paper-card); border-radius: 3px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; }
+  }
+
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="wordmark">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 3h10l4 4v14H4V3z" fill="none" stroke="#eaede7" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M14 3l4 4h-4V3z" fill="#eaede7"/>
+        </svg>
+        <span>Folio · System Dossier</span>
+      </div>
+      <h1>multi-user-doc-rag</h1>
+      <p class="dek">
+        A per-user access-controlled document search and conversational Q&amp;A system over
+        earnings-call transcripts — access control enforced inside the vector search itself,
+        not layered on top of it.
+      </p>
+    </div>
+    <div class="stamp">
+      <span class="l1">Access-Scoped</span>
+      <span class="l2">Retrieval Verified</span>
+    </div>
+  </div>
+  <div class="meta-row">
+    <span class="chip">FastAPI</span>
+    <span class="chip">LangGraph</span>
+    <span class="chip">MongoDB Atlas · $vectorSearch</span>
+    <span class="chip">OpenRouter (embeddings + chat)</span>
+    <span class="chip">Docling</span>
+    <span class="chip">React 19 + Vite</span>
+    <span class="chip">JWT (PyJWT)</span>
+  </div>
+</header>
+
+<div class="frame">
+  <nav class="index" aria-label="Table of contents">
+    <span class="index-label">Contents</span>
+    <ol>
+      <li><a href="#overview"><span class="n">00</span>Overview</a></li>
+      <li><a href="#architecture"><span class="n">01</span>Architecture</a></li>
+      <li><a href="#ingestion"><span class="n">02</span>Ingestion pipeline</a></li>
+      <li><a href="#data-model"><span class="n">03</span>Chunk data model</a></li>
+      <li><a href="#access-control"><span class="n">04</span>Access control</a></li>
+      <li><a href="#retrieval"><span class="n">05</span>Retrieval layer</a></li>
+      <li><a href="#graph"><span class="n">06</span>Conversational RAG</a></li>
+      <li><a href="#prompts"><span class="n">07</span>Prompts</a></li>
+      <li><a href="#history"><span class="n">08</span>Conversation history</a></li>
+      <li><a href="#api"><span class="n">09</span>API reference</a></li>
+      <li><a href="#frontend"><span class="n">10</span>Frontend</a></li>
+      <li><a href="#config"><span class="n">11</span>Configuration</a></li>
+      <li><a href="#running"><span class="n">12</span>Running the system</a></li>
+      <li><a href="#testing"><span class="n">13</span>Testing</a></li>
+      <li><a href="#notes"><span class="n">14</span>Known gaps &amp; notes</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section class="card" id="overview">
+      <span class="eyebrow">00 · Overview</span>
+      <h2>What this system does</h2>
+      <p class="section-dek">
+        Multiple dummy users log in by email, each pre-authorized for one or two companies'
+        earnings-call transcripts. Every user can search and chat over the documents — but only
+        the ones they're cleared for, enforced at the database query itself, and each user's
+        conversation history is fully isolated from every other user's.
+      </p>
+
+      <h4>The assignment this implements</h4>
+      <ul class="body">
+        <li>Dataset: 4–5 companies' earnings-call PDFs (<code>data/*.pdf</code> — TCS, Infosys, Axis, HDFC, Tata Technologies).</li>
+        <li>Per-user access control: each dummy email is scoped to one or two companies; query results must never leak unauthorized documents.</li>
+        <li>Conversational Q&amp;A: follow-ups use prior turns as context, scoped per user/session so concurrent users never cross-talk.</li>
+        <li>A basic UI: email-picker login, submit a query, view an answer, ask follow-ups.</li>
+        <li>Must support multiple simultaneous users without state leaking between them.</li>
+      </ul>
+
+      <h4>The core design decision</h4>
+      <div class="callout security">
+        <span class="callout-label">Enforcement point</span>
+        Access control lives in the <strong>retrieval query itself</strong> — MongoDB Atlas's
+        <code>$vectorSearch</code> pre-filters candidate chunks by <code>company_id</code> before
+        ranking, using a company list re-derived fresh from the JWT owner's email on every
+        request. It is never a post-filter over unfiltered results, and never trusts a
+        client-supplied company list.
+      </div>
+    </section>
+
+    <section class="card" id="architecture">
+      <span class="eyebrow">01 · Architecture</span>
+      <h2>Two pipelines, one store</h2>
+      <p class="section-dek">
+        An offline <strong>ingestion</strong> pipeline turns PDFs into embedded, access-tagged
+        chunks in MongoDB Atlas. An online <strong>serving</strong> pipeline answers user
+        questions by searching only the chunks that user is cleared for.
+      </p>
+
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  subgraph ING["Ingestion — offline, run once per dataset change"]
+    direction TB
+    PDF["data/*.pdf\nearnings-call transcripts"] --> P["parser.py\nDocling → markdown + metadata"]
+    P --> C["chunker.py\nspeaker-turn chunks + company_id"]
+    C --> E["embed_and_store.py\nOpenRouter embeddings"]
+  end
+  E --> DB[("MongoDB Atlas\ntranscript_chunks\n$vectorSearch index")]
+  subgraph SRV["Serving — online, per request"]
+    direction TB
+    FE["React frontend (Folio)"] -->|"Bearer JWT"| API["FastAPI"]
+    API --> AUTH["security.py\ndecode JWT"]
+    API --> RET["retriever.py"]
+    API --> G["LangGraph pipeline"]
+    G --> RET
+    G --> LLM["OpenRouter chat\ngpt-4o-mini"]
+  end
+  RET --> DB
+        </pre>
+      </div>
+      <p class="diagram-caption">Ingestion writes once; serving reads with a per-user company filter on every call.</p>
+
+      <h4>Backend module map</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Path</th><th>Responsibility</th></tr></thead>
+          <tbody>
+            <tr><td><code>src/ingest/</code></td><td>PDF → markdown → chunks → embeddings, offline scripts</td></tr>
+            <tr><td><code>src/store/</code></td><td>MongoDB Atlas access: vector index + <code>$vectorSearch</code>, conversation history</td></tr>
+            <tr><td><code>src/retrieval/</code></td><td>Embeds a query and calls the company-scoped vector search</td></tr>
+            <tr><td><code>src/graph/</code></td><td>LangGraph conversational RAG pipeline (classify → rephrase → fetch → answer → guardrail)</td></tr>
+            <tr><td><code>src/llm/</code></td><td>Thin OpenRouter chat-completion client shared by every graph node</td></tr>
+            <tr><td><code>src/prompts/</code></td><td>Versioned prompt text files + registry</td></tr>
+            <tr><td><code>src/api/</code></td><td>FastAPI app: auth, query, conversations, chat routes</td></tr>
+            <tr><td><code>src/config/</code></td><td>Settings (env), the dummy user→company map, logging</td></tr>
+            <tr><td><code>frontend/</code></td><td>React + TypeScript (Vite) UI, branded "Folio"</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="ingestion">
+      <span class="eyebrow">02 · Ingestion pipeline</span>
+      <h2>PDF to searchable vector</h2>
+      <p class="section-dek">
+        Three scripts, run in order, each reading the previous one's output directory.
+        All three are run from the <strong>repo root</strong> with <code>PYTHONPATH=backend</code>
+        (see <a href="#running">§12</a>).
+      </p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <span class="num">01</span>
+          <div>
+            <h4>parser.py — <code>data/*.pdf</code> → <code>data/parsed/*.json</code></h4>
+            <p class="body">
+              Converts each PDF to markdown with <strong>Docling</strong>
+              (<code>DocumentConverter</code>), then <code>extract_metadata()</code> derives a
+              <code>company</code> and fiscal <code>period</code> — first from the filename
+              (e.g. <code>TCS_Q4FY24.pdf</code>), falling back to regex patterns over the first
+              ~3–5k characters of extracted text (a <code>"... Limited/Ltd/Inc/Corporation/Bank"</code>
+              suffix for company name; <code>Q1FY24</code>/<code>FY2024-25</code>/date-style
+              patterns for period). Output: <code>{"metadata": {...}, "text": "..."}</code> per file.
+            </p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <span class="num">02</span>
+          <div>
+            <h4>chunker.py — <code>data/parsed/*.json</code> → <code>data/chunks/*.json</code></h4>
+            <p class="body">
+              Splits each transcript into <strong>speaker-turn chunks</strong>, not fixed-size
+              windows — the natural unit of an earnings call:
+            </p>
+            <ul class="body">
+              <li>Splits the transcript into <code>prepared_remarks</code> / <code>qa</code> sections at a "Q&amp;A session" marker.</li>
+              <li>Finds "valid" speakers — names that recur ≥ 2 times (<code>MIN_SPEAKER_OCCURRENCES</code>) — to filter out false positives like letter salutations.</li>
+              <li>Splits each section into <code>(speaker, text)</code> turns at those speaker markers; classifies each speaker as <code>moderator</code> / <code>management</code> / <code>analyst</code>, using a parsed "MANAGEMENT:"/"CORPORATE PARTICIPANTS:" header block where present.</li>
+              <li>Long turns are further split at word boundaries, capped at <code>MAX_CHUNK_CHARS = 1500</code> characters.</li>
+              <li>Q&amp;A turns get a shared <code>qa_pair_id</code> linking an analyst's question to the management reply that follows it.</li>
+            </ul>
+            <p class="body">
+              IDs: <code>company_id</code> = slugified company name; <code>doc_id</code> =
+              <code>{company_id}_{quarter}_{year}</code>; <code>chunk_id</code> =
+              <code>{doc_id}_{section_type}_{NNN}</code> — e.g. <code>TCS_Q4_2026_qa_019</code>.
+            </p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <span class="num">03</span>
+          <div>
+            <h4>embed_and_store.py — <code>data/chunks/*.json</code> → MongoDB Atlas</h4>
+            <p class="body">
+              <code>Embedder</code> calls the <strong>OpenRouter embeddings API</strong> directly
+              over HTTP (via <code>requests</code>, not a local model) — default model
+              <code>nvidia/nemotron-3-embed-1b:free</code>, batched 32 texts per call. Each
+              chunk's <code>text</code> is embedded and <code>upsert</code>-ed into MongoDB
+              keyed by <code>chunk_id</code> as <code>_id</code>, with every other chunker field
+              stored alongside the <code>embedding</code> vector. On first run,
+              <code>ensure_vector_index()</code> creates the Atlas <code>$vectorSearch</code>
+              index and polls (up to 120s) until Atlas reports it queryable.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <span class="callout-label">Vector store note</span>
+        The project fully migrated off Chroma to MongoDB Atlas. <code>vector_db/</code> (a
+        legacy Chroma persistence directory) is stale and unused by any current code path.
+      </div>
+    </section>
+
+    <section class="card" id="data-model">
+      <span class="eyebrow">03 · Data model</span>
+      <h2>The chunk document</h2>
+      <p class="section-dek">
+        Every chunk carries the fields below as a MongoDB document; <code>embedding</code> is a
+        float vector added at ingest time and stripped back out of query results.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Example</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>chunk_id</code></td><td><code>TCS_Q4_2026_qa_019</code></td><td>Document <code>_id</code> in Mongo; also the inline citation token in generated answers</td></tr>
+            <tr><td><code>company_id</code></td><td><code>TCS</code></td><td><strong>The access-control join key</strong> — must match <code>config/users.py</code> exactly</td></tr>
+            <tr><td><code>doc_id</code></td><td><code>TCS_Q4_2026</code></td><td>Groups chunks back to one transcript</td></tr>
+            <tr><td><code>section_type</code></td><td><code>qa</code> / <code>prepared_remarks</code></td><td>Which part of the call the chunk came from</td></tr>
+            <tr><td><code>speaker_name</code></td><td><code>K Krithivasan</code></td><td>Who is talking in this turn</td></tr>
+            <tr><td><code>speaker_role</code></td><td><code>management</code></td><td><code>moderator</code> / <code>management</code> / <code>analyst</code></td></tr>
+            <tr><td><code>qa_pair_id</code></td><td><code>TCS_Q4_2026_qa_006</code></td><td>Links an analyst question to its management answer(s)</td></tr>
+            <tr><td><code>management_names</code></td><td><code>["K Krithivasan", …]</code></td><td>Full management roster parsed for the call</td></tr>
+            <tr><td><code>fiscal_quarter</code> / <code>fiscal_year</code></td><td><code>Q4</code> / <code>2026</code></td><td>Parsed from filename or transcript text</td></tr>
+            <tr><td><code>text</code></td><td>&nbsp;</td><td>The chunk's actual transcript text — what gets embedded</td></tr>
+            <tr><td><code>embedding</code></td><td><em>(vector, not returned to clients)</em></td><td>Added at ingest; the <code>$vectorSearch</code> path field</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="body" style="margin-top: -6px; color: var(--ink-faint); font-size: 14px;">
+        Chunks already on disk under <code>data/chunks/</code> may predate <code>speaker_role</code> /
+        <code>qa_pair_id</code> / <code>management_names</code> — re-run the chunker to refresh if a
+        feature depends on them.
+      </p>
+    </section>
+
+    <section class="card" id="access-control">
+      <span class="eyebrow">04 · Access control</span>
+      <h2>Scoped at the database query, not the UI</h2>
+      <p class="section-dek">
+        <span class="inline-stamp security">Enforced Here</span>
+        This is the assignment's central requirement, and the whole design routes through one
+        mechanism to satisfy it.
+      </p>
+
+      <h4>The user map</h4>
+      <p class="body">
+        <code>backend/src/config/users.py</code> hardcodes a dummy directory —
+        <code>DUMMY_USERS: dict[str, list[str]]</code>:
+      </p>
+      <pre>DUMMY_USERS = {
+    "alice@example.com": ["TCS", "Infosys"],
+    "bob@example.com":   ["Axis"],
+    "carol@example.com": ["Hdfc"],
+    "dave@example.com":  ["TataTechnologies"],
+    "eve@example.com":   ["TCS", "Hdfc"],
+}</pre>
+
+      <h4>Login → JWT</h4>
+      <p class="body">
+        <code>POST /api/auth/login</code> looks up the email, and if known, issues a JWT
+        (<code>security.py::create_access_token</code>) whose payload embeds
+        <code>sub</code> (email), <code>companies</code>, and an expiry
+        (<code>access_token_expire_minutes</code>, default 60). Unknown emails get a 401.
+      </p>
+
+      <h4>Two different levels of trust in that token</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Endpoint</th><th>Company source</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>POST /api/query</code></td>
+              <td>Trusts the JWT's cached <code>companies</code> claim directly</td>
+              <td>Simple, single-shot retrieval endpoint</td>
+            </tr>
+            <tr>
+              <td><code>POST /api/conversations/{id}/messages</code></td>
+              <td><strong>Re-derives</strong> companies via a fresh <code>get_user_companies(email)</code> lookup, ignoring the JWT's cached claim</td>
+              <td>A still-valid token issued before a permission change can't leak access to a company since revoked</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Enforced inside the vector search itself</h4>
+      <p class="body">
+        The Atlas Search index on <code>transcript_chunks</code> declares <code>company_id</code>
+        as a <code>filter</code> field. Every <code>$vectorSearch</code> call passes
+        <code>filter={"company_id": {"$in": allowed_companies}}</code> as part of the ANN stage —
+        unauthorized chunks are excluded from the similarity search itself, never fetched, never
+        ranked, never returned. If <code>allowed_companies</code> is empty, retrieval short-circuits
+        to <code>[]</code> (deny-by-default) rather than searching unfiltered.
+      </p>
+
+      <div class="diagram">
+        <pre class="mermaid">
+sequenceDiagram
+  participant U as Browser
+  participant Auth as POST /api/auth/login
+  participant Chat as POST /conversations/{id}/messages
+  participant Users as config/users.py
+  participant Mongo as Atlas $vectorSearch
+
+  U->>Auth: { email }
+  Auth->>Users: get_user_companies(email)
+  Auth-->>U: JWT { sub: email, companies, exp }
+
+  U->>Chat: Bearer JWT + question
+  Chat->>Chat: decode JWT → email only
+  Chat->>Users: get_user_companies(email)  (fresh, not cached)
+  Chat->>Mongo: filter company_id in [fresh companies]
+  Mongo-->>Chat: only chunks caller is authorized for
+  Chat-->>U: answer + citations
+        </pre>
+      </div>
+      <p class="diagram-caption">The chat endpoint never trusts the JWT's cached company list for access control — only for identity.</p>
+
+      <div class="callout security">
+        <span class="callout-label">Not a security control</span>
+        The LangGraph <code>classify</code> node (greet / deny / continue) is UX routing only.
+        It never decides which companies a question may touch — that's the retrieval filter's
+        job, deterministically, every time.
+      </div>
+    </section>
+
+    <section class="card" id="retrieval">
+      <span class="eyebrow">05 · Retrieval layer</span>
+      <h2>Query → vector → filtered ANN search</h2>
+
+      <h4>retriever.py</h4>
+      <p class="body">
+        <code>retrieve(query, allowed_companies, top_k, embedder)</code> is the single entry
+        point used by both the raw-query endpoint and the chat graph's <code>fetch</code> node.
+        It embeds the query text (<code>Embedder.embed_query</code>) and delegates to
+        <code>mongo_store.vector_search</code>. Returns <code>[]</code> immediately if
+        <code>allowed_companies</code> is empty — it never issues an unfiltered search.
+      </p>
+
+      <h4>mongo_store.vector_search — the actual pipeline</h4>
+      <pre>[
+  {"$vectorSearch": {
+      "index": "chunk_vector_index",
+      "path": "embedding",
+      "queryVector": query_vector,
+      "numCandidates": 100,
+      "limit": top_k,
+      "filter": {"company_id": {"$in": allowed_companies}}
+  }},
+  {"$project": {
+      "embedding": 0,
+      "score": {"$meta": "vectorSearchScore"}
+  }}
+]</pre>
+      <p class="body">
+        The vector index itself is created by <code>ensure_vector_index()</code>: a
+        <code>vector</code> field on <code>embedding</code> (cosine similarity) plus a
+        <code>filter</code> field on <code>company_id</code> — the filter field is what lets
+        Atlas apply <code>company_id</code> restriction <em>during</em> the ANN search, not as a
+        second pass.
+      </p>
+    </section>
+
+    <section class="card" id="graph">
+      <span class="eyebrow">06 · Conversational RAG</span>
+      <h2>The LangGraph pipeline</h2>
+      <p class="section-dek">
+        <code>POST /api/conversations/{conv_id}/messages</code> routes every message through a
+        five/six-node graph (<code>src/graph/graph.py</code>), compiled once and cached
+        (<code>lru_cache</code>).
+      </p>
+
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart TD
+  START(["START"]) --> classify
+  classify -->|"greet / deny"| canned["canned_response"]
+  classify -->|"continue"| rephrase
+  rephrase --> fetch
+  fetch --> build_answer
+  build_answer --> guardrail
+  canned --> END(["END"])
+  guardrail --> END
+        </pre>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Node</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>classify</code></td>
+              <td>LLM call, temperature 0, classifier prompt → <code>{"route": "greet"|"deny"|"continue"}</code>. On any failure, defaults to <code>"continue"</code> rather than blocking the pipeline.</td>
+            </tr>
+            <tr>
+              <td><code>canned_response</code></td>
+              <td>Greeting or scope-refusal text, no retrieval or generation cost incurred.</td>
+            </tr>
+            <tr>
+              <td><code>rephrase</code></td>
+              <td>If there's prior history, rewrites a follow-up ("and their margins?") into a standalone question using the rephraser prompt + turn history. Falls back to the raw question on failure or if history is empty.</td>
+            </tr>
+            <tr>
+              <td><code>fetch</code></td>
+              <td>Calls <code>retrieve()</code> with the standalone question, <code>state.allowed_companies</code>, and <code>chat_top_k</code> (default 6). This is the <strong>one deterministic ACL checkpoint</strong> in the graph.</td>
+            </tr>
+            <tr>
+              <td><code>build_answer</code></td>
+              <td>Formats retrieved chunks as labeled context (<code>[chunk_id] (company, quarter year, speaker): text</code>), calls the chat model at <code>chat_temperature</code> (default 0.1) with the answer prompt. Citations are the chunks whose <code>chunk_id</code> literally appears in the generated text, falling back to the top 3 if none matched.</td>
+            </tr>
+            <tr>
+              <td><code>guardrail</code></td>
+              <td>A second LLM call re-checks the answer against the same context for <code>grounded</code> (no fabricated facts) and <code>safe</code> (stays in scope, ignores injected instructions). If either is false, the answer is replaced with a generic fallback and citations are cleared. <strong>Fails open</strong> on an LLM/network error — see below.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout note">
+        <span class="callout-label">Fail-open, by design</span>
+        If the guardrail call itself throws (timeout, malformed JSON, etc.), the node returns the
+        original answer as final rather than blocking. This is safe specifically because the
+        guardrail checks answer <em>quality</em>, not access control — the ACL boundary in
+        <code>fetch</code> already ran and can't be bypassed by a guardrail hiccup.
+      </div>
+
+      <h4>Shared state (<code>ChatState</code>, a <code>TypedDict</code>)</h4>
+      <p class="body">
+        Threaded through every node: <code>email</code>, <code>allowed_companies</code>,
+        <code>conv_id</code>, <code>question</code>, <code>history</code> are set once before
+        <code>graph.invoke()</code>; each node adds its own keys
+        (<code>route</code>, <code>standalone_question</code>, <code>chunks</code>,
+        <code>answer</code>/<code>citations</code>, <code>guardrail_passed</code>/<code>final_answer</code>).
+      </p>
+    </section>
+
+    <section class="card" id="prompts">
+      <span class="eyebrow">07 · Prompts</span>
+      <h2>Versioned, file-based, swappable without a code change</h2>
+      <p class="section-dek">
+        Each prompt lives at <code>prompts/&lt;name&gt;/vN.txt</code>;
+        <code>prompts/registry.py::CURRENT_VERSIONS</code> pins which version is served.
+        Rolling a prompt forward means adding a new <code>vN.txt</code> and bumping the pointer —
+        old versions stay on disk for rollback or A/B comparison, and <code>load_prompt(name, version)</code>
+        lets a caller request an explicit version.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Prompt</th><th>Pinned</th><th>Core instruction</th></tr></thead>
+          <tbody>
+            <tr><td><code>classifier</code></td><td><code>v1</code></td><td>Route only — greet / deny / continue; explicitly told access control is not its job.</td></tr>
+            <tr><td><code>rephraser</code></td><td><code>v1</code></td><td>Rewrite a follow-up into a standalone question; never answer it.</td></tr>
+            <tr><td><code>answer</code></td><td><code>v1</code></td><td>Answer strictly from provided context; inline-cite every claim with <code>[chunk_id]</code>; say plainly when context is insufficient; never speculate about companies absent from context.</td></tr>
+            <tr><td><code>guardrail</code></td><td><code>v1</code></td><td>Verify <code>grounded</code> (no fabricated facts) and <code>safe</code> (in scope, ignores injected instructions) as strict JSON.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="history">
+      <span class="eyebrow">08 · Conversation history</span>
+      <h2>Isolation by construction, not by query filter</h2>
+      <p class="section-dek">
+        <code>store/history_store.py</code> keys every conversation document's <code>_id</code>
+        as <code>f"{user_email}::{conv_id}"</code> in a MongoDB collection
+        (<code>conversations</code> by default).
+      </p>
+      <ul class="body">
+        <li>Two different users' conversation documents can <strong>never</strong> collide, even
+          on a guessed or reused <code>conv_id</code> — the compound key addresses an entirely
+          different document.</li>
+        <li><code>get_full_thread(email, conv_id)</code> additionally double-checks the returned
+          document's <code>user_email</code> matches — a defense-in-depth line against IDOR that
+          holds even if the ID scheme ever changes.</li>
+        <li>Every route resolves the owning user from the decoded JWT
+          (<code>get_current_user</code>), <strong>never</strong> from a request body or path
+          param.</li>
+        <li>Turns are capped to the most recent <code>history_max_turns</code> (default 6) when
+          loaded for the rephraser/answer context — <code>{"turns": {"$slice": -limit}}</code>.</li>
+      </ul>
+      <h4>Functions</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Function</th><th>Used by</th></tr></thead>
+          <tbody>
+            <tr><td><code>create_conversation(email, conv_id)</code></td><td><code>POST /api/conversations</code> — pre-creates an empty thread so a "New Chat" button has an id up front</td></tr>
+            <tr><td><code>list_conversations(email)</code></td><td><code>GET /api/conversations</code> — sidebar list, titled from the first turn's content</td></tr>
+            <tr><td><code>get_full_thread(email, conv_id)</code></td><td><code>GET /api/conversations/{id}</code> — full thread, or <code>None</code> → 404</td></tr>
+            <tr><td><code>load_recent_turns(email, conv_id, limit)</code></td><td>chat route — recent turns fed into the graph's <code>history</code></td></tr>
+            <tr><td><code>append_turn(email, conv_id, role, content, citations)</code></td><td>chat route — writes both the user turn and the assistant turn after a reply</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="api">
+      <span class="eyebrow">09 · API reference</span>
+      <h2>Endpoints</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Request</th><th>Response</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tag post">POST</span></td><td><code>/api/auth/login</code></td><td>—</td><td><code>{email}</code></td><td><code>{access_token, email, companies}</code></td></tr>
+            <tr><td><span class="tag get">GET</span></td><td><code>/api/auth/me</code></td><td>Bearer</td><td>—</td><td><code>{email, companies}</code></td></tr>
+            <tr><td><span class="tag post">POST</span></td><td><code>/api/query</code></td><td>Bearer</td><td><code>{query, top_k=5}</code></td><td><code>{query, results: RetrievedChunk[]}</code> — raw ranked chunks, no LLM synthesis</td></tr>
+            <tr><td><span class="tag get">GET</span></td><td><code>/api/conversations</code></td><td>Bearer</td><td>—</td><td><code>ConversationSummary[]</code> (id, title, updated_at)</td></tr>
+            <tr><td><span class="tag post">POST</span></td><td><code>/api/conversations</code></td><td>Bearer</td><td>—</td><td><code>{conv_id}</code> — pre-creates an empty thread</td></tr>
+            <tr><td><span class="tag get">GET</span></td><td><code>/api/conversations/{id}</code></td><td>Bearer</td><td>—</td><td><code>{conv_id, messages: ThreadMessage[]}</code> or 404</td></tr>
+            <tr><td><span class="tag post">POST</span></td><td><code>/api/conversations/{id}/messages</code></td><td>Bearer</td><td><code>{message}</code></td><td><code>{conv_id, answer, route, citations}</code> — runs the full LangGraph pipeline</td></tr>
+            <tr><td><span class="tag get">GET</span></td><td><code>/health</code></td><td>—</td><td>—</td><td><code>{status: "ok"}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="body" style="color: var(--ink-faint); font-size: 14px;">
+        All non-login routes depend on <code>security.py::get_current_user</code>
+        (an <code>HTTPBearer</code> dependency) — a missing or invalid token is a 401 before any
+        handler code runs.
+      </p>
+    </section>
+
+    <section class="card" id="frontend">
+      <span class="eyebrow">10 · Frontend</span>
+      <h2>Folio — a small React + TypeScript client</h2>
+      <p class="section-dek">
+        Vite-built, no router or state library — two screens, plain <code>fetch</code>, and
+        <code>localStorage</code> for session persistence.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>File</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><code>App.tsx</code></td><td>Top-level switch between <code>Login</code> and <code>Main</code> based on session state</td></tr>
+            <tr><td><code>auth/useAuth.ts</code></td><td>Login call, session persisted to <code>localStorage["folio.session"]</code> as <code>{token, email, companies}</code></td></tr>
+            <tr><td><code>screens/Login/</code></td><td>Email picker; <code>demoUsers.ts</code> mirrors <code>config/users.py</code> for <em>display only</em> — the server is still the source of truth</td></tr>
+            <tr><td><code>screens/Main/Main.tsx</code></td><td>Orchestrates conversation list + active thread + send flow</td></tr>
+            <tr><td><code>screens/Main/Sidebar.tsx</code></td><td>Conversation list, "new inquiry" action</td></tr>
+            <tr><td><code>screens/Main/ChatPanel.tsx</code> / <code>Message.tsx</code></td><td>Message list rendering, citations, pending state</td></tr>
+            <tr><td><code>api/client.ts</code></td><td>Thin <code>fetch</code> wrapper (<code>login</code>, <code>listConversations</code>, <code>createConversation</code>, <code>getConversation</code>, <code>sendMessage</code>) — attaches the bearer token, normalizes error bodies into <code>ApiError</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="body">
+        Access control is never re-implemented client-side: the UI shows a user's authorized
+        companies for context, but every actual restriction happens server-side against the JWT.
+      </p>
+    </section>
+
+    <section class="card" id="config">
+      <span class="eyebrow">11 · Configuration</span>
+      <h2>Environment variables</h2>
+      <p class="section-dek">
+        <code>src/config/settings.py</code> — a <code>pydantic_settings.BaseSettings</code>
+        loaded from the repo-root <code>.env</code>, resolved relative to the settings file
+        itself so it loads regardless of current working directory.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Variable</th><th>Default</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>OPENROUTER_API_KEY</code></td><td>—</td><td>Embeddings + chat completions</td></tr>
+            <tr><td><code>SECRET_KEY</code></td><td><code>dev-secret-key-change-me</code></td><td>JWT signing secret</td></tr>
+            <tr><td><code>MONGODB_URI</code> / <code>MONGO_DB_STRING</code></td><td>—</td><td>Atlas connection string (either name accepted)</td></tr>
+            <tr><td><code>MONGODB_DB_NAME</code></td><td><code>multi_user_rag</code></td><td>Database name</td></tr>
+            <tr><td><code>MONGODB_COLLECTION</code></td><td><code>transcript_chunks</code></td><td>Chunk collection</td></tr>
+            <tr><td><code>MONGODB_VECTOR_INDEX</code></td><td><code>chunk_vector_index</code></td><td>Atlas Search index name</td></tr>
+            <tr><td><code>MONGODB_HISTORY_COLLECTION</code></td><td><code>conversations</code></td><td>Conversation-history collection</td></tr>
+            <tr><td><code>EMBEDDING_MODEL_NAME</code></td><td><code>nvidia/nemotron-3-embed-1b:free</code></td><td>OpenRouter embedding model</td></tr>
+            <tr><td><code>CHAT_MODEL_NAME</code></td><td><code>openai/gpt-4o-mini</code></td><td>OpenRouter chat model for the LangGraph pipeline</td></tr>
+            <tr><td><code>ACCESS_TOKEN_EXPIRE_MINUTES</code></td><td><code>60</code></td><td>JWT lifetime</td></tr>
+            <tr><td><code>CHAT_TOP_K</code></td><td><code>6</code></td><td>Chunks retrieved per chat turn</td></tr>
+            <tr><td><code>CHAT_TEMPERATURE</code></td><td><code>0.1</code></td><td>Answer-generation temperature</td></tr>
+            <tr><td><code>GUARDRAIL_ENABLED</code></td><td><code>true</code></td><td>Toggle the grounding/safety check</td></tr>
+            <tr><td><code>HISTORY_MAX_TURNS</code></td><td><code>6</code></td><td>Turns of history fed back into the graph</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="running">
+      <span class="eyebrow">12 · Running the system</span>
+      <h2>Setup, and the import-path gotcha</h2>
+
+      <div class="callout note">
+        <span class="callout-label">Read this before running anything</span>
+        The codebase mixes two import styles in one process: <code>api/main.py</code> and
+        <code>api/routes/*.py</code> use <strong>relative</strong> imports
+        (<code>from ..config...</code>) — they must be imported as part of the
+        <code>backend.src.*</code> package, i.e. run from the <strong>repo root</strong>.
+        <code>retrieval/</code>, <code>ingest/</code>, <code>store/</code>, <code>graph/</code>,
+        and <code>llm/</code> use <strong>absolute</strong> imports (<code>from src.config...</code>) —
+        they only resolve if <code>backend/</code> itself is on <code>sys.path</code>. The
+        combination that satisfies both: run from the repo root with
+        <code>PYTHONPATH=backend</code>. The Docker image bakes this in.
+      </div>
+
+      <h4>1 · MongoDB Atlas</h4>
+      <p class="body">
+        <code>$vectorSearch</code> requires real Atlas (a free M0 tier works) or the
+        <code>mongodb/mongodb-atlas-local</code> Docker image — plain community MongoDB has no
+        vector search. Create a cluster, copy the <code>mongodb+srv://</code> connection string,
+        and allow your IP under Network Access.
+      </p>
+
+      <h4>2 · Environment</h4>
+      <pre>cp .env.example .env
+# fill in OPENROUTER_API_KEY, SECRET_KEY, MONGO_DB_STRING</pre>
+
+      <h4>3 · Install &amp; ingest (from the repo root)</h4>
+      <pre>python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+
+PYTHONPATH=backend python -m src.ingest.parser
+PYTHONPATH=backend python -m src.ingest.chunker
+PYTHONPATH=backend python -m src.ingest.embed_and_store</pre>
+
+      <h4>4 · Run the API</h4>
+      <pre>PYTHONPATH=backend uvicorn backend.src.api.main:app --reload</pre>
+
+      <h4>5 · Run the frontend</h4>
+      <pre>cd frontend
+cp .env.example .env   # VITE_API_IP / VITE_API_PORT
+npm install
+npm run dev</pre>
+
+      <h4>Docker (full stack)</h4>
+      <p class="body">
+        <code>docker-compose.yml</code> runs <code>mongodb</code> (Atlas-local image),
+        <code>backend</code>, and <code>frontend</code>. The backend's
+        <code>MONGO_DB_STRING</code> is overridden in-compose to the in-network
+        <code>mongodb</code> service. Containers don't run ingestion automatically:
+      </p>
+      <pre>docker compose up --build
+docker compose exec backend python -m src.ingest.parser
+docker compose exec backend python -m src.ingest.chunker
+docker compose exec backend python -m src.ingest.embed_and_store</pre>
+      <p class="body">API at <code>localhost:8000</code>, frontend at <code>localhost:5173</code>.</p>
+    </section>
+
+    <section class="card" id="testing">
+      <span class="eyebrow">13 · Testing</span>
+      <h2>Offline, stubbed, graph-level</h2>
+      <p class="section-dek">
+        <code>tests/</code> runs with plain <code>pytest</code> from the repo root — no
+        <code>OPENROUTER_API_KEY</code> or MongoDB needed, since <code>conftest.py</code> puts
+        <code>backend/</code> on <code>sys.path</code> itself.
+      </p>
+      <ul class="body">
+        <li><code>test_graph_routing.py</code> — monkeypatches <code>chat_completion</code> and
+          <code>retrieve</code> to exercise the real LangGraph wiring: greet/deny short-circuit
+          before retrieval, a grounded continue produces citations, and an ungrounded guardrail
+          verdict replaces the answer and clears citations.</li>
+        <li><code>test_prompts.py</code> — every prompt pinned in <code>CURRENT_VERSIONS</code>
+          loads and is non-empty; an explicit version matches the pinned default; unknown
+          name/version raise the right exceptions.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="notes">
+      <span class="eyebrow">14 · Known gaps &amp; notes</span>
+      <h2>Things to know before extending this</h2>
+      <ul class="body">
+        <li><strong>Legacy Chroma directory.</strong> <code>vector_db/</code> is unused — the
+          project migrated fully to MongoDB Atlas; don't read from or write to it.</li>
+        <li><strong><code>HF_TOKEN</code> is a leftover.</strong> An earlier version of
+          <code>Embedder</code> used a local <code>sentence-transformers</code> model; embedding
+          now goes entirely through the OpenRouter API, so <code>HF_TOKEN</code> is no longer
+          read anywhere.</li>
+        <li><strong>Demo user list duplication.</strong>
+          <code>frontend/src/screens/Login/demoUsers.ts</code> mirrors
+          <code>backend/src/config/users.py</code> for display purposes only — keep both in sync
+          manually if the user map changes; access control itself never depends on the frontend copy.</li>
+        <li><strong><code>/api/query</code> vs. the chat endpoint.</strong> The raw retrieval
+          endpoint returns ranked chunks with no LLM synthesis and trusts the JWT's cached
+          company claim directly; the conversational endpoint is the one with the freshly
+          re-derived permission check and full pipeline.</li>
+        <li><strong>Ingest scripts default to repo-root-relative paths.</strong>
+          <code>--data-dir</code>/<code>--chunks-dir</code>/<code>--parsed-dir</code> default to
+          <code>data/...</code>, which only resolves when the current working directory is the
+          repo root — not <code>backend/</code>.</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span>multi-user-doc-rag — generated system dossier</span>
+  <span>Source: backend/src, frontend/src, README.md, .claude/skills</span>
+</footer>
+
+<script type="module">
+  // Local standalone copy only — renders the mermaid diagrams via CDN.
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "base",
+    themeVariables: {
+      background: "#f4f5f1",
+      primaryColor: "#eaede7",
+      primaryTextColor: "#141b2d",
+      primaryBorderColor: "#2f6f4f",
+      lineColor: "#5b6472",
+      secondaryColor: "#dee1d8",
+      tertiaryColor: "#f4f5f1",
+      fontFamily: "IBM Plex Mono, SFMono-Regular, Menlo, monospace",
+      fontSize: "13px",
+    },
+  });
+</script>
+</body>
+</html>
