@@ -4,7 +4,7 @@ export interface UIMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
-  citations: Citation[] | string[];
+  citations: (Citation | string)[];
   restricted?: boolean;
   pending?: boolean;
   streaming?: boolean;

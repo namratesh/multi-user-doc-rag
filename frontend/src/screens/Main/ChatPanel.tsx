@@ -6,12 +6,26 @@ import styles from "./ChatPanel.module.css";
 
 interface ChatPanelProps {
   messages: UIMessage[];
+  companies: string[];
   isThreadLoading: boolean;
   isSending: boolean;
   onSend: (text: string) => void;
 }
 
-export function ChatPanel({ messages, isThreadLoading, isSending, onSend }: ChatPanelProps) {
+function formatCompanyList(companies: string[]): string {
+  if (companies.length === 0) return "";
+  if (companies.length === 1) return companies[0];
+  if (companies.length === 2) return `${companies[0]} and ${companies[1]}`;
+  return `${companies.slice(0, -1).join(", ")}, and ${companies[companies.length - 1]}`;
+}
+
+export function ChatPanel({
+  messages,
+  companies,
+  isThreadLoading,
+  isSending,
+  onSend,
+}: ChatPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,10 +41,13 @@ export function ChatPanel({ messages, isThreadLoading, isSending, onSend }: Chat
           </div>
         ) : messages.length === 0 ? (
           <div className={styles.empty}>
-            <h2 className={styles.emptyTitle}>Open inquiry</h2>
+            <h2 className={styles.emptyTitle}>Hello!</h2>
             <p className={styles.emptyBody}>
-              Ask about a document you're cleared to see. Answers cite the transcript
-              they're drawn from.
+              {companies.length > 0
+                ? `Ask me anything about the earnings calls for ${formatCompanyList(
+                    companies,
+                  )}, the companies you have access to.`
+                : "You don't currently have access to any companies' earnings calls, so I won't be able to answer questions yet."}
             </p>
           </div>
         ) : (

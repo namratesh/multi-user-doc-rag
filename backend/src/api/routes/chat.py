@@ -40,6 +40,8 @@ def _to_citations(chunks: list[dict]) -> list[Citation]:
             fiscal_year=c.get("fiscal_year"),
             speaker_name=c.get("speaker_name"),
             score=c.get("score", 0.0),
+            text=c.get("text", ""),
+            cited=c.get("cited", False),
         )
         for c in chunks
     ]
@@ -91,7 +93,7 @@ def send_message(
         conv_id,
         "assistant",
         final_answer,
-        citations=[c.chunk_id for c in citations],
+        citations=[c.model_dump() for c in citations],
     )
 
     logger.info(
@@ -162,7 +164,7 @@ def send_message_stream(
             conv_id,
             "assistant",
             final_answer,
-            citations=[c.chunk_id for c in citations],
+            citations=[c.model_dump() for c in citations],
         )
         logger.info(
             "[send_message_stream] output answer_len=%d citations=%d",

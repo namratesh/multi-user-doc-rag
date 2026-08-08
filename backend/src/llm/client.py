@@ -15,6 +15,12 @@ from typing import Any, Iterator
 
 from openai import OpenAI
 
+# Wraps an `openai.OpenAI` instance so every chat-completion call (incl.
+# streaming) is recorded as a LangSmith run, provided LangSmith is enabled
+# -- see config/observability.py.
+from langsmith.wrappers import wrap_openai
+
+from src.config import observability  # noqa: F401  (registers the LangSmith client)
 from src.config.logger import get_logger
 from src.config.settings import settings
 
@@ -41,7 +47,8 @@ def get_openai_client() -> OpenAI:
     api_key = getattr(settings, api_key_field)
     if not api_key:
         raise ValueError(f"{env_var} is not set. Add it to .env to use chat completions.")
-    return OpenAI(api_key=api_key, base_url=getattr(settings, base_url_field))
+    client = OpenAI(api_key=api_key, base_url=getattr(settings, base_url_field))
+    return wrap_openai(client, tracing_extra={"client": observability.langsmith_client})
 
 
 def chat_completion(

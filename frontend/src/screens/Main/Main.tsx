@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   createConversation,
   getConversation,
@@ -28,6 +28,7 @@ export function Main({ session, onSwitchReader }: MainProps) {
   const [error, setError] = useState<string | null>(null);
 
   const { token } = session;
+  const skipThreadLoadRef = useRef<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -53,6 +54,10 @@ export function Main({ session, onSwitchReader }: MainProps) {
   useEffect(() => {
     if (!activeConvId) {
       setMessages([]);
+      return;
+    }
+    if (skipThreadLoadRef.current === activeConvId) {
+      skipThreadLoadRef.current = null;
       return;
     }
     const controller = new AbortController();
@@ -105,6 +110,7 @@ export function Main({ session, onSwitchReader }: MainProps) {
         if (!convId) {
           const res = await createConversation(token);
           convId = res.conv_id;
+          skipThreadLoadRef.current = convId;
           setActiveConvId(convId);
           setConversations((prev) => [
             { conv_id: convId!, title: "New conversation", updated_at: new Date().toISOString() },
@@ -194,6 +200,7 @@ export function Main({ session, onSwitchReader }: MainProps) {
         />
         <ChatPanel
           messages={messages}
+          companies={session.companies}
           isThreadLoading={isThreadLoading}
           isSending={isSending}
           onSend={handleSend}

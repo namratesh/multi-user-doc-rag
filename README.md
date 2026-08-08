@@ -31,6 +31,20 @@ at the vector-search layer itself.
   change can't leak access. Conversation turns are stored in MongoDB, keyed
   by `user_email::conv_id` (see `backend/src/store/history_store.py`), so
   concurrent users' histories can never collide or leak into each other.
+
+  <p align="center">
+    <img src="arch/langgraph_workflow.png" alt="LangGraph conversational Q&A workflow" width="420">
+  </p>
+
+  `classify` routes to either the `continue` branch (`rephrase -> decompose ->
+  fetch_one -> answer_one -> combine_answer -> guardrail`) or straight to
+  `canned_response` for a greeting/out-of-scope message (`greet`/`deny`).
+  `decompose` splits a question naming several companies into one
+  sub-question per company; `fetch_one` and `answer_one` then fan out one run
+  per sub-question via LangGraph's `Send` API (dotted edges above) so they
+  execute concurrently, and `combine_answer` stitches the per-company answers
+  back into a single reply once every branch has finished. See
+  `backend/src/graph/graph.py` for the full routing logic.
 - **Prompts** (`backend/src/prompts/`): each pipeline prompt is versioned as
   `prompts/<name>/vN.txt`, with the active version per prompt pinned in
   `prompts/registry.py::CURRENT_VERSIONS`. Roll a prompt forward by adding a

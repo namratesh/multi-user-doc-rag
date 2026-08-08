@@ -19,20 +19,22 @@ from src.api.security import get_current_user
 from src.store import history_store
 from tests._fakes import FakeHistoryCollection
 
+_FAKE_CITATION = {
+    "chunk_id": "TCS_Q1_2026_qa_001",
+    "company_id": "TCS",
+    "doc_id": "TCS_Q1_2026",
+    "fiscal_quarter": "Q1",
+    "fiscal_year": "2026",
+    "speaker_name": "CEO",
+    "score": 0.91,
+    "text": "Revenue grew 10% year-over-year driven by strong deal wins.",
+    "cited": False,
+}
+
 _FAKE_RESULT = {
     "final_answer": "Revenue grew 10%.",
     "route": "continue",
-    "citations": [
-        {
-            "chunk_id": "TCS_Q1_2026_qa_001",
-            "company_id": "TCS",
-            "doc_id": "TCS_Q1_2026",
-            "fiscal_quarter": "Q1",
-            "fiscal_year": "2026",
-            "speaker_name": "CEO",
-            "score": 0.91,
-        }
-    ],
+    "citations": [_FAKE_CITATION],
 }
 
 
@@ -93,17 +95,7 @@ def test_send_message_returns_answer_and_citations(client) -> None:
     assert body["conv_id"] == "conv-1"
     assert body["answer"] == "Revenue grew 10%."
     assert body["route"] == "continue"
-    assert body["citations"] == [
-        {
-            "chunk_id": "TCS_Q1_2026_qa_001",
-            "company_id": "TCS",
-            "doc_id": "TCS_Q1_2026",
-            "fiscal_quarter": "Q1",
-            "fiscal_year": "2026",
-            "speaker_name": "CEO",
-            "score": 0.91,
-        }
-    ]
+    assert body["citations"] == [_FAKE_CITATION]
 
 
 def test_send_message_persists_user_and_assistant_turns(client) -> None:
@@ -115,7 +107,7 @@ def test_send_message_persists_user_and_assistant_turns(client) -> None:
     assert [t["role"] for t in thread] == ["user", "assistant"]
     assert thread[0]["content"] == "How did revenue do?"
     assert thread[1]["content"] == "Revenue grew 10%."
-    assert thread[1]["citations"] == ["TCS_Q1_2026_qa_001"]
+    assert thread[1]["citations"] == [_FAKE_CITATION]
 
 
 def test_send_message_passes_fresh_permissions_and_recent_history_to_graph(
