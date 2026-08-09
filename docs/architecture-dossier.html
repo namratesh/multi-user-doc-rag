@@ -1,0 +1,1178 @@
+<title>multi-user-doc-rag — Architecture Dossier</title>
+
+<style>
+  :root {
+    --paper: #EDEEE8;
+    --panel: #FFFFFF;
+    --panel-alt: #E2E4DA;
+    --ink: #1E2420;
+    --ink-dim: #5B655D;
+    --ink-faint: #838C82;
+    --line: #C7CBBE;
+    --copper: #A8571A;
+    --copper-soft: #E9D3BC;
+    --teal: #2C6F68;
+    --teal-soft: #CFE4E0;
+    --radius: 10px;
+    --font-mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --font-body: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14181A;
+      --panel: #1B211F;
+      --panel-alt: #212925;
+      --ink: #E9ECE6;
+      --ink-dim: #9AA39A;
+      --ink-faint: #6E786F;
+      --line: #333E38;
+      --copper: #E08A3C;
+      --copper-soft: #3D2E1C;
+      --teal: #59C2B6;
+      --teal-soft: #1B322E;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #14181A;
+    --panel: #1B211F;
+    --panel-alt: #212925;
+    --ink: #E9ECE6;
+    --ink-dim: #9AA39A;
+    --ink-faint: #6E786F;
+    --line: #333E38;
+    --copper: #E08A3C;
+    --copper-soft: #3D2E1C;
+    --teal: #59C2B6;
+    --teal-soft: #1B322E;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 31px, var(--line) 31px, var(--line) 32px),
+      repeating-linear-gradient(90deg, transparent, transparent 31px, var(--line) 31px, var(--line) 32px),
+      var(--paper);
+    background-attachment: local;
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px 24px 100px;
+  }
+
+  .wide {
+    max-width: 1180px;
+  }
+
+  a {
+    color: var(--copper);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-mono);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: clamp(24px, 3.4vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--line);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  h2 .num {
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 14.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 0 0 12px;
+    max-width: 68ch;
+  }
+
+  section>p:last-child {
+    margin-bottom: 0;
+  }
+
+  section {
+    margin: 56px 0;
+  }
+
+  section:first-of-type {
+    margin-top: 0;
+  }
+
+  code,
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  .k {
+    color: var(--copper);
+  }
+
+  .t {
+    color: var(--teal);
+  }
+
+  code.inline {
+    background: var(--panel-alt);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.9em;
+  }
+
+  /* ---------- title block ---------- */
+  .titleblock {
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--panel);
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    overflow: hidden;
+  }
+
+  .titleblock .main {
+    padding: 26px 28px;
+    border-right: 1.5px solid var(--line);
+  }
+
+  .titleblock .main .subject {
+    color: var(--ink-dim);
+    margin-top: 10px;
+    font-size: 14.5px;
+  }
+
+  .titleblock .stamp {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+  }
+
+  .titleblock .stamp div {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .titleblock .stamp div:last-child {
+    border-bottom: none;
+  }
+
+  .titleblock .stamp span.lab {
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .titleblock .stamp span.val {
+    color: var(--ink);
+    text-align: right;
+  }
+
+  @media (max-width: 720px) {
+    .titleblock {
+      grid-template-columns: 1fr;
+    }
+
+    .titleblock .main {
+      border-right: none;
+      border-bottom: 1.5px solid var(--line);
+    }
+  }
+
+  /* ---------- figures ---------- */
+  figure {
+    margin: 18px 0 0;
+  }
+
+  .plate {
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--panel);
+    padding: 18px 18px 6px;
+    overflow-x: auto;
+  }
+
+  .plate svg {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    min-width: 640px;
+  }
+
+  figcaption {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    padding: 12px 4px 4px;
+    border-top: 1px dashed var(--line);
+    margin-top: 14px;
+  }
+
+  figcaption b {
+    color: var(--ink);
+  }
+
+  svg .node rect {
+    fill: var(--panel);
+    stroke: var(--ink);
+    stroke-width: 1.4;
+  }
+
+  svg .node.alt rect {
+    fill: var(--panel-alt);
+  }
+
+  svg .node.acl rect {
+    fill: var(--copper-soft);
+    stroke: var(--copper);
+    stroke-width: 1.8;
+  }
+
+  svg .node.dashed rect {
+    stroke-dasharray: 4 3;
+  }
+
+  svg .node.term rect {
+    fill: var(--panel-alt);
+    stroke: var(--ink-faint);
+    stroke-dasharray: 2 3;
+  }
+
+  svg text {
+    fill: var(--ink);
+    font-family: var(--font-mono);
+  }
+
+  svg .lbl {
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  svg .sub {
+    font-size: 11px;
+    fill: var(--ink-dim);
+  }
+
+  svg .band-label {
+    font-size: 11px;
+    fill: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+
+  svg .tag-llm {
+    fill: var(--teal);
+    font-weight: 700;
+  }
+
+  svg .tag-acl {
+    fill: var(--copper);
+    font-weight: 700;
+  }
+
+  svg .flow {
+    stroke: var(--ink-dim);
+    stroke-width: 1.6;
+    fill: none;
+  }
+
+  svg .flowlbl {
+    font-size: 10.5px;
+    fill: var(--ink-faint);
+  }
+
+  svg .boundary {
+    fill: none;
+    stroke: var(--copper);
+    stroke-width: 2.4;
+  }
+
+  svg .boundary-label {
+    fill: var(--copper);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  svg .db rect {
+    fill: var(--teal-soft);
+    stroke: var(--teal);
+    stroke-width: 1.6;
+  }
+
+  svg .code rect {
+    fill: var(--panel-alt);
+    stroke: var(--line);
+  }
+
+  svg .code text {
+    fill: var(--ink);
+    font-size: 12px;
+  }
+
+  svg .strike {
+    stroke: var(--ink-faint);
+    stroke-width: 1.6;
+  }
+
+  /* ---------- pipeline stage list ---------- */
+  .stage {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .stage:first-child {
+    border-top: none;
+  }
+
+  .stage .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    background: var(--teal-soft);
+    border: 1px solid var(--teal);
+    border-radius: 5px;
+    height: 24px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .stage.acl .tag {
+    color: var(--copper);
+    background: var(--copper-soft);
+    border-color: var(--copper);
+  }
+
+  .stage h3 {
+    margin-bottom: 4px;
+  }
+
+  .stage p {
+    margin: 0;
+    color: var(--ink-dim);
+    font-size: 14.5px;
+  }
+
+  .stage .file {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    margin-top: 6px;
+    display: block;
+  }
+
+  /* ---------- limitations grid ---------- */
+  .limits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .limits div {
+    background: var(--panel);
+    padding: 14px 16px;
+  }
+
+  .limits h3 {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .limits p {
+    font-size: 13.5px;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .limits {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Q&A ---------- */
+  .qa-group {
+    margin-bottom: 34px;
+  }
+
+  .qa-group>.eyebrow {
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--panel-alt);
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--line);
+  }
+
+  details {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  details[open] {
+    border-color: var(--copper);
+  }
+
+  summary {
+    cursor: pointer;
+    padding: 13px 16px;
+    font-size: 14.5px;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    gap: 10px;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::before {
+    content: "Q";
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--copper);
+    border: 1px solid var(--copper);
+    border-radius: 4px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  details[open] summary::before {
+    content: "–";
+    background: var(--copper);
+    color: var(--panel);
+  }
+
+  .qa-answer {
+    padding: 0 16px 16px 44px;
+    font-size: 14px;
+    color: var(--ink-dim);
+    max-width: 66ch;
+  }
+
+  .qa-answer p {
+    margin: 0;
+  }
+
+  footer {
+    max-width: 980px;
+    margin: 60px auto 0;
+    padding: 24px 24px 0;
+    border-top: 1.5px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    details {
+      transition: border-color .15s ease;
+    }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="titleblock">
+    <div class="main">
+      <div class="eyebrow">Architecture Reference · Independent Analysis</div>
+      <h1>Request Lifecycle: Login → Auth → Filtration → Generation → Output</h1>
+      <div class="subject">multi-user-doc-rag — a multi-tenant conversational RAG system over earnings-call transcripts,
+        with per-user access control enforced at the vector-search layer itself.</div>
+    </div>
+    <div class="stamp">
+      <div><span class="lab">Scope</span><span class="val">Request path + ingestion</span></div>
+      <div><span class="lab">Data plane</span><span class="val">MongoDB Atlas $vectorSearch</span></div>
+      <div><span class="lab">Orchestrator</span><span class="val">LangGraph state machine</span></div>
+      <div><span class="lab">Prepared</span><span class="val">2026-08-09</span></div>
+    </div>
+  </div>
+
+  <section id="intro">
+    <p style="max-width:74ch; margin-top:28px;">
+      This document reconstructs the system from first principles: not <i>what</i> each file is called, but
+      <i>why</i> the request is shaped the way it is — where identity is established, where the one real
+      security boundary sits, why a question about several companies fans out and reconverges, and why
+      a groundedness check is allowed to fail open. Every box below maps to a real function in
+      <code class="inline">backend/src/</code>; nothing here is aspirational.
+    </p>
+  </section>
+
+  <section id="fig1">
+    <h2><span class="num">§1</span> End-to-end request lifecycle</h2>
+    <p>
+      Two lanes run through this system. The top lane runs <b>once, offline</b>, and turns PDFs into
+      searchable, access-tagged chunks. The lower lane runs <b>once per chat turn</b>, and is where every
+      architectural decision that matters — identity, isolation, filtration, grounding — actually happens.
+      Both lanes converge on one shared datastore.
+    </p>
+    <figure>
+      <div class="plate">
+        <svg viewBox="0 0 1760 900" role="img"
+          aria-label="End-to-end diagram from PDF ingestion and user login through LangGraph orchestration, ACL-filtered retrieval, answer generation, guardrail check, and response delivery, with MongoDB Atlas as the shared datastore.">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path>
+            </marker>
+            <marker id="arrowc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--copper)"></path>
+            </marker>
+          </defs>
+
+          <text x="40" y="30" class="band-label">OFFLINE — RUN ONCE PER DOCUMENT SET</text>
+          <text x="40" y="155" class="band-label">ONLINE — PER CHAT TURN</text>
+
+          <!-- Row 0: ingestion -->
+          <g class="node alt">
+            <rect x="40" y="40" width="260" height="85" rx="8"></rect>
+            <text x="55" y="65" class="lbl">PDFs</text>
+            <text x="55" y="83" class="sub">data/*.pdf — 5 transcripts</text>
+            <text x="55" y="99" class="sub">(TCS, Infosys, Axis, HDFC…)</text>
+          </g>
+          <g class="node alt">
+            <rect x="320" y="40" width="260" height="85" rx="8"></rect>
+            <text x="335" y="65" class="lbl">parser.py</text>
+            <text x="335" y="83" class="sub">Docling → markdown</text>
+            <text x="335" y="99" class="sub">+ regex metadata (period, co.)</text>
+          </g>
+          <g class="node alt">
+            <rect x="600" y="40" width="260" height="85" rx="8"></rect>
+            <text x="615" y="65" class="lbl">chunker.py</text>
+            <text x="615" y="83" class="sub">speaker-turn segmentation</text>
+            <text x="615" y="99" class="sub">+ Q&amp;A pairing → company_id</text>
+          </g>
+          <g class="node alt">
+            <rect x="880" y="40" width="260" height="85" rx="8"></rect>
+            <text x="895" y="65" class="lbl">embed_and_store.py</text>
+            <text x="895" y="83" class="sub">OpenRouter embeddings</text>
+            <text x="895" y="99" class="sub">upsert, idempotent by chunk_id</text>
+          </g>
+          <line x1="300" y1="82" x2="316" y2="82" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="580" y1="82" x2="596" y2="82" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="860" y1="82" x2="876" y2="82" class="flow" marker-end="url(#arrow)"></line>
+          <polyline points="1140,82 1160,82 1180,160" class="flow" marker-end="url(#arrow)" fill="none"></polyline>
+
+          <!-- Atlas -->
+          <g class="node db">
+            <rect x="1180" y="120" width="540" height="700" rx="14"></rect>
+          </g>
+          <text x="1450" y="150" text-anchor="middle" class="lbl">MongoDB Atlas</text>
+          <line x1="1200" y1="165" x2="1700" y2="165" stroke="var(--teal)" stroke-width="1"></line>
+          <text x="1450" y="188" text-anchor="middle" class="sub">transcript_chunks</text>
+          <text x="1450" y="204" text-anchor="middle" class="sub">$vectorSearch index</text>
+          <text x="1450" y="220" text-anchor="middle" class="sub" fill="var(--copper)">filter field: company_id</text>
+          <line x1="1230" y1="700" x2="1670" y2="700" stroke="var(--teal)" stroke-width="1" stroke-dasharray="3 3">
+          </line>
+          <text x="1450" y="740" text-anchor="middle" class="sub">conversations</text>
+          <text x="1450" y="756" text-anchor="middle" class="sub">_id = email::conv_id</text>
+
+          <!-- Row1: auth -->
+          <g class="node">
+            <rect x="40" y="165" width="260" height="100" rx="8"></rect>
+            <text x="55" y="192" class="lbl">Browser</text>
+            <text x="55" y="212" class="sub">Login screen —</text>
+            <text x="55" y="228" class="sub">pick a demo email</text>
+          </g>
+          <g class="node">
+            <rect x="320" y="165" width="260" height="100" rx="8"></rect>
+            <text x="335" y="192" class="lbl">POST /api/auth/login</text>
+            <text x="335" y="212" class="sub">DUMMY_USERS[email] →</text>
+            <text x="335" y="228" class="sub">issue JWT {sub, companies[],</text>
+            <text x="335" y="244" class="sub">exp:+60m} · HS256</text>
+          </g>
+          <g class="node">
+            <rect x="600" y="165" width="260" height="100" rx="8"></rect>
+            <text x="615" y="192" class="lbl">Every request</text>
+            <text x="615" y="212" class="sub">Authorization: Bearer &lt;JWT&gt;</text>
+            <text x="615" y="228" class="sub">get_current_user() decodes →</text>
+            <text x="615" y="244" class="sub">UserInfo{email, companies}</text>
+          </g>
+          <g class="node acl">
+            <rect x="880" y="165" width="260" height="100" rx="8"></rect>
+            <text x="895" y="188" class="lbl">get_user_companies(email)</text>
+            <text x="895" y="206" class="sub">FRESH re-lookup, config/users.py</text>
+            <text x="895" y="221" class="sub" fill="var(--copper)">never trusts the JWT claim</text>
+            <text x="895" y="240" class="sub">+ get_full_thread() 404 IDOR guard</text>
+          </g>
+          <line x1="300" y1="215" x2="316" y2="215" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="580" y1="215" x2="596" y2="215" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="860" y1="215" x2="876" y2="215" class="flow" marker-end="url(#arrowc)"></line>
+
+          <!-- connector row1 -> row2 -->
+          <polyline points="1010,265 1010,282 170,282 170,300" class="flow" marker-end="url(#arrow)" fill="none">
+          </polyline>
+
+          <!-- Row2: routing -->
+          <g class="node">
+            <rect x="40" y="300" width="260" height="100" rx="8"></rect>
+            <text x="55" y="325" class="lbl">classify_node <tspan class="tag-llm">[LLM]</tspan></text>
+            <text x="55" y="345" class="sub">route ∈ {greet, deny, continue}</text>
+            <text x="55" y="361" class="sub">UX routing only —</text>
+            <text x="55" y="377" class="sub">NOT an access control</text>
+          </g>
+          <g class="node">
+            <rect x="320" y="300" width="260" height="100" rx="8"></rect>
+            <text x="335" y="325" class="lbl">rephrase_node <tspan class="tag-llm">[LLM]</tspan></text>
+            <text x="335" y="345" class="sub">standalone-question rewrite</text>
+            <text x="335" y="361" class="sub">(skipped if history is empty —</text>
+            <text x="335" y="377" class="sub">no-op returns raw question)</text>
+          </g>
+          <g class="node">
+            <rect x="600" y="300" width="260" height="100" rx="8"></rect>
+            <text x="615" y="325" class="lbl">decompose_node</text>
+            <text x="615" y="345" class="sub">splits a multi-company question</text>
+            <text x="615" y="361" class="sub">into sub_queries[] — one per</text>
+            <text x="615" y="377" class="sub">company named (or one general)</text>
+          </g>
+          <line x1="300" y1="350" x2="316" y2="350" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="580" y1="350" x2="596" y2="350" class="flow" marker-end="url(#arrow)"></line>
+          <text x="590" y="290" class="flowlbl">continue</text>
+
+          <!-- branch to canned_response -->
+          <line x1="170" y1="400" x2="170" y2="410" class="flow" marker-end="url(#arrow)"></line>
+          <text x="185" y="408" class="flowlbl">greet / deny</text>
+          <g class="node term">
+            <rect x="40" y="410" width="260" height="46" rx="8"></rect>
+            <text x="55" y="429" class="sub">canned_response_node → END</text>
+            <text x="55" y="444" class="sub">static reply, skips rows below entirely</text>
+          </g>
+
+          <!-- connector row2(C3) -> row3 -->
+          <polyline points="730,400 730,440 285,440 285,470" class="flow" marker-end="url(#arrow)" fill="none">
+          </polyline>
+
+          <!-- Row3: ACL boundary -->
+          <g>
+            <rect x="40" y="470" width="1100" height="230" rx="12" class="boundary"></rect>
+          </g>
+          <text x="58" y="494" class="boundary-label">ACL BOUNDARY — enforced once, here
+            (mongo_store.vector_search)</text>
+
+          <g class="node dashed">
+            <rect x="70" y="505" width="430" height="55" rx="7"></rect>
+            <text x="85" y="525" class="sub">
+              <tspan class="tag-acl">[EMBED]</tspan> fetch_one — TCS branch
+            </text>
+            <text x="85" y="543" class="sub">vector_search(filter: company_id ∈ allowed)</text>
+          </g>
+          <g class="node dashed">
+            <rect x="610" y="505" width="430" height="55" rx="7"></rect>
+            <text x="625" y="525" class="sub">
+              <tspan class="tag-llm">[LLM]</tspan> answer_one — TCS branch
+            </text>
+            <text x="625" y="543" class="sub">cites [chunk_id] from TCS chunks only</text>
+          </g>
+          <line x1="500" y1="532" x2="606" y2="532" class="flow" marker-end="url(#arrow)"></line>
+
+          <g class="node dashed">
+            <rect x="70" y="570" width="430" height="55" rx="7"></rect>
+            <text x="85" y="590" class="sub">
+              <tspan class="tag-acl">[EMBED]</tspan> fetch_one — Infosys branch
+            </text>
+            <text x="85" y="608" class="sub">vector_search(filter: company_id ∈ allowed)</text>
+          </g>
+          <g class="node dashed">
+            <rect x="610" y="570" width="430" height="55" rx="7"></rect>
+            <text x="625" y="590" class="sub">
+              <tspan class="tag-llm">[LLM]</tspan> answer_one — Infosys branch
+            </text>
+            <text x="625" y="608" class="sub">cites [chunk_id] from Infosys chunks only</text>
+          </g>
+          <line x1="500" y1="597" x2="606" y2="597" class="flow" marker-end="url(#arrow)"></line>
+
+          <text x="285" y="648" text-anchor="middle" class="sub" fill="var(--ink-faint)">⋮ one lane per entry in
+            sub_queries[] — LangGraph Send(), concurrent, independently traced</text>
+
+          <text x="60" y="672" class="sub" fill="var(--copper)">allowed_companies = [] ⇒ retrieve() returns []
+            immediately — no query issued (deny-by-default;</text>
+          <text x="60" y="688" class="sub" fill="var(--copper)">guards the Mongo "$in: []" footgun where an empty filter
+            can be misread as "no filter")</text>
+
+          <line x1="1140" y1="562" x2="1176" y2="562" class="flow" marker-end="url(#arrowc)"></line>
+          <text x="1146" y="552" class="flowlbl">$vectorSearch</text>
+
+          <!-- Row3 -> Row4 -->
+          <polyline points="590,700 590,720 170,720 170,740" class="flow" marker-end="url(#arrow)" fill="none">
+          </polyline>
+          <text x="600" y="716" class="flowlbl">all branches merged (operator.add)</text>
+
+          <!-- Row4: finish -->
+          <g class="node">
+            <rect x="40" y="740" width="260" height="100" rx="8"></rect>
+            <text x="55" y="765" class="lbl">combine_answer_node</text>
+            <text x="55" y="785" class="sub">stitches per-company answers,</text>
+            <text x="55" y="801" class="sub">unions citations + chunks</text>
+          </g>
+          <g class="node">
+            <rect x="320" y="740" width="260" height="100" rx="8"></rect>
+            <text x="335" y="765" class="lbl">guardrail_node <tspan class="tag-llm">[LLM]</tspan></text>
+            <text x="335" y="785" class="sub">grounded? safe? — fails OPEN if</text>
+            <text x="335" y="801" class="sub">disabled / no chunks / call errors</text>
+          </g>
+          <g class="node">
+            <rect x="600" y="740" width="260" height="100" rx="8"></rect>
+            <text x="615" y="765" class="lbl">history_store.append_turn ×2</text>
+            <text x="615" y="785" class="sub">user + assistant turns</text>
+            <text x="615" y="801" class="sub">_id = email::conv_id</text>
+          </g>
+          <g class="node">
+            <rect x="880" y="740" width="260" height="100" rx="8"></rect>
+            <text x="895" y="765" class="lbl">Response → client</text>
+            <text x="895" y="785" class="sub">blocking: {answer, citations}</text>
+            <text x="895" y="801" class="sub">streaming: SSE delta…delta…done</text>
+          </g>
+          <line x1="300" y1="790" x2="316" y2="790" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="580" y1="790" x2="596" y2="790" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="860" y1="790" x2="876" y2="790" class="flow" marker-end="url(#arrow)"></line>
+
+          <polyline points="730,740 730,718 1180,718" class="flow" marker-end="url(#arrowc)" fill="none"></polyline>
+          <text x="1050" y="712" class="flowlbl">history read/write</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 1</b> — Full request lifecycle. The copper box is the single point where a user's
+        authorization is checked; the teal database spans both the write path (ingestion) and the read path (retrieval +
+        history), because one Atlas cluster serves both roles.</figcaption>
+    </figure>
+  </section>
+
+  <section id="auth">
+    <h2><span class="num">§2</span> Identity, and the security-critical divergence</h2>
+    <p>
+      Login is intentionally shallow: <code class="inline">DUMMY_USERS</code> is a static in-code
+      dict mapping an email to a list of <code class="inline">company_id</code>s — no password, matching
+      the assignment's "dummy login" requirement. The JWT it issues carries three claims:
+      <code class="inline">sub</code> (email), <code class="inline">companies</code>, and
+      <code class="inline">exp</code> (60 minutes out), HS256-signed.
+    </p>
+    <p>
+      The interesting decision isn't the login — it's what happens <i>after</i>. The two authenticated
+      routes diverge deliberately in how much they trust that token:
+    </p>
+    <div class="stage acl">
+      <div class="tag">A</div>
+      <div>
+        <h3>/api/query — trusts the token</h3>
+        <p>Decodes the JWT and passes <code class="inline">payload.companies</code> straight into <code
+            class="inline">retrieve()</code>. Simple, and correct for the token's full 60-minute life — this endpoint is
+          a retrieval-only debugging primitive, not the production surface.</p>
+      </div>
+    </div>
+    <div class="stage acl">
+      <div class="tag">B</div>
+      <div>
+        <h3>/api/conversations/{id}/messages — re-derives it, every time</h3>
+        <p>Uses the JWT only for the <code class="inline">email</code> identity claim, then calls <code
+            class="inline">get_user_companies(current_user.email)</code> fresh against <code
+            class="inline">config/users.py</code> on every single request. A JWT is valid — signature intact, not
+          expired — for up to 60 minutes after login. If <code class="inline">DUMMY_USERS</code> changes mid-session, a
+          route trusting the cached claim would keep honoring stale permissions until the token expires. Re-deriving
+          closes that window: access changes take effect on the <i>next request</i>, not the next login.</p>
+        <span class="file">backend/src/api/routes/chat.py — send_message, send_message_stream</span>
+      </div>
+    </div>
+    <p>This is the more conservative of the two designs, and it's the one the assignment's isolation tests are graded
+      against — a "still-valid-but-revoked" JWT is exactly the attack a real access-control system has to defend
+      against, and this is the one place it's handled correctly.</p>
+  </section>
+
+  <section id="orchestration">
+    <h2><span class="num">§3</span> Orchestration as a state machine</h2>
+    <p>
+      The conversational path is a <code class="inline">langgraph.graph.StateGraph(ChatState)</code> —
+      every node is a pure function <code class="inline">ChatState → dict</code>, and LangGraph merges
+      each node's returned keys into one running state object threaded through the whole turn. Only
+      <code class="inline">classify</code> branches; every other edge is fixed.
+    </p>
+    <div class="stage">
+      <div class="tag">1</div>
+      <div>
+        <h3>classify — one fast LLM call, temperature 0</h3>
+        <p>Routes to <code class="inline">greet</code>, <code class="inline">deny</code>, or <code
+            class="inline">continue</code>. Its own prompt says explicitly that this is UX shaping, not a security
+          control — the point is to skip a wasted retrieval+generation round trip on small talk, not to gate access.</p>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="tag">2</div>
+      <div>
+        <h3>rephrase — turns a follow-up into a standalone query</h3>
+        <p>Retrieval has no memory of the conversation, so "what about their margins?" has to become a self-contained
+          question before it's embedded. Skipped entirely (no LLM call) on the first turn of a conversation.</p>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="tag">3</div>
+      <div>
+        <h3>decompose — one sub-question per named company</h3>
+        <p>A question naming several companies becomes <code class="inline">sub_queries: list[dict]</code>, one entry
+          per company (or a single general entry). This is what makes the fan-out in §5 possible.</p>
+      </div>
+    </div>
+    <p>Why an LLM classifier instead of a keyword router? Earnings-call questions take too many phrasings for regex to
+      catch reliably — a rules router either over-triggers <code class="inline">deny</code> on legitimate but unusual
+      phrasing, or misses adversarial rephrasings built to evade a fixed keyword list. The cost is one extra call per
+      turn, kept cheap by a short prompt at temperature 0.</p>
+  </section>
+
+  <section id="fig2">
+    <h2><span class="num">§4</span> Filtration — where authorization actually happens</h2>
+    <p>
+      This is the one design decision the whole system hinges on: filtering happens <i>inside</i> the
+      approximate-nearest-neighbor search, not after it. An unauthorized chunk is never fetched, never
+      ranked, never even considered a candidate — as opposed to running search unfiltered and discarding
+      disallowed hits afterward, which wastes ranking budget and creates a bug class where someone forgets
+      the post-filter step.
+    </p>
+    <figure>
+      <div class="plate">
+        <svg viewBox="0 0 1400 780" role="img"
+          aria-label="Diagram of the filtration mechanism: JWT payload splits into two authorization paths, converges on an empty-list deny-by-default check, then an ACL-filtered vectorSearch aggregation, contrasted with a crossed-out unfiltered-then-discard alternative this system does not use.">
+          <g class="node">
+            <rect x="580" y="20" width="240" height="70" rx="8"></rect>
+            <text x="700" y="45" text-anchor="middle" class="lbl">JWT payload</text>
+            <text x="700" y="63" text-anchor="middle" class="sub">{sub: email, companies: […], exp}</text>
+          </g>
+          <line x1="620" y1="90" x2="330" y2="128" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="780" y1="90" x2="1070" y2="128" class="flow" marker-end="url(#arrowc)"></line>
+
+          <g class="node">
+            <rect x="100" y="130" width="380" height="72" rx="8"></rect>
+            <text x="120" y="155" class="lbl">/api/query</text>
+            <text x="120" y="174" class="sub">trusts the token → retrieve(query, companies, top_k)</text>
+            <text x="120" y="190" class="sub">correct for the token's full 60-min life</text>
+          </g>
+          <g class="node acl">
+            <rect x="920" y="130" width="380" height="72" rx="8"></rect>
+            <text x="940" y="155" class="lbl">/conversations/…/messages</text>
+            <text x="940" y="174" class="sub">email claim only →</text>
+            <text x="940" y="190" class="sub">allowed_companies = get_user_companies(email), FRESH</text>
+          </g>
+
+          <line x1="290" y1="202" x2="640" y2="270" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="1110" y1="202" x2="770" y2="270" class="flow" marker-end="url(#arrowc)"></line>
+
+          <polygon points="700,240 815,297 700,354 585,297" class="node"></polygon>
+          <text x="700" y="292" text-anchor="middle" class="sub">allowed_companies</text>
+          <text x="700" y="308" text-anchor="middle" class="sub">empty?</text>
+
+          <line x1="640" y1="330" x2="560" y2="395" class="flow" marker-end="url(#arrowc)"></line>
+          <text x="565" y="375" class="flowlbl">yes</text>
+          <g class="node term">
+            <rect x="410" y="398" width="260" height="62" rx="8"></rect>
+            <text x="425" y="420" class="sub" fill="var(--copper)">return [] immediately</text>
+            <text x="425" y="437" class="sub">no embedding call, no $vectorSearch</text>
+            <text x="425" y="452" class="sub">(guards the "$in: []" footgun)</text>
+          </g>
+
+          <line x1="760" y1="330" x2="850" y2="395" class="flow" marker-end="url(#arrow)"></line>
+          <text x="800" y="375" class="flowlbl">no</text>
+          <g class="node">
+            <rect x="770" y="398" width="290" height="62" rx="8"></rect>
+            <text x="790" y="422" class="sub">embed_query(text) →</text>
+            <text x="790" y="440" class="sub">OpenRouter embeddings API</text>
+          </g>
+
+          <line x1="915" y1="460" x2="915" y2="485" class="flow" marker-end="url(#arrowc)"></line>
+          <g class="node acl" style="fill:var(--panel-alt)">
+            <rect x="650" y="488" width="530" height="120" rx="8"></rect>
+            <text x="666" y="512" class="sub">$vectorSearch {</text>
+            <text x="686" y="530" class="sub">path: "embedding", queryVector,</text>
+            <text x="686" y="548" class="sub">numCandidates: 100, limit: top_k,</text>
+            <text x="686" y="566" class="sub" fill="var(--copper)">filter: { company_id: { $in: allowed_companies }
+              }</text>
+            <text x="666" y="584" class="sub">} → $project{ embedding: 0, score: $meta }</text>
+          </g>
+
+          <line x1="915" y1="608" x2="915" y2="630" class="flow" marker-end="url(#arrowc)"></line>
+          <g>
+            <rect x="150" y="632" width="1100" height="62" rx="8" fill="none" stroke="var(--copper)" stroke-width="2">
+            </rect>
+            <text x="700" y="658" text-anchor="middle" class="sub" fill="var(--copper)">Result: unauthorized company_id
+              chunks are never fetched, never ranked,</text>
+            <text x="700" y="676" text-anchor="middle" class="sub" fill="var(--copper)">never returned — the filter runs
+              inside the ANN stage, not after it</text>
+          </g>
+
+          <text x="60" y="726" class="sub" fill="var(--ink-faint)">NOT what this system does, for comparison:</text>
+          <line x1="380" y1="710" x2="1120" y2="748" class="strike"></line>
+          <g class="node dashed" style="opacity:.6">
+            <rect x="380" y="705" width="740" height="52" rx="8"></rect>
+            <text x="400" y="726" class="sub">vectorSearch(unfiltered) → rank top-K → discard disallowed hits
+              post-hoc</text>
+            <text x="400" y="744" class="sub">wastes ranking budget · one forgotten filter line = a leak</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 2</b> — The filtration mechanism, and the design it deliberately avoids. Enforcement lives in
+        exactly one function, <code class="inline">mongo_store.vector_search</code>, reused by both request paths above.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="fig3">
+    <h2><span class="num">§5</span> Parallel fan-out for multi-company questions</h2>
+    <p>
+      "Compare TCS and Infosys margins" names two companies. Rather than answer half the question or
+      run two round trips back-to-back, <code class="inline">decompose_node</code> splits it, and
+      LangGraph's <code class="inline">Send</code> API dispatches one <code class="inline">fetch_one</code>
+      / <code class="inline">answer_one</code> branch per company as a genuinely concurrent graph execution —
+      this is dynamic map-reduce, not a for-loop.
+    </p>
+    <figure>
+      <div class="plate">
+        <svg viewBox="0 0 1400 700" role="img"
+          aria-label="Diagram of the Send-based parallel fan-out: decompose produces sub-queries, route_to_fetch dispatches parallel fetch_one branches, an operator.add reducer merges them, route_to_answer dispatches parallel answer_one branches, and a second reducer merges before combine_answer.">
+          <g class="node">
+            <rect x="520" y="20" width="360" height="72" rx="8"></rect>
+            <text x="540" y="44" class="lbl">sub_queries =</text>
+            <text x="540" y="62" class="sub">[{company_id:'TCS', question:'…'},</text>
+            <text x="540" y="78" class="sub"> {company_id:'Infosys', question:'…'}]</text>
+          </g>
+          <line x1="700" y1="92" x2="700" y2="118" class="flow" marker-end="url(#arrow)"></line>
+          <g class="node acl">
+            <rect x="520" y="120" width="360" height="50" rx="8"></rect>
+            <text x="540" y="142" class="sub">route_to_fetch(state) →</text>
+            <text x="540" y="158" class="sub">[Send('fetch_one', input), …]</text>
+          </g>
+
+          <line x1="600" y1="170" x2="330" y2="206" class="flow" marker-end="url(#arrowc)"></line>
+          <line x1="800" y1="170" x2="1070" y2="206" class="flow" marker-end="url(#arrowc)"></line>
+
+          <g class="node dashed">
+            <rect x="140" y="208" width="340" height="70" rx="8"></rect>
+            <text x="160" y="232" class="sub">fetch_one — TCS</text>
+            <text x="160" y="250" class="sub">FetchOneInput: sub_query +</text>
+            <text x="160" y="266" class="sub">allowed_companies only</text>
+          </g>
+          <g class="node dashed">
+            <rect x="920" y="208" width="340" height="70" rx="8"></rect>
+            <text x="940" y="232" class="sub">fetch_one — Infosys</text>
+            <text x="940" y="250" class="sub">FetchOneInput: sub_query +</text>
+            <text x="940" y="266" class="sub">allowed_companies only</text>
+          </g>
+          <text x="700" y="248" text-anchor="middle" class="sub" fill="var(--ink-faint)">concurrent</text>
+
+          <line x1="310" y1="278" x2="580" y2="316" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="1090" y1="278" x2="820" y2="316" class="flow" marker-end="url(#arrow)"></line>
+          <g class="node">
+            <rect x="520" y="318" width="360" height="55" rx="8"></rect>
+            <text x="540" y="340" class="sub">operator.add reducer</text>
+            <text x="540" y="358" class="sub">sub_results — concatenates as each branch finishes</text>
+          </g>
+
+          <line x1="700" y1="373" x2="700" y2="408" class="flow" marker-end="url(#arrow)"></line>
+          <g class="node acl">
+            <rect x="520" y="410" width="360" height="50" rx="8"></rect>
+            <text x="540" y="432" class="sub">route_to_answer(state) →</text>
+            <text x="540" y="448" class="sub">[Send('answer_one', input), …]</text>
+          </g>
+
+          <line x1="600" y1="460" x2="330" y2="496" class="flow" marker-end="url(#arrowc)"></line>
+          <line x1="800" y1="460" x2="1070" y2="496" class="flow" marker-end="url(#arrowc)"></line>
+
+          <g class="node dashed">
+            <rect x="140" y="498" width="340" height="70" rx="8"></rect>
+            <text x="160" y="522" class="sub">
+              <tspan class="tag-llm">[LLM]</tspan> answer_one — TCS
+            </text>
+            <text x="160" y="540" class="sub">AnswerOneInput: sub_result only</text>
+            <text x="160" y="556" class="sub">— not the full ChatState</text>
+          </g>
+          <g class="node dashed">
+            <rect x="920" y="498" width="340" height="70" rx="8"></rect>
+            <text x="940" y="522" class="sub">
+              <tspan class="tag-llm">[LLM]</tspan> answer_one — Infosys
+            </text>
+            <text x="940" y="540" class="sub">AnswerOneInput: sub_result only</text>
+            <text x="940" y="556" class="sub">— not the full ChatState</text>
+          </g>
+
+          <line x1="310" y1="568" x2="580" y2="606" class="flow" marker-end="url(#arrow)"></line>
+          <line x1="1090" y1="568" x2="820" y2="606" class="flow" marker-end="url(#arrow)"></line>
+          <g class="node">
+            <rect x="520" y="608" width="360" height="55" rx="8"></rect>
+            <text x="540" y="630" class="sub">operator.add reducer → combine_answer_node</text>
+            <text x="540" y="648" class="sub">merges answered[] into one stitched reply</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption><b>Fig. 3</b> — Each <code class="inline">Send</code> branch receives a narrow, purpose-built input
+        (<code class="inline">FetchOneInput</code>/<code class="inline">AnswerOneInput</code>), not the full <code
+          class="inline">ChatState</code> — smaller trace payloads, and no branch can read another branch's intermediate
+        data.</figcaption>
+    </figure>
+  </section>
+
+  <section id="generation">
+    <h2><span class="num">§6</span> Generation, citations, and a guardrail that fails open</h2>
+    <div class="stage">
+      <div class="tag">1</div>
+      <div>
+        <h3>Prompt assembly</h3>
+        <p>Every retrieved chunk becomes one line: <code
+            class="inline">[{chunk_id}] ({company_id}, {fiscal_quarter} {fiscal_year}, {speaker_name}): {text}</code>.
+          The answer prompt instructs the model to cite every factual claim with its bracketed <code
+            class="inline">chunk_id</code> immediately after the claim, answer strictly from the provided context, and
+          say plainly when context is insufficient rather than guess.</p>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="tag">2</div>
+      <div>
+        <h3>No-context short-circuit</h3>
+        <p>If a company's <code class="inline">fetch_one</code> returned zero chunks — because the user isn't
+          authorized, or nothing matched — <code class="inline">NO_CONTEXT_MESSAGE</code> is returned directly, with
+          <b>no LLM call made at all</b>. This both saves cost and guarantees a company with zero authorized chunks can
+          never leak through a model's outside knowledge — filtration is reinforced at the generation layer, not just
+          the retrieval layer.
+        </p>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="tag">3</div>
+      <div>
+        <h3>Citation selection</h3>
+        <p>A chunk counts as "cited" if its <code class="inline">chunk_id</code> literally appears in the generated
+          text. If the model cites nothing, the first three retrieved chunks become the citations instead of showing
+          none.</p>
+      </div>
+    </div>
+    <div class="stage acl">
+      <div class="tag">4</div>
+      <div>
+        <h3>guardrail — a second LLM call, checking the first one's output</h3>
+        <p>Verifies two booleans against the same context: <code class="inline">grounded</code> (every claim traceable,
+          no fabrication) and <code class="inline">safe</code> (doesn't follow instructions smuggled in via transcript
+          text or a crafted question — a prompt-injection defense). It fails open on three conditions: disabled by
+          settings, no chunks to check against, or its own call throwing. This is deliberate — the guardrail checks
+          answer <i>quality</i>, not access; access is already enforced deterministically upstream (§4), so failing open
+          here can degrade an answer's polish but can never reopen an authorization hole.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="persistence">
+    <h2><span class="num">§7</span> Persistence and cross-user isolation</h2>
+    <p>
+      Conversation history lives in one MongoDB collection, but the isolation guarantee is structural,
+      not a query clause: every document's <code class="inline">_id</code> is the composite string
+      <code class="inline">f"{user_email}::{conv_id}"</code>. Two users literally cannot address the same
+      document, even if a <code class="inline">conv_id</code> were reused — there's no shared mutable
+      state between requests, so concurrent sessions can't collide.
+    </p>
+    <p>
+      <code class="inline">get_full_thread</code> goes one step further and re-checks
+      <code class="inline">doc.user_email == email</code> even though the <code class="inline">_id</code>
+      scheme already namespaces the lookup — a belt-and-suspenders IDOR guard that's the one line that
+      would actually stop cross-user thread access if the ID scheme were ever "simplified" later without
+      noticing this dependency. <code class="inline">send_message</code> calls this <i>before</i> any
+      retrieval or LLM call, so a guessed or leaked <code class="inline">conv_id</code> is rejected with a
+      404 up front.
+    </p>
+  </section>
+
+  <section id="output">
+    <h2><span class="num">§8</span> Output: blocking JSON vs. streamed SSE</h2>
+    <p>
+      The blocking endpoint runs the compiled graph via <code class="inline">graph.invoke()</code> and
+      returns one JSON object. The streaming endpoint (<code class="inline">stream_chat_graph_answer</code>)
+      can't use <code class="inline">.invoke()</code> — LangGraph doesn't interleave node execution with
+      token-level streaming of one specific node's call — so it calls the same node functions directly,
+      by hand, and streams the answer-generation call's tokens as <code class="inline">delta</code> events.
+    </p>
+    <p>
+      The guardrail still needs the <i>complete</i> answer to judge groundedness, so it only runs after
+      the last token, and the trailing <code class="inline">done</code> event carries the authoritative
+      answer. If the guardrail rejects, <code class="inline">done.answer</code> differs from the
+      concatenated deltas the client already rendered — <b>clients must treat <code class="inline">done</code>
+        as authoritative and replace, not append</b>. Both endpoints persist the user + assistant turns only
+      after the response is fully produced, so a client that disconnects mid-stream never leaves a
+      partial turn written to history.
+    </p>
+  </section>
+
+  <section id="ingestion">
+    <h2><span class="num">§9</span> How the filterable data got there</h2>
+    <p>
+      The filtration in §4 only works because <code class="inline">company_id</code> is assigned once,
+      at ingestion, and never re-derived anywhere else. <code class="inline">chunker.py</code> segments
+      each transcript by <i>who is speaking</i> — a Q&amp;A marker splits the document into
+      <code class="inline">prepared_remarks</code> / <code class="inline">qa</code> sections,
+      recurring speaker names (≥2 occurrences) become turn boundaries, and each analyst turn opens a new
+      <code class="inline">qa_pair_id</code> that stays attached to the management turns answering it.
+      (A cover-letter preamble before the first recognized speaker becomes its own untagged turn.)
+      The resulting <code class="inline">company_id</code>/<code class="inline">doc_id</code> becomes the
+      exact join key the access-control filter uses at query time — ingestion and security share one
+      identifier scheme by construction, not by a convention that could drift.
+    </p>
+  </section>
